@@ -11,10 +11,28 @@ class TabBarController: UITabBarController {
 
     override func viewDidLoad() {
         super.viewDidLoad()
-        navigationItem.title = "Hola"
-        self.navigationItem.leftBarButtonItem = UIBarButtonItem(title: "Alejo", style: .done, target: nil, action: nil)
+        
+        navigationItem.title = "In premier"
+        self.navigationController?.navigationBar.topItem?.backBarButtonItem =
+        UIBarButtonItem(title: NSLocalizedString("logOut", comment: ""), style: .done, target: nil, action: (#selector(didButtonPressedLogOut)))
+        
+        guard
+            let items = self.tabBar.items
+        else{
+            return
+        }
+
+        items[0].title = "Movies"
+        items[0].image = UIImage(systemName: "movieclapper.fill")
+        items[1].title = "Favorites"
+        items[1].image = UIImage(systemName: "star.fill")
+        
         
         // Do any additional setup after loading the view.
+    }
+    
+    @objc private func didButtonPressedLogOut(){
+        UserDefaults.standard.removeObject(forKey: "isLoggedIn")
     }
     
 

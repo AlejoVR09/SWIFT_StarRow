@@ -9,11 +9,18 @@ import UIKit
 
 class DetailsViewController: UIViewController {
 
+    @objc private func didButtonPressedToAddFavorite(){
+        
+    }
+    
     override func viewDidLoad() {
         super.viewDidLoad()
-
+        
+        self.navigationItem.rightBarButtonItem = UIBarButtonItem(image: UIImage(systemName: "heart"), style: .plain, target: self, action: (#selector(didButtonPressedToAddFavorite)))
+        self.navigationController?.navigationBar.topItem?.backBarButtonItem = UIBarButtonItem(title: "In premier", style: .done, target: nil, action: nil)
         // Do any additional setup after loading the view.
     }
+    
     
 
     /*

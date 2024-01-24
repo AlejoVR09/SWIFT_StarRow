@@ -1,0 +1,33 @@
+
+/* Class = "UITextField"; placeholder = "Password"; ObjectID = "4oZ-8s-5wh"; */
+"4oZ-8s-5wh.placeholder" = "Password";
+
+/* Class = "UILabel"; text = "Forgot Password?"; ObjectID = "9sa-lp-RSe"; */
+"9sa-lp-RSe.text" = "Forgot Password?";
+
+/* Class = "UITextField"; placeholder = "Username"; ObjectID = "Dle-Mm-kyD"; */
+"Dle-Mm-kyD.placeholder" = "Username";
+
+/* Class = "UITabBarItem"; title = "Item 2"; ObjectID = "Icg-UL-XUI"; */
+"Icg-UL-XUI.title" = "Item 2";
+
+/* Class = "UIButton"; configuration.title = "Button"; ObjectID = "Qrp-DQ-BmV"; */
+"Qrp-DQ-BmV.configuration.title" = "Button";
+
+/* Class = "UIButton"; normalTitle = "Button"; ObjectID = "Qrp-DQ-BmV"; */
+"Qrp-DQ-BmV.normalTitle" = "Button";
+
+/* Class = "UITabBarItem"; title = "Item 1"; ObjectID = "Ya2-zR-q4f"; */
+"Ya2-zR-q4f.title" = "Item 1";
+
+/* Class = "UIButton"; configuration.title = "Login"; ObjectID = "amg-2z-4KE"; */
+"amg-2z-4KE.configuration.title" = "Login";
+
+/* Class = "UIButton"; normalTitle = "Button"; ObjectID = "amg-2z-4KE"; */
+"amg-2z-4KE.normalTitle" = "Button";
+
+/* Class = "UIButton"; configuration.title = "Don't have an account? Sign up"; ObjectID = "qVN-39-vYQ"; */
+"qVN-39-vYQ.configuration.title" = "Don't have an account? Sign up";
+
+/* Class = "UIButton"; normalTitle = "Button"; ObjectID = "qVN-39-vYQ"; */
+"qVN-39-vYQ.normalTitle" = "Button";

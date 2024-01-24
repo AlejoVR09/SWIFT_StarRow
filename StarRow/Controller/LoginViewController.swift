@@ -8,6 +8,8 @@
 import UIKit
 
 class LoginViewController: UIViewController {
+    var userDefaults: UserDefaults!
+
     let mainTabBarController = UIStoryboard(name: "Main", bundle: nil).instantiateViewController(withIdentifier: "MovieView") as? UITabBarController
     
     //let movieController = MoviesViewController()
@@ -21,19 +23,25 @@ class LoginViewController: UIViewController {
     }
     override func viewDidLoad() {
         super.viewDidLoad()
+        
+        
         loginView?.delegate = self
         loginView?.newImageIcon()
         
-        /*guard
-            let a = self.navigationController?.viewControllers
-        else{
-            return
+        
+        
+    }
+    
+    override func viewWillAppear(_ animated: Bool) {
+            super.viewWillAppear(animated)
+
+        if UserDefaults.standard.bool(forKey: "isLoggedIn") {
+            print("Is")
+        } else {
+            print("no")
         }
-        for i in a {
-            print(i)
-        }
-         */
-        // Do any additional setup after loading the view.
+        
+            
     }
     
 
@@ -51,10 +59,13 @@ class LoginViewController: UIViewController {
 
 extension LoginViewController: LoginViewDelegate {
     func didButtonPressedToSign(loginView: LoginView) {
+        
+        print(UserDefaults.standard.bool(forKey: "isLoggedIn"))
         self.navigationController?.show(registerController, sender: nil)
     }
     
     func didButtonPressedToLoginWithEmail(loginView: LoginView) {
+        UserDefaults.standard.setValue(true, forKey: "isLoggedIn")
         self.navigationController?.show(mainTabBarController!, sender: nil)
     }
     

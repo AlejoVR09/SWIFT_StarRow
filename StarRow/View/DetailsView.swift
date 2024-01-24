@@ -7,7 +7,12 @@
 
 import UIKit
 
+protocol DetailsViewDelegate {
+    
+}
+
 class DetailsView: UIView {
+    var delegate: DetailsViewDelegate?
 
     /*
     // Only override draw() if you perform custom drawing.
