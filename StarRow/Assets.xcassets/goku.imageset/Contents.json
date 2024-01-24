@@ -1,0 +1,12 @@
+{
+  "images" : [
+    {
+      "filename" : "icons8-son-goku.svg",
+      "idiom" : "universal"
+    }
+  ],
+  "info" : {
+    "author" : "xcode",
+    "version" : 1
+  }
+}
