@@ -8,8 +8,8 @@
 import UIKit
 
 protocol LoginViewDelegate {
-    func didButtonPressedToLoginWithEmail(loginView: LoginView)
-    func didButtonPressedToSign(loginView: LoginView)
+    func loginView(_ loginView: LoginView, withEmail email: String)
+    func loginViewDidButtonPressedToSignUp(loginView: LoginView)
 }
 
 class LoginView: UIView {
@@ -17,7 +17,8 @@ class LoginView: UIView {
     
     @IBOutlet private weak var userNameTextField: UITextField!
     
-    func newImageIcon(){
+    private func newImageIcon(){
+        
         let imageView = UIImageView(frame: CGRect(x: 0, y: 0, width: 40, height: 40));
         let image = UIImage(named: "goku");
         imageView.image = image;
@@ -25,6 +26,10 @@ class LoginView: UIView {
         view.addSubview(imageView)
         userNameTextField.leftViewMode = UITextField.ViewMode.always
         userNameTextField.leftView = view;
+    }
+    override func draw(_ rect: CGRect) {
+        super.draw(rect)
+        self.newImageIcon()
     }
     /*
     // Only override draw() if you perform custom drawing.
@@ -35,9 +40,9 @@ class LoginView: UIView {
     */
 
     @IBAction func login(_ sender: UIButton) {
-        delegate?.didButtonPressedToLoginWithEmail(loginView: self)
+        delegate?.loginView(self, withEmail: userNameTextField.text ?? "")
     }
     @IBAction func signUp(_ sender: UIButton) {
-        delegate?.didButtonPressedToSign(loginView: self)
+        delegate?.loginViewDidButtonPressedToSignUp(loginView: self)
     }
 }

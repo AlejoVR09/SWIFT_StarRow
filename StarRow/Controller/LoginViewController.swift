@@ -7,42 +7,23 @@
 
 import UIKit
 
+
 class LoginViewController: UIViewController {
     var userDefaults: UserDefaults!
-
-    let mainTabBarController = UIStoryboard(name: "Main", bundle: nil).instantiateViewController(withIdentifier: "MovieView") as? UITabBarController
     
-    //let movieController = MoviesViewController()
-    
-    let registerController = UIStoryboard(name: "Main", bundle: nil).instantiateViewController(identifier: "RegisterView")
-    
-    //let registerController = RegisterViewController()
     
     var loginView: LoginView? {
         self.view as? LoginView
     }
+    
     override func viewDidLoad() {
         super.viewDidLoad()
-        
-        
         loginView?.delegate = self
-        loginView?.newImageIcon()
-        
-        
+        //let navigation = UINavigationController(rootViewController: self)
+
         
     }
     
-    override func viewWillAppear(_ animated: Bool) {
-            super.viewWillAppear(animated)
-
-        if UserDefaults.standard.bool(forKey: "isLoggedIn") {
-            print("Is")
-        } else {
-            print("no")
-        }
-        
-            
-    }
     
 
     /*
@@ -58,15 +39,20 @@ class LoginViewController: UIViewController {
 }
 
 extension LoginViewController: LoginViewDelegate {
-    func didButtonPressedToSign(loginView: LoginView) {
-        
-        print(UserDefaults.standard.bool(forKey: "isLoggedIn"))
-        self.navigationController?.show(registerController, sender: nil)
+    func loginView(_ loginView: LoginView, withEmail email: String) {
+        guard
+            let mainTabBarController = UIStoryboard(name: "Main", bundle: nil).instantiateViewController(withIdentifier: "MovieView") as? UITabBarController
+        else {
+            return
+        }
+        UserDefaults.standard.setValue(true, forKey: "isLoggedIn")
+        self.navigationController?.show(mainTabBarController, sender: nil)
     }
     
-    func didButtonPressedToLoginWithEmail(loginView: LoginView) {
-        UserDefaults.standard.setValue(true, forKey: "isLoggedIn")
-        self.navigationController?.show(mainTabBarController!, sender: nil)
+    func loginViewDidButtonPressedToSignUp(loginView: LoginView) {
+        let registerController = UIStoryboard(name: "Main", bundle: nil).instantiateViewController(identifier: "RegisterView")
+        print(UserDefaults.standard.bool(forKey: "isLoggedIn"))
+        self.navigationController?.show(registerController, sender: nil)
     }
     
     

@@ -1,0 +1,72 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="22505" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES">
+    <device id="retina6_12" orientation="portrait" appearance="light"/>
+    <dependencies>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="22504"/>
+        <capability name="Safe area layout guides" minToolsVersion="9.0"/>
+        <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
+    </dependencies>
+    <objects>
+        <placeholder placeholderIdentifier="IBFilesOwner" id="-1" userLabel="File's Owner"/>
+        <placeholder placeholderIdentifier="IBFirstResponder" id="-2" customClass="UIResponder"/>
+        <collectionViewCell opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" reuseIdentifier="CustomMovieCell" id="gTV-IL-0wX" customClass="CustomCollectionViewCell" customModule="StarRow" customModuleProvider="target">
+            <rect key="frame" x="0.0" y="0.0" width="359" height="252"/>
+            <autoresizingMask key="autoresizingMask"/>
+            <view key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center">
+                <rect key="frame" x="0.0" y="0.0" width="359" height="252"/>
+                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                <subviews>
+                    <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="Lpe-vV-swy">
+                        <rect key="frame" x="10" y="10" width="339" height="232"/>
+                        <subviews>
+                            <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="cUu-At-8wQ">
+                                <rect key="frame" x="0.0" y="0.0" width="121.66666666666667" height="232"/>
+                            </imageView>
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Label" textAlignment="natural" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Gun-Bi-uZR">
+                                <rect key="frame" x="131.66666666666663" y="10" width="187.33333333333337" height="20.333333333333329"/>
+                                <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                                <nil key="textColor"/>
+                                <nil key="highlightedColor"/>
+                            </label>
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Label" textAlignment="natural" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="xIn-qC-c1q">
+                                <rect key="frame" x="131.66666666666663" y="50.333333333333336" width="187.33333333333337" height="20.333333333333336"/>
+                                <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                                <nil key="textColor"/>
+                                <nil key="highlightedColor"/>
+                            </label>
+                        </subviews>
+                        <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                        <constraints>
+                            <constraint firstAttribute="trailing" secondItem="Gun-Bi-uZR" secondAttribute="trailing" constant="20" id="3NZ-pf-vla"/>
+                            <constraint firstItem="Gun-Bi-uZR" firstAttribute="leading" secondItem="cUu-At-8wQ" secondAttribute="trailing" constant="10" id="Ads-TA-fZB"/>
+                            <constraint firstItem="cUu-At-8wQ" firstAttribute="centerX" secondItem="Lpe-vV-swy" secondAttribute="centerX" multiplier="0.28" constant="13.308333333333323" id="DUB-K7-mKp"/>
+                            <constraint firstAttribute="trailing" secondItem="xIn-qC-c1q" secondAttribute="trailing" constant="20" id="Ki9-Ch-Ed8"/>
+                            <constraint firstAttribute="bottom" relation="lessThanOrEqual" secondItem="xIn-qC-c1q" secondAttribute="bottom" constant="200" id="OaI-yF-5Me"/>
+                            <constraint firstItem="xIn-qC-c1q" firstAttribute="leading" secondItem="cUu-At-8wQ" secondAttribute="trailing" constant="10" id="UoC-ZO-Gxm"/>
+                            <constraint firstItem="Gun-Bi-uZR" firstAttribute="top" secondItem="Lpe-vV-swy" secondAttribute="top" constant="10" id="Wdn-dM-GMu"/>
+                            <constraint firstAttribute="bottom" secondItem="cUu-At-8wQ" secondAttribute="bottom" id="X1V-7l-YVF"/>
+                            <constraint firstItem="xIn-qC-c1q" firstAttribute="top" secondItem="Gun-Bi-uZR" secondAttribute="bottom" constant="20" id="eeH-ez-ILA"/>
+                            <constraint firstItem="cUu-At-8wQ" firstAttribute="leading" secondItem="Lpe-vV-swy" secondAttribute="leading" id="k1P-ad-mFe"/>
+                            <constraint firstItem="cUu-At-8wQ" firstAttribute="top" secondItem="Lpe-vV-swy" secondAttribute="top" id="zzE-oS-sYu"/>
+                        </constraints>
+                    </view>
+                </subviews>
+            </view>
+            <viewLayoutGuide key="safeArea" id="ZTg-uK-7eu"/>
+            <constraints>
+                <constraint firstAttribute="trailing" secondItem="Lpe-vV-swy" secondAttribute="trailing" constant="10" id="3Fm-5E-a0y"/>
+                <constraint firstItem="Lpe-vV-swy" firstAttribute="leading" secondItem="gTV-IL-0wX" secondAttribute="leading" constant="10" id="3zv-Gf-u6h"/>
+                <constraint firstItem="Lpe-vV-swy" firstAttribute="top" secondItem="gTV-IL-0wX" secondAttribute="top" constant="10" id="6aD-Xz-XaC"/>
+                <constraint firstAttribute="bottom" secondItem="Lpe-vV-swy" secondAttribute="bottom" constant="10" id="b0U-Tp-LJj"/>
+            </constraints>
+            <size key="customSize" width="359" height="252"/>
+            <connections>
+                <outlet property="dateLabel" destination="xIn-qC-c1q" id="IY6-cD-fh9"/>
+                <outlet property="fatherView" destination="Lpe-vV-swy" id="X1k-DZ-qll"/>
+                <outlet property="imageView" destination="cUu-At-8wQ" id="GVj-9K-Nrb"/>
+                <outlet property="overviewLabel" destination="Gun-Bi-uZR" id="lrM-Iy-Gtx"/>
+            </connections>
+            <point key="canvasLocation" x="277.09923664122135" y="59.154929577464792"/>
+        </collectionViewCell>
+    </objects>
+</document>
