@@ -45,9 +45,9 @@ extension MoviesWS.Response {
             case voteCount = "vote_count"
         }
     }
+    
+    
 }
-
-// MARK: - Result
 /*
  
 struct MovieData: Codable {

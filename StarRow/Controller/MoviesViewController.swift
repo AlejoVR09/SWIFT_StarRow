@@ -8,46 +8,87 @@
 import UIKit
 
 
-    class MoviesViewController: UIViewController {
-        
-        var array: [MoviesWS.Response.Movie] = []
-        
-        var moviesView: MoviesView? {
-            return self.view as? MoviesView
-        }
-        
-        
-        
-        lazy var moviesWS = MoviesWS()
-        
-        override func viewDidLoad() {
-            super.viewDidLoad()
-            moviesView?.delegate = self
-            self.fetchMovies()
-        }
-
-        func fetchMovies(){
-            self.moviesWS.execute(){ arrayMovies in
-                self.moviesView?.movies = arrayMovies
-                self.array = arrayMovies
-            }
-        }
-
-        /*
-        // MARK: - Navigation
-
-        // In a storyboard-based application, you will often want to do a little preparation before navigation
-        override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
-            // Get the new view controller using segue.destination.
-            // Pass the selected object to the new view controller.
-        }
-        */
-
+class MoviesViewController: UIViewController, UICollectionViewDelegate {
+    
+    
+    private var apiAdapter: APICollectionViewAdapter = APICollectionViewAdapter(apiData: [])
+    private var coreDataAdapter: CoreDataCollectionViewAdapter = CoreDataCollectionViewAdapter(coreDataObjects: [])
+    
+    var arrayMoviesOfApi: [MoviesWS.Response.Movie] = []
+    var arrayMoviesOfCoreData: [MovieCoreData] = []
+    var idMovieSelected: Int = 0
+    let context = (UIApplication.shared.delegate as! AppDelegate).persistentContainer.viewContext
+    
+    var moviesView: MoviesView? {
+        return self.view as? MoviesView
+    }
+    lazy var moviesWS = MoviesWS()
+    
+    override func viewDidLoad() {
+        super.viewDidLoad()
+        apiAdapter.delegate = self
+    }
+    
+    override func viewDidAppear(_ animated: Bool) {
+        super.viewDidAppear(animated)
+        selectedTabView()
     }
 
-extension MoviesViewController: MoviesViewDelegate{
-    func didButtonPressedToDetails(moviesView: MoviesView) {
-        let detailsController = UIStoryboard(name: "Main", bundle: nil).instantiateViewController(identifier: "DetailsView")
-        self.navigationController?.show(detailsController, sender: nil)
+    func fetchMoviesFromApi(){
+        self.moviesWS.execute(){ arrayMovies in
+            DispatchQueue.main.async {
+                self.moviesView?.movies = arrayMovies
+                self.apiAdapter.apiData = arrayMovies
+                self.arrayMoviesOfApi = arrayMovies
+            }
+        }
+    }
+    
+    func fetchMoviesFromCoreData(){
+        do{
+            let movies = try self.context.fetch(MovieCoreData.fetchRequest())
+            self.arrayMoviesOfCoreData = movies
+            self.coreDataAdapter.coreDataObjects = movies
+        }
+        catch {
+            print("There is no favorite movies avaible!")
+        }
+    }
+    
+    
+    
+    func selectedTabView(){
+        guard
+            let index = self.tabBarController?.selectedIndex
+        else {
+            return
+        }
+        if index == 0 {
+            fetchMoviesFromApi()
+            let collectionViewDirector = MoviesCollectionViewDirector()
+            let collectionViewbuilderApi = collectionViewDirector.createAPICollectionView(withDelegate: apiAdapter, dataSource: apiAdapter, flowLayout: apiAdapter)
+            self.moviesView?.setCollectionView(collectionViewbuilderApi, withCustomCell: "CustomMovieCell", OfCollectionViewCell: "CustomCollectionViewCell")
+        }
+        else{
+            fetchMoviesFromCoreData()
+            let collectionViewDirector = MoviesCollectionViewDirector()
+            let collectionViewbuilderCoreData = collectionViewDirector.createCoreDataCollectionView(withDelegate: coreDataAdapter, dataSource: coreDataAdapter, flowLayout: coreDataAdapter)
+            self.moviesView?.setCollectionView(collectionViewbuilderCoreData, withCustomCell: "FavoriteCell", OfCollectionViewCell: "FavoriteCollectionViewCell")
+        }
+    }
+    
+    override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
+        if segue.identifier == "DetailsViewController" {
+            if let destination = segue.destination as? DetailsViewController{
+                destination.id = self.idMovieSelected
+            }
+        }
+    }
+}
+
+extension MoviesViewController: apiAdapterDelegate{
+    func didSelectMovieToDetails(_ apiAdapter: APICollectionViewAdapter, indexPath: IndexPath) {
+        self.idMovieSelected = arrayMoviesOfApi[indexPath.item].id ?? 0
+        self.performSegue(withIdentifier: "DetailsViewController", sender: self)
     }
 }
