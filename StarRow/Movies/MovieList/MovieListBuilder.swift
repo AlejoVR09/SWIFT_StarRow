@@ -14,32 +14,6 @@ protocol CollectionViewBuilder {
     func setDelegate(_ delegate: UICollectionViewDelegate) -> Self
 }
 
-class MoviesCollectionViewBuilder: CollectionViewBuilder {
-    private var collectionView: UICollectionView
-
-    init(collectionView: UICollectionView) {
-        self.collectionView = collectionView
-    }
-
-    func build() -> UICollectionView {
-        return collectionView
-    }
-
-    func setDataSource(_ dataSource: UICollectionViewDataSource) -> Self {
-        collectionView.dataSource = dataSource
-        return self
-    }
-
-    func setDelegate(_ delegate: UICollectionViewDelegate) -> Self {
-        collectionView.delegate = delegate
-        return self
-    }
-    
-    func setAdapter(){
-        
-    }
-}
-
 class APICollectionViewBuilder: CollectionViewBuilder {
     private var collectionView: UICollectionView
 

@@ -14,8 +14,6 @@ class MoviesViewController: UIViewController, UICollectionViewDelegate {
     private var apiAdapter: APICollectionViewAdapter = APICollectionViewAdapter(apiData: [])
     private var coreDataAdapter: CoreDataCollectionViewAdapter = CoreDataCollectionViewAdapter(coreDataObjects: [])
     
-    var arrayMoviesOfApi: [MoviesWS.Response.Movie] = []
-    var arrayMoviesOfCoreData: [MovieCoreData] = []
     var idMovieSelected: Int = 0
     let context = (UIApplication.shared.delegate as! AppDelegate).persistentContainer.viewContext
     
@@ -39,9 +37,9 @@ class MoviesViewController: UIViewController, UICollectionViewDelegate {
     func fetchMoviesFromApi(){
         self.moviesWS.execute(){ arrayMovies in
             DispatchQueue.main.async {
+                print(1)
                 self.moviesView?.moviesApi = arrayMovies
                 self.apiAdapter.apiData = arrayMovies
-                self.arrayMoviesOfApi = arrayMovies
             }
         }
     }
@@ -50,7 +48,6 @@ class MoviesViewController: UIViewController, UICollectionViewDelegate {
         do{
             let movies = try self.context.fetch(MovieCoreData.fetchRequest())
             self.moviesView?.moviesCoreData = movies
-            self.arrayMoviesOfCoreData = movies
             self.coreDataAdapter.coreDataObjects = movies
         }
         catch {
@@ -68,13 +65,13 @@ class MoviesViewController: UIViewController, UICollectionViewDelegate {
             fetchMoviesFromApi()
             let collectionViewDirector = MoviesCollectionViewDirector()
             let collectionViewbuilderApi = collectionViewDirector.createAPICollectionView(withDelegate: apiAdapter, dataSource: apiAdapter, flowLayout: apiAdapter)
-            self.moviesView?.setCollectionView(collectionViewbuilderApi, withCustomCell: "CustomMovieCell", OfCollectionViewCell: "CustomCollectionViewCell")
+            self.moviesView?.setCollectionView(collectionViewbuilderApi, ofTabView: index)
         }
         else{
             fetchMoviesFromCoreData()
             let collectionViewDirector = MoviesCollectionViewDirector()
             let collectionViewbuilderCoreData = collectionViewDirector.createCoreDataCollectionView(withDelegate: coreDataAdapter, dataSource: coreDataAdapter, flowLayout: coreDataAdapter)
-            self.moviesView?.setCollectionView(collectionViewbuilderCoreData, withCustomCell: "FavoriteCell", OfCollectionViewCell: "FavoriteCollectionViewCell")
+            self.moviesView?.setCollectionView(collectionViewbuilderCoreData, ofTabView: index)
         }
     }
     
@@ -89,19 +86,31 @@ class MoviesViewController: UIViewController, UICollectionViewDelegate {
 
 extension MoviesViewController: apiAdapterDelegate{
     func didSelectMovieToDetails(_ apiAdapter: APICollectionViewAdapter, indexPath: IndexPath) {
-        self.idMovieSelected = arrayMoviesOfApi[indexPath.item].id ?? 0
+        self.idMovieSelected = self.apiAdapter.apiData[indexPath.item].id ?? 0
         self.performSegue(withIdentifier: "DetailsViewController", sender: self)
     }
 }
 
 extension MoviesViewController: coreDataAdapterDelegate {
     func didSelectButtonToDelete(_ coreDataAdapter: CoreDataCollectionViewAdapter, indexPath: IndexPath) {
-        self.context.delete(self.arrayMoviesOfCoreData[indexPath.item])
-        fetchMoviesFromCoreData()
+        self.context.delete(self.coreDataAdapter.coreDataObjects[indexPath.item])
+        do{
+            try self.context.save()
+            self.moviesView?.clearSearchBar()
+            fetchMoviesFromCoreData()
+        }
+        catch{
+            print("error deleting from favorite list")
+        }
+        
     }
 }
 
 extension MoviesViewController: MoviesViewDelegate{
+    func moviesViewPullToRefreshApiData(_ moviesView: MoviesView) {
+        fetchMoviesFromApi()
+    }
+    
     func moviesViewToSearchMovies(_ moviesView: MoviesView, withText: String) {
         guard
             let index = self.tabBarController?.selectedIndex
@@ -109,7 +118,7 @@ extension MoviesViewController: MoviesViewDelegate{
             return
         }
         if index == 0 {
-            let newArrayOfMoviesFromApi =  self.arrayMoviesOfApi.filter(){ movie in
+            let newArrayOfMoviesFromApi =  self.apiAdapter.apiData.filter(){ movie in
                return movie.title!.contains(withText)
            }
             if newArrayOfMoviesFromApi.isEmpty {
@@ -118,11 +127,10 @@ extension MoviesViewController: MoviesViewDelegate{
             else{
                 self.apiAdapter.apiData = newArrayOfMoviesFromApi
                 self.moviesView?.moviesApi = newArrayOfMoviesFromApi
-                self.arrayMoviesOfApi = newArrayOfMoviesFromApi
             }
         }
         else{
-            let newArrayOfMoviesFromCoreData =  self.arrayMoviesOfCoreData.filter(){ movie in
+            let newArrayOfMoviesFromCoreData =  self.coreDataAdapter.coreDataObjects.filter(){ movie in
                 return movie.originalTitle!.contains(withText)
            }
             if newArrayOfMoviesFromCoreData.isEmpty {
@@ -130,7 +138,6 @@ extension MoviesViewController: MoviesViewDelegate{
             }
             else{
                 self.moviesView?.moviesCoreData = newArrayOfMoviesFromCoreData
-                self.arrayMoviesOfCoreData = newArrayOfMoviesFromCoreData
                 self.coreDataAdapter.coreDataObjects = newArrayOfMoviesFromCoreData
             }
         }

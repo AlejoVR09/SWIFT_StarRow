@@ -10,6 +10,7 @@ import Kingfisher
 
 protocol MoviesViewDelegate{
     func moviesViewToSearchMovies(_ moviesView: MoviesView, withText: String)
+    func moviesViewPullToRefreshApiData(_ moviesView: MoviesView)
 }
 
 class MoviesView: UIView {
@@ -39,7 +40,11 @@ class MoviesView: UIView {
         self.searchBar.delegate = self
     }
     
-    func setCollectionView(_ collectionViewBuilder: UICollectionView, withCustomCell: String, OfCollectionViewCell: String) {
+    func clearSearchBar(){
+        self.searchBar.text = ""
+    }
+    
+    func setCollectionView(_ collectionViewBuilder: UICollectionView, ofTabView: Int) {
         movieCollectionView = collectionViewBuilder
         addSubview(movieCollectionView)
         movieCollectionView.translatesAutoresizingMaskIntoConstraints = false
@@ -49,7 +54,25 @@ class MoviesView: UIView {
             movieCollectionView.bottomAnchor.constraint(equalTo: safeAreaLayoutGuide.bottomAnchor),
             movieCollectionView.trailingAnchor.constraint(equalTo: safeAreaLayoutGuide.trailingAnchor)
         ])
-        movieCollectionView.register(UINib(nibName: OfCollectionViewCell, bundle: nil), forCellWithReuseIdentifier: withCustomCell)
+        if ofTabView == 0 {
+            movieCollectionView.alwaysBounceVertical = true
+            movieCollectionView.register(UINib(nibName: "CustomCollectionViewCell", bundle: nil), forCellWithReuseIdentifier: "CustomMovieCell")
+            movieCollectionView.alwaysBounceVertical = true
+            let refresher = UIRefreshControl()
+            refresher.addTarget(self, action: #selector(pullToRefreshACtion), for: .valueChanged)
+            movieCollectionView.refreshControl = refresher
+        }
+        else{
+            movieCollectionView.alwaysBounceVertical = false
+            movieCollectionView.register(UINib(nibName: "FavoriteCollectionViewCell", bundle: nil), forCellWithReuseIdentifier: "FavoriteCell")
+        }
+    }
+    
+    @objc func pullToRefreshACtion(){
+        self.delegate?.moviesViewPullToRefreshApiData(self)
+        DispatchQueue.main.asyncAfter(deadline: .now() + 1){
+            self.movieCollectionView.refreshControl?.endRefreshing()
+        }
     }
     
     
