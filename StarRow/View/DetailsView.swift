@@ -13,7 +13,6 @@ protocol DetailsViewDelegate {
 
 class DetailsView: UIView {
     var delegate: DetailsViewDelegate?
-    @IBOutlet private weak var backDrop: UIImageView!
     @IBOutlet private weak var poster: UIImageView!
     
     @IBOutlet private weak var genreLabel: UILabel!
@@ -23,7 +22,6 @@ class DetailsView: UIView {
     
     func setUpView(data: DetailsMovieDTO){
         let url = "https://image.tmdb.org/t/p/w500"
-        self.backDrop.kf.setImage(with: URL(string: url+data.backDrop))
         self.poster.kf.setImage(with: URL(string: url+data.poster))
         self.genreLabel.text = "Generos"
         var genersConcact = ""

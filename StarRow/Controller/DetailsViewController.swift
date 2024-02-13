@@ -24,13 +24,12 @@ class DetailsViewController: UIViewController {
         super.viewDidLoad()
         
         self.navigationItem.title = "Movie Details"
-        self.navigationItem.rightBarButtonItem = UIBarButtonItem(image: UIImage(systemName: "star"), style: .plain, target: self, action: (#selector(didButtonPressedToAddFavorite)))
+        
         self.navigationController?.navigationBar.topItem?.backBarButtonItem = UIBarButtonItem(title: "In premier", style: .done, target: nil, action: nil)
-        // Do any additional setup after loading the view.
     }
     
-    override func viewWillAppear(_ animated: Bool) {
-        super.viewWillAppear(animated)
+    override func viewDidAppear(_ animated: Bool) {
+        super.viewDidAppear(animated)
         guard
             let correctId = self.id
         else {
@@ -40,18 +39,59 @@ class DetailsViewController: UIViewController {
         self.detailWS.execute(){ movie in
             
             let movieDTO = DetailsMovieDTO(backDrop: movie.backdropPath ?? "", poster: movie.posterPath ?? "", genrers: movie.genres ?? [], description: movie.overview ?? "", releaseDate: movie.releaseDate ?? "")
-            DispatchQueue.main.async {
+            DispatchQueue.main.async { [self] in
                 self.detailsView?.setUpView(data: movieDTO)
                 self.movieSelected = movie
+                if self.verifyMovieInCoreData(){
+                    self.navigationItem.rightBarButtonItem = UIBarButtonItem(image: UIImage(systemName: "star.fill"), style: .plain, target: self, action: (#selector(didButtonPressedToAddFavorite)))
+                }
+                else{
+                    self.navigationItem.rightBarButtonItem = UIBarButtonItem(image: UIImage(systemName: "star"), style: .plain, target: self, action: (#selector(didButtonPressedToAddFavorite)))
+                }
             }
         }
     }
     
     @objc private func didButtonPressedToAddFavorite(){
-        let moviesSaved = self.retrieveData()
-        for i in moviesSaved {
-            print(i)
+        if !verifyMovieInCoreData(){
+            self.navigationItem.rightBarButtonItem?.image = UIImage(systemName: "star.fill")
+            let movie = MovieCoreData(context: self.context)
+            movie.originalTitle = self.movieSelected?.title
+            movie.posterPath = self.movieSelected?.posterPath
+            movie.releaseDate = self.movieSelected?.releaseDate
+            do {
+                try self.context.save()
+            }
+            catch{
+                print("error saving")
+            }
         }
+        else{
+            self.navigationItem.rightBarButtonItem?.image = UIImage(systemName: "star")
+            let moviesSaved = self.retrieveData()
+            for i in moviesSaved {
+                if i.originalTitle == self.movieSelected?.title {
+                    self.context.delete(i)
+                }
+            }
+            do {
+                try self.context.save()
+            }
+            catch{
+                print("error deleting")
+            }
+        }
+    }
+    
+    private func verifyMovieInCoreData() -> Bool{
+        let moviesSaved = self.retrieveData()
+        
+        for i in moviesSaved {
+            if i.originalTitle == self.movieSelected?.title {
+                return true
+            }
+        }
+        return false
     }
     
     private func retrieveData() -> [MovieCoreData]{
@@ -64,17 +104,4 @@ class DetailsViewController: UIViewController {
             return []
         }
     }
-    
-    
-
-    /*
-    // MARK: - Navigation
-
-    // In a storyboard-based application, you will often want to do a little preparation before navigation
-    override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
-        // Get the new view controller using segue.destination.
-        // Pass the selected object to the new view controller.
-    }
-    */
-
 }

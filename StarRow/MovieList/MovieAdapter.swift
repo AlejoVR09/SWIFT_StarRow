@@ -14,6 +14,10 @@ protocol apiAdapterDelegate {
     func didSelectMovieToDetails(_ apiAdapter: APICollectionViewAdapter, indexPath: IndexPath)
 }
 
+protocol coreDataAdapterDelegate {
+    func didSelectButtonToDelete(_ coreDataAdapter: CoreDataCollectionViewAdapter, indexPath: IndexPath)
+}
+
 class APICollectionViewAdapter: NSObject, UICollectionViewDelegate, UICollectionViewDataSource, UICollectionViewDelegateFlowLayout{
     
     var delegate: apiAdapterDelegate?
@@ -46,7 +50,7 @@ class APICollectionViewAdapter: NSObject, UICollectionViewDelegate, UICollection
             
         let movie = apiData[indexPath.item]
         customCell.imageView.kf.setImage(with: URL(string: "https://image.tmdb.org/t/p/w500/" + (movie.posterPath ?? "")))
-        customCell.overviewLabel.text = movie.originalTitle ?? ""
+        customCell.overviewLabel.text = movie.title ?? ""
         customCell.dateLabel.text = movie.releaseDate ?? ""
         
         return customCell
@@ -54,10 +58,16 @@ class APICollectionViewAdapter: NSObject, UICollectionViewDelegate, UICollection
 }
 
 class CoreDataCollectionViewAdapter: NSObject, UICollectionViewDelegate, UICollectionViewDataSource, UICollectionViewDelegateFlowLayout {
+    
+    var delegate: coreDataAdapterDelegate?
     var coreDataObjects: [MovieCoreData]
     
     init(coreDataObjects: [MovieCoreData]) {
         self.coreDataObjects = coreDataObjects
+    }
+    
+    func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
+        self.delegate?.didSelectButtonToDelete(self, indexPath: indexPath)
     }
 
     func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAt indexPath: IndexPath) -> CGSize {

@@ -16,12 +16,25 @@ class LoginViewController: UIViewController {
         self.view as? LoginView
     }
     
+    lazy var notificationCenter = NotificationManager(notificationManagerDelegate: self)
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         loginView?.delegate = self
         //let navigation = UINavigationController(rootViewController: self)
+        self.navigationItem.title = "Login"
 
         
+    }
+    
+    override func viewWillAppear(_ animated: Bool) {
+        super.viewWillAppear(animated)
+        self.notificationCenter.registerObserver()
+    }
+    
+    override func viewWillDisappear(_ animated: Bool) {
+        super.viewWillDisappear(animated)
+        self.notificationCenter.removeObserver()
     }
     
     
@@ -54,6 +67,14 @@ extension LoginViewController: LoginViewDelegate {
         print(UserDefaults.standard.bool(forKey: "isLoggedIn"))
         self.navigationController?.show(registerController, sender: nil)
     }
+}
+
+extension LoginViewController: NotificationManagerDelegate {
+    func NotificationManagerDelegate(_ notificationManager: NotificationManager, keyboardWillShow info: NotificationManager.Info) {
+        self.loginView?.keyboardAppear(info)
+    }
     
-    
+    func NotificationManagerDelegate(_ notificationManager: NotificationManager, keyboardWillHide info: NotificationManager.Info) {
+        self.loginView?.keyboardDisappear(info)
+    }
 }

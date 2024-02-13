@@ -27,6 +27,8 @@ class MoviesViewController: UIViewController, UICollectionViewDelegate {
     override func viewDidLoad() {
         super.viewDidLoad()
         apiAdapter.delegate = self
+        coreDataAdapter.delegate = self
+        moviesView?.delegate = self
     }
     
     override func viewDidAppear(_ animated: Bool) {
@@ -37,7 +39,7 @@ class MoviesViewController: UIViewController, UICollectionViewDelegate {
     func fetchMoviesFromApi(){
         self.moviesWS.execute(){ arrayMovies in
             DispatchQueue.main.async {
-                self.moviesView?.movies = arrayMovies
+                self.moviesView?.moviesApi = arrayMovies
                 self.apiAdapter.apiData = arrayMovies
                 self.arrayMoviesOfApi = arrayMovies
             }
@@ -47,6 +49,7 @@ class MoviesViewController: UIViewController, UICollectionViewDelegate {
     func fetchMoviesFromCoreData(){
         do{
             let movies = try self.context.fetch(MovieCoreData.fetchRequest())
+            self.moviesView?.moviesCoreData = movies
             self.arrayMoviesOfCoreData = movies
             self.coreDataAdapter.coreDataObjects = movies
         }
@@ -54,8 +57,6 @@ class MoviesViewController: UIViewController, UICollectionViewDelegate {
             print("There is no favorite movies avaible!")
         }
     }
-    
-    
     
     func selectedTabView(){
         guard
@@ -90,5 +91,48 @@ extension MoviesViewController: apiAdapterDelegate{
     func didSelectMovieToDetails(_ apiAdapter: APICollectionViewAdapter, indexPath: IndexPath) {
         self.idMovieSelected = arrayMoviesOfApi[indexPath.item].id ?? 0
         self.performSegue(withIdentifier: "DetailsViewController", sender: self)
+    }
+}
+
+extension MoviesViewController: coreDataAdapterDelegate {
+    func didSelectButtonToDelete(_ coreDataAdapter: CoreDataCollectionViewAdapter, indexPath: IndexPath) {
+        self.context.delete(self.arrayMoviesOfCoreData[indexPath.item])
+        fetchMoviesFromCoreData()
+    }
+}
+
+extension MoviesViewController: MoviesViewDelegate{
+    func moviesViewToSearchMovies(_ moviesView: MoviesView, withText: String) {
+        guard
+            let index = self.tabBarController?.selectedIndex
+        else {
+            return
+        }
+        if index == 0 {
+            let newArrayOfMoviesFromApi =  self.arrayMoviesOfApi.filter(){ movie in
+               return movie.title!.contains(withText)
+           }
+            if newArrayOfMoviesFromApi.isEmpty {
+                fetchMoviesFromApi()
+            }
+            else{
+                self.apiAdapter.apiData = newArrayOfMoviesFromApi
+                self.moviesView?.moviesApi = newArrayOfMoviesFromApi
+                self.arrayMoviesOfApi = newArrayOfMoviesFromApi
+            }
+        }
+        else{
+            let newArrayOfMoviesFromCoreData =  self.arrayMoviesOfCoreData.filter(){ movie in
+                return movie.originalTitle!.contains(withText)
+           }
+            if newArrayOfMoviesFromCoreData.isEmpty {
+                fetchMoviesFromCoreData()
+            }
+            else{
+                self.moviesView?.moviesCoreData = newArrayOfMoviesFromCoreData
+                self.arrayMoviesOfCoreData = newArrayOfMoviesFromCoreData
+                self.coreDataAdapter.coreDataObjects = newArrayOfMoviesFromCoreData
+            }
+        }
     }
 }
