@@ -9,81 +9,163 @@ import UIKit
 import Kingfisher
 
 protocol MoviesViewDelegate{
-    func moviesViewToSearchMovies(_ moviesView: MoviesView, withText: String)
     func moviesViewPullToRefreshApiData(_ moviesView: MoviesView)
 }
 
 class MoviesView: UIView {
+    
     var delegate: MoviesViewDelegate?
+    var adapter: AdapterProtocol
+    var searchBarAdapter: MovieSearchAdapter
     
-    @IBOutlet private weak var movieCollectionView: UICollectionView!
-    @IBOutlet weak var searchBar: UISearchBar!
-
-    var moviesApi: [MoviesWS.Response.Movie] = [] {
+    init(adapter: AdapterProtocol, searchBarAdapter: MovieSearchAdapter) {
+        self.adapter = adapter
+        self.searchBarAdapter = searchBarAdapter
+        self.searchBar.delegate = self.searchBarAdapter
+        
+        
+        super.init(frame: .init(x: 0, y: 0, width: UIScreen.main.bounds.width, height: UIScreen.main.bounds.height))
+        backgroundColor = .white
+        self.tapGesture = UITapGestureRecognizer(target: self, action: #selector(handleTap(_ :)))
+        addGestureRecognizer(tapGesture)
+        self.searchBarAdapter.moviesView = self
+        self.tapGesture.isEnabled = false
+        setConstraints()
+    }
+    
+    required init?(coder: NSCoder) {
+        fatalError()
+    }
+    
+    private var movieCollectionView: UICollectionView = {
+        let collectionView = UICollectionView(frame: .zero, collectionViewLayout: UICollectionViewFlowLayout())
+        return collectionView
+    }()
+    
+    private var searchBar: UISearchBar = {
+        let searchBar = UISearchBar(frame: .zero)
+        searchBar.translatesAutoresizingMaskIntoConstraints = false
+        searchBar.searchBarStyle = UISearchBar.Style.default
+        searchBar.placeholder = " Search..."
+        searchBar.sizeToFit()
+        return searchBar
+    }()
+    
+    private var viewForSearch: UIView = {
+        let view = UIView()
+        view.translatesAutoresizingMaskIntoConstraints = false
+        view.backgroundColor = .white
+        return view
+    }()
+    
+    private var labelForSearch = {
+        let label = UILabel()
+        label.translatesAutoresizingMaskIntoConstraints = false
+        label.text = "Cannot find searched element/s"
+        return label
+    }()
+    
+    private var tapGesture: UITapGestureRecognizer!
+    
+    private lazy var pullToRefresh: UIRefreshControl = {
+        let refresher = UIRefreshControl()
+        refresher.addTarget(self, action: #selector(pullToRefreshAction(_ :)), for: .valueChanged)
+        return refresher
+    }()
+    
+    @objc func pullToRefreshAction(_ sender: UIRefreshControl){
+        DispatchQueue.main.asyncAfter(deadline: .now() + 0.2) {
+            sender.endRefreshing()
+            self.delegate?.moviesViewPullToRefreshApiData(self)
+        }
+    }
+    
+    @objc func handleTap(_ sender: UITapGestureRecognizer) {
+        self.endEditing(true)
+    }
+    
+    var movies: [MoviesEntity] = [] {
         didSet{
             DispatchQueue.main.async {
-                self.movieCollectionView.reloadData()
+                self.adapter.data = self.movies
+                self.updateCollectionView(self.movies)
             }
         }
     }
     
-    var moviesCoreData: [MovieCoreData] = [] {
-        didSet{
-            DispatchQueue.main.async {
-                self.movieCollectionView.reloadData()
-            }
-        }
-    }
-    
-    override func draw(_ rect: CGRect) {
-        super.draw(rect)
-        self.searchBar.delegate = self
+    func updateCollectionView(_ newArrayMovies: [MoviesEntity]){
+        let contentOffset = self.movieCollectionView.contentOffset
+        self.movieCollectionView.reloadData()
+        self.movieCollectionView.layoutIfNeeded()
+        self.movieCollectionView.setContentOffset(contentOffset, animated: false)
     }
     
     func clearSearchBar(){
         self.searchBar.text = ""
     }
     
-    func setCollectionView(_ collectionViewBuilder: UICollectionView, ofTabView: Int) {
+    private func setConstraints(){
+        addSubview(searchBar)
+        NSLayoutConstraint.activate([
+            searchBar.topAnchor.constraint(equalTo: safeAreaLayoutGuide.topAnchor),
+            searchBar.heightAnchor.constraint(equalToConstant: 50),
+            searchBar.trailingAnchor.constraint(equalTo: safeAreaLayoutGuide.trailingAnchor),
+            searchBar.leadingAnchor.constraint(equalTo: safeAreaLayoutGuide.leadingAnchor),
+        ])
+    }
+    
+    func setCollectionView(_ collectionViewBuilder: UICollectionView) {
         movieCollectionView = collectionViewBuilder
-        addSubview(movieCollectionView)
         movieCollectionView.translatesAutoresizingMaskIntoConstraints = false
+        addSubview(movieCollectionView)
         NSLayoutConstraint.activate([
             movieCollectionView.topAnchor.constraint(equalTo: self.searchBar.bottomAnchor),
-            movieCollectionView.leadingAnchor.constraint(equalTo: safeAreaLayoutGuide.leadingAnchor),
-            movieCollectionView.bottomAnchor.constraint(equalTo: safeAreaLayoutGuide.bottomAnchor),
-            movieCollectionView.trailingAnchor.constraint(equalTo: safeAreaLayoutGuide.trailingAnchor)
+            movieCollectionView.bottomAnchor.constraint(equalTo: bottomAnchor),
+            movieCollectionView.trailingAnchor.constraint(equalTo: safeAreaLayoutGuide.trailingAnchor),
+            movieCollectionView.leadingAnchor.constraint(equalTo: safeAreaLayoutGuide.leadingAnchor)
         ])
-        if ofTabView == 0 {
-            movieCollectionView.alwaysBounceVertical = true
-            movieCollectionView.register(UINib(nibName: "CustomCollectionViewCell", bundle: nil), forCellWithReuseIdentifier: "CustomMovieCell")
-            movieCollectionView.alwaysBounceVertical = true
-            let refresher = UIRefreshControl()
-            refresher.addTarget(self, action: #selector(pullToRefreshACtion), for: .valueChanged)
-            movieCollectionView.refreshControl = refresher
-        }
-        else{
-            movieCollectionView.alwaysBounceVertical = false
-            movieCollectionView.register(UINib(nibName: "FavoriteCollectionViewCell", bundle: nil), forCellWithReuseIdentifier: "FavoriteCell")
-        }
     }
     
-    @objc func pullToRefreshACtion(){
-        self.delegate?.moviesViewPullToRefreshApiData(self)
-        DispatchQueue.main.asyncAfter(deadline: .now() + 1){
-            self.movieCollectionView.refreshControl?.endRefreshing()
-        }
+    func setSeachView(){
+        addSubview(viewForSearch)
+        NSLayoutConstraint.activate([
+            viewForSearch.topAnchor.constraint(equalTo: self.searchBar.bottomAnchor),
+            viewForSearch.bottomAnchor.constraint(equalTo: bottomAnchor),
+            viewForSearch.trailingAnchor.constraint(equalTo: safeAreaLayoutGuide.trailingAnchor),
+            viewForSearch.leadingAnchor.constraint(equalTo: safeAreaLayoutGuide.leadingAnchor)
+        ])
+        
+        self.viewForSearch.addSubview(labelForSearch)
+        NSLayoutConstraint.activate([
+            labelForSearch.centerYAnchor.constraint(equalTo: viewForSearch.centerYAnchor, constant: 0),
+            labelForSearch.centerXAnchor.constraint(equalTo: viewForSearch.centerXAnchor, constant: 0)
+        ])
+        
+        self.tapGesture.isEnabled = true
     }
     
-    
+    func removeSearchView(){
+        self.viewForSearch.removeFromSuperview()
+        self.tapGesture.isEnabled = false
+    }
 }
 
-extension MoviesView: UISearchBarDelegate {
-    func searchBar(_ searchBar: UISearchBar, textDidChange searchText: String) {
-        self.delegate?.moviesViewToSearchMovies(self, withText: searchText)
+extension MoviesView {
+    class func buildOnline(moviesView: MoviesView) -> UICollectionView{
+        let collectionViewDirector = MoviesCollectionViewDirector()
+        let collectionView = collectionViewDirector.createAPICollectionView(withDelegate: moviesView.adapter as! UICollectionViewDelegate, dataSource: moviesView.adapter as! UICollectionViewDataSource, flowLayout: moviesView.adapter as! UICollectionViewDelegateFlowLayout)
+        collectionView.alwaysBounceVertical = true
+        collectionView.refreshControl = moviesView.pullToRefresh
+        collectionView.showsVerticalScrollIndicator = false
+        
+        return collectionView
     }
     
-    func searchBarTextDidEndEditing(_ searchBar: UISearchBar) {
-        self.endEditing(true)
+    class func buildLocal(moviesView: MoviesView) -> UICollectionView{
+        let collectionViewDirector = MoviesCollectionViewDirector()
+        let collectionView = collectionViewDirector.createCoreDataCollectionView(withDelegate: moviesView.adapter as! UICollectionViewDelegate, dataSource: moviesView.adapter as! UICollectionViewDataSource, flowLayout: moviesView.adapter as! UICollectionViewDelegateFlowLayout)
+        collectionView.alwaysBounceVertical = false
+        collectionView.showsVerticalScrollIndicator = false
+        return collectionView
     }
 }

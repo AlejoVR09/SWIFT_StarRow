@@ -28,9 +28,7 @@ class NotificationManager {
     
     func removeObserver(){
         NotificationCenter.default.removeObserver(self, name: UIResponder.keyboardDidHideNotification, object: nil)
-        
         NotificationCenter.default.removeObserver(self, name: UIResponder.keyboardWillShowNotification, object: nil)
-        
     }
     
     @objc func hideKeyboard(_ notification: Notification){

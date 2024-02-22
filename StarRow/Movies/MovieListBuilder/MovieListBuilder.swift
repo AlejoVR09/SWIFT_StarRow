@@ -9,13 +9,14 @@ import Foundation
 import UIKit
 
 protocol CollectionViewBuilder {
+    var collectionView: UICollectionView { get set }
     func build() -> UICollectionView
     func setDataSource(_ dataSource: UICollectionViewDataSource) -> Self
     func setDelegate(_ delegate: UICollectionViewDelegate) -> Self
 }
 
 class APICollectionViewBuilder: CollectionViewBuilder {
-    private var collectionView: UICollectionView
+    var collectionView: UICollectionView
 
     init(collectionView: UICollectionView) {
         self.collectionView = collectionView
@@ -42,7 +43,7 @@ class APICollectionViewBuilder: CollectionViewBuilder {
 }
 
 class CoreDataCollectionViewBuilder: CollectionViewBuilder {
-    private var collectionView: UICollectionView
+    var collectionView: UICollectionView
 
     init(collectionView: UICollectionView) {
         self.collectionView = collectionView

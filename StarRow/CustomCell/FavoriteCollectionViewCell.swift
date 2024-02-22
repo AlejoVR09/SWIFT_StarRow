@@ -16,7 +16,6 @@ class FavoriteCollectionViewCell: UICollectionViewCell {
     
     override func awakeFromNib() {
         super.awakeFromNib()
-        // Initialization code
         setUpImage()
         shadowToFatherView()
     }
@@ -29,5 +28,11 @@ class FavoriteCollectionViewCell: UICollectionViewCell {
     private func shadowToFatherView(){
         self.fatherView.layer.masksToBounds = false
         self.fatherView.layer.cornerRadius = CGFloat(integerLiteral: 10)
+    }
+    
+    func updateData(movie: MoviesEntity){
+        self.imageView.kf.setImage(with: URL(string: "https://image.tmdb.org/t/p/w500/" + movie.poster))
+        self.title.text = movie.name
+        self.releaseDate.text = movie.releaseDate
     }
 }

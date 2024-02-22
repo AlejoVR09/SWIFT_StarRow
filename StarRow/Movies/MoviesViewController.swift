@@ -8,138 +8,55 @@
 import UIKit
 
 
-class MoviesViewController: UIViewController, UICollectionViewDelegate {
+class MoviesViewController: UIViewController {
+
+    private var strategy: MoviesListViewStrategy
+    private let moviesView: MoviesView
     
+    private var idMovieSelected: Int = 0
     
-    private var apiAdapter: APICollectionViewAdapter = APICollectionViewAdapter(apiData: [])
-    private var coreDataAdapter: CoreDataCollectionViewAdapter = CoreDataCollectionViewAdapter(coreDataObjects: [])
-    
-    var idMovieSelected: Int = 0
-    let context = (UIApplication.shared.delegate as! AppDelegate).persistentContainer.viewContext
-    
-    var moviesView: MoviesView? {
-        return self.view as? MoviesView
+    init(moviesView: MoviesView, strategy: MoviesListViewStrategy) {
+        self.moviesView = moviesView
+        self.strategy = strategy
+        super.init(nibName: nil, bundle: nil)
+        self.moviesView.adapter.delegate = self
     }
-    lazy var moviesWS = MoviesWS()
+    
+    required init?(coder: NSCoder) {
+        fatalError()
+    }
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        apiAdapter.delegate = self
-        coreDataAdapter.delegate = self
-        moviesView?.delegate = self
+        self.view = moviesView
+        moviesView.delegate = self
+        fetchMovies()
     }
     
-    override func viewDidAppear(_ animated: Bool) {
-        super.viewDidAppear(animated)
-        selectedTabView()
+    override func viewWillAppear(_ animated: Bool) {
+        super.viewWillAppear(animated)
     }
 
-    func fetchMoviesFromApi(){
-        self.moviesWS.execute(){ arrayMovies in
-            DispatchQueue.main.async {
-                print(1)
-                self.moviesView?.moviesApi = arrayMovies
-                self.apiAdapter.apiData = arrayMovies
-            }
-        }
-    }
-    
-    func fetchMoviesFromCoreData(){
-        do{
-            let movies = try self.context.fetch(MovieCoreData.fetchRequest())
-            self.moviesView?.moviesCoreData = movies
-            self.coreDataAdapter.coreDataObjects = movies
-        }
-        catch {
-            print("There is no favorite movies avaible!")
-        }
-    }
-    
-    func selectedTabView(){
-        guard
-            let index = self.tabBarController?.selectedIndex
-        else {
-            return
-        }
-        if index == 0 {
-            fetchMoviesFromApi()
-            let collectionViewDirector = MoviesCollectionViewDirector()
-            let collectionViewbuilderApi = collectionViewDirector.createAPICollectionView(withDelegate: apiAdapter, dataSource: apiAdapter, flowLayout: apiAdapter)
-            self.moviesView?.setCollectionView(collectionViewbuilderApi, ofTabView: index)
-        }
-        else{
-            fetchMoviesFromCoreData()
-            let collectionViewDirector = MoviesCollectionViewDirector()
-            let collectionViewbuilderCoreData = collectionViewDirector.createCoreDataCollectionView(withDelegate: coreDataAdapter, dataSource: coreDataAdapter, flowLayout: coreDataAdapter)
-            self.moviesView?.setCollectionView(collectionViewbuilderCoreData, ofTabView: index)
-        }
-    }
-    
-    override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
-        if segue.identifier == "DetailsViewController" {
-            if let destination = segue.destination as? DetailsViewController{
-                destination.id = self.idMovieSelected
-            }
-        }
+    private func fetchMovies(){
+        self.strategy.loadMoviesList()
+        self.strategy.fetch()
     }
 }
 
-extension MoviesViewController: apiAdapterDelegate{
-    func didSelectMovieToDetails(_ apiAdapter: APICollectionViewAdapter, indexPath: IndexPath) {
-        self.idMovieSelected = self.apiAdapter.apiData[indexPath.item].id ?? 0
-        self.performSegue(withIdentifier: "DetailsViewController", sender: self)
+extension MoviesViewController: AdapterDelegate{
+    func didSelectMovie(_ apiAdapter: AdapterProtocol, indexPath: IndexPath) {
+        self.navigationController?.show(DetailsViewController(detailsView: DetailsView(), delegate: self, id: self.moviesView.adapter.data[indexPath.item].id), sender: nil)
     }
 }
 
-extension MoviesViewController: coreDataAdapterDelegate {
-    func didSelectButtonToDelete(_ coreDataAdapter: CoreDataCollectionViewAdapter, indexPath: IndexPath) {
-        self.context.delete(self.coreDataAdapter.coreDataObjects[indexPath.item])
-        do{
-            try self.context.save()
-            self.moviesView?.clearSearchBar()
-            fetchMoviesFromCoreData()
-        }
-        catch{
-            print("error deleting from favorite list")
-        }
+extension MoviesViewController: DetailsViewControllerDelegate {
+    func detailsViewController(_ detailsViewController: DetailsViewController) {
         
     }
 }
 
 extension MoviesViewController: MoviesViewDelegate{
     func moviesViewPullToRefreshApiData(_ moviesView: MoviesView) {
-        fetchMoviesFromApi()
-    }
-    
-    func moviesViewToSearchMovies(_ moviesView: MoviesView, withText: String) {
-        guard
-            let index = self.tabBarController?.selectedIndex
-        else {
-            return
-        }
-        if index == 0 {
-            let newArrayOfMoviesFromApi =  self.apiAdapter.apiData.filter(){ movie in
-               return movie.title!.contains(withText)
-           }
-            if newArrayOfMoviesFromApi.isEmpty {
-                fetchMoviesFromApi()
-            }
-            else{
-                self.apiAdapter.apiData = newArrayOfMoviesFromApi
-                self.moviesView?.moviesApi = newArrayOfMoviesFromApi
-            }
-        }
-        else{
-            let newArrayOfMoviesFromCoreData =  self.coreDataAdapter.coreDataObjects.filter(){ movie in
-                return movie.originalTitle!.contains(withText)
-           }
-            if newArrayOfMoviesFromCoreData.isEmpty {
-                fetchMoviesFromCoreData()
-            }
-            else{
-                self.moviesView?.moviesCoreData = newArrayOfMoviesFromCoreData
-                self.coreDataAdapter.coreDataObjects = newArrayOfMoviesFromCoreData
-            }
-        }
+        self.strategy.fetch()
     }
 }

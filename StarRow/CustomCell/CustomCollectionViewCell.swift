@@ -16,12 +16,8 @@ class CustomCollectionViewCell: UICollectionViewCell {
     
     override func awakeFromNib() {
         super.awakeFromNib()
-        // Initialization code
-        
-        
         setUpImage()
         shadowToFatherView()
-        
     }
     
     private func setUpImage(){
@@ -33,11 +29,15 @@ class CustomCollectionViewCell: UICollectionViewCell {
     private func shadowToFatherView(){
         self.fatherView.layer.masksToBounds = false
         self.fatherView.layer.cornerRadius = CGFloat(integerLiteral: 10)
-        //self.fatherView.layer.borderWidth = 0.5
         self.fatherView.layer.shadowOffset = CGSize(width: 0, height: 0)
         self.fatherView.layer.shadowColor = CGColor(red: 0, green: 0, blue: 0, alpha: 1)
-        self.fatherView.layer.shadowOpacity = 0.5
+        self.fatherView.layer.shadowOpacity = 0.3
         self.fatherView.layer.shadowRadius = 2.5
     }
-
+    
+    func updateData(movie: MoviesEntity){
+        self.imageView.kf.setImage(with: URL(string: "https://image.tmdb.org/t/p/w500/" + movie.poster))
+        self.overviewLabel.text = movie.name
+        self.dateLabel.text = movie.releaseDate
+    }
 }

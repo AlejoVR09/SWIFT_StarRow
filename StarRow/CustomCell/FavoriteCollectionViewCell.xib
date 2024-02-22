@@ -18,19 +18,19 @@
                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                 <subviews>
                     <view contentMode="scaleAspectFill" translatesAutoresizingMaskIntoConstraints="NO" id="XEp-qX-312">
-                        <rect key="frame" x="5" y="0.0" width="208" height="398"/>
+                        <rect key="frame" x="10" y="0.0" width="198" height="398"/>
                         <subviews>
                             <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="star" translatesAutoresizingMaskIntoConstraints="NO" id="16B-TX-5FJ">
-                                <rect key="frame" x="0.0" y="0.0" width="208" height="307.33333333333331"/>
+                                <rect key="frame" x="0.0" y="0.0" width="198" height="307.33333333333331"/>
                             </imageView>
                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="asdasd" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" minimumScaleFactor="0.5" translatesAutoresizingMaskIntoConstraints="NO" id="qcj-fc-Xfz">
-                                <rect key="frame" x="10" y="309.33333333333331" width="188" height="19.333333333333314"/>
+                                <rect key="frame" x="10" y="309.33333333333331" width="178" height="19.333333333333314"/>
                                 <fontDescription key="fontDescription" type="boldSystem" pointSize="16"/>
                                 <nil key="textColor"/>
                                 <nil key="highlightedColor"/>
                             </label>
                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="asdasd" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" minimumScaleFactor="0.5" translatesAutoresizingMaskIntoConstraints="NO" id="qsH-7R-mo9">
-                                <rect key="frame" x="10" y="338.66666666666669" width="188" height="14.333333333333314"/>
+                                <rect key="frame" x="10" y="338.66666666666669" width="178" height="14.333333333333314"/>
                                 <fontDescription key="fontDescription" type="system" pointSize="12"/>
                                 <nil key="textColor"/>
                                 <nil key="highlightedColor"/>
@@ -54,9 +54,9 @@
             </view>
             <viewLayoutGuide key="safeArea" id="ZTg-uK-7eu"/>
             <constraints>
-                <constraint firstAttribute="trailing" secondItem="XEp-qX-312" secondAttribute="trailing" constant="5" id="Ee2-cX-xS7"/>
+                <constraint firstAttribute="trailing" secondItem="XEp-qX-312" secondAttribute="trailing" constant="10" id="Ee2-cX-xS7"/>
                 <constraint firstAttribute="bottom" secondItem="XEp-qX-312" secondAttribute="bottom" id="NDJ-yQ-3B7"/>
-                <constraint firstItem="XEp-qX-312" firstAttribute="leading" secondItem="gTV-IL-0wX" secondAttribute="leading" constant="5" id="mMl-Iq-Kev"/>
+                <constraint firstItem="XEp-qX-312" firstAttribute="leading" secondItem="gTV-IL-0wX" secondAttribute="leading" constant="10" id="mMl-Iq-Kev"/>
                 <constraint firstItem="XEp-qX-312" firstAttribute="top" secondItem="gTV-IL-0wX" secondAttribute="top" id="qLI-ei-DyW"/>
             </constraints>
             <size key="customSize" width="218" height="398"/>

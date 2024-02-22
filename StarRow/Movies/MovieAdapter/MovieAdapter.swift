@@ -10,29 +10,36 @@ import UIKit
 import Kingfisher
 import CoreData
 
-protocol apiAdapterDelegate {
-    func didSelectMovieToDetails(_ apiAdapter: APICollectionViewAdapter, indexPath: IndexPath)
+
+protocol AdapterProtocol {
+    var delegate: AdapterDelegate? { get set }
+    var data: [MoviesEntity] { get set }
+    func setUpCollectionView(_ collectionView: UICollectionView)
 }
 
-protocol coreDataAdapterDelegate {
-    func didSelectButtonToDelete(_ coreDataAdapter: CoreDataCollectionViewAdapter, indexPath: IndexPath)
+protocol AdapterDelegate {
+    func didSelectMovie(_ apiAdapter: AdapterProtocol, indexPath: IndexPath)
 }
 
-class APICollectionViewAdapter: NSObject, UICollectionViewDelegate, UICollectionViewDataSource, UICollectionViewDelegateFlowLayout{
+class APICollectionViewAdapter: NSObject, AdapterProtocol, UICollectionViewDelegate, UICollectionViewDataSource, UICollectionViewDelegateFlowLayout{
     
-    var delegate: apiAdapterDelegate?
-    var apiData: [MoviesWS.Response.Movie]
-    init(apiData: [MoviesWS.Response.Movie]) {
-        self.apiData = apiData
+    var delegate: AdapterDelegate?
+    private unowned var adaptated: UICollectionView?
+    var data: [MoviesEntity] = []
+    
+    func setUpCollectionView(_ collectionView: UICollectionView){
+        self.adaptated = collectionView
+        self.adaptated?.dataSource = self
+        self.adaptated?.delegate = self
+        self.adaptated?.register(UINib(nibName: "CustomCollectionViewCell", bundle: nil), forCellWithReuseIdentifier: "CustomMovieCell")
     }
     
     func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
-        self.delegate?.didSelectMovieToDetails(self, indexPath: indexPath)
+        self.delegate?.didSelectMovie(self, indexPath: indexPath)
     }
-    
 
     func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
-        return apiData.count
+        return data.count
     }
     
     func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAt indexPath: IndexPath) -> CGSize {
@@ -47,27 +54,27 @@ class APICollectionViewAdapter: NSObject, UICollectionViewDelegate, UICollection
         else {
             return UICollectionViewCell()
         }
-            
-        let movie = apiData[indexPath.item]
-        customCell.imageView.kf.setImage(with: URL(string: "https://image.tmdb.org/t/p/w500/" + (movie.posterPath ?? "")))
-        customCell.overviewLabel.text = movie.title ?? ""
-        customCell.dateLabel.text = movie.releaseDate ?? ""
-        
+
+        customCell.updateData(movie: data[indexPath.item])
         return customCell
     }
 }
 
-class CoreDataCollectionViewAdapter: NSObject, UICollectionViewDelegate, UICollectionViewDataSource, UICollectionViewDelegateFlowLayout {
+class CoreDataCollectionViewAdapter: NSObject, AdapterProtocol, UICollectionViewDelegate, UICollectionViewDataSource, UICollectionViewDelegateFlowLayout {
     
-    var delegate: coreDataAdapterDelegate?
-    var coreDataObjects: [MovieCoreData]
+    var delegate: AdapterDelegate?
+    private unowned var adaptated: UICollectionView?
+    var data: [MoviesEntity] = []
     
-    init(coreDataObjects: [MovieCoreData]) {
-        self.coreDataObjects = coreDataObjects
+    func setUpCollectionView(_ collectionView: UICollectionView){
+        self.adaptated = collectionView
+        self.adaptated?.dataSource = self
+        self.adaptated?.delegate = self
+        self.adaptated?.register(UINib(nibName: "FavoriteCollectionViewCell", bundle: nil), forCellWithReuseIdentifier: "FavoriteCell")
     }
     
     func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
-        self.delegate?.didSelectButtonToDelete(self, indexPath: indexPath)
+        self.delegate?.didSelectMovie(self, indexPath: indexPath)
     }
 
     func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAt indexPath: IndexPath) -> CGSize {
@@ -75,7 +82,7 @@ class CoreDataCollectionViewAdapter: NSObject, UICollectionViewDelegate, UIColle
     }
     
     func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
-        return coreDataObjects.count
+        return data.count
     }
     
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
@@ -86,12 +93,8 @@ class CoreDataCollectionViewAdapter: NSObject, UICollectionViewDelegate, UIColle
         else {
             return UICollectionViewCell()
         }
-            
-        let movie = coreDataObjects[indexPath.item]
         
-        customCell.imageView.kf.setImage(with: URL(string: "https://image.tmdb.org/t/p/w500/" + (movie.posterPath ?? "")))
-        customCell.title.text = movie.originalTitle ?? ""
-        customCell.releaseDate.text = movie.releaseDate ?? ""
+        customCell.updateData(movie: data[indexPath.item])
         return customCell
     }
 }

@@ -8,7 +8,7 @@
 import Foundation
 
 extension DetailsWS {
-    struct Movie: Decodable {
+    struct MovieDTO: Decodable {
         let adult: Bool?
             let backdropPath: String?
             let budget: Int?
