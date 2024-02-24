@@ -23,15 +23,15 @@ protocol AdapterDelegate {
 
 class APICollectionViewAdapter: NSObject, AdapterProtocol, UICollectionViewDelegate, UICollectionViewDataSource, UICollectionViewDelegateFlowLayout{
     
-    var delegate: AdapterDelegate?
     private unowned var adaptated: UICollectionView?
+    var delegate: AdapterDelegate?
     var data: [MoviesEntity] = []
     
     func setUpCollectionView(_ collectionView: UICollectionView){
+        collectionView.register(UINib(nibName: "CustomCollectionViewCell", bundle: nil), forCellWithReuseIdentifier: "CustomMovieCell")
+        collectionView.dataSource = self
+        collectionView.delegate = self
         self.adaptated = collectionView
-        self.adaptated?.dataSource = self
-        self.adaptated?.delegate = self
-        self.adaptated?.register(UINib(nibName: "CustomCollectionViewCell", bundle: nil), forCellWithReuseIdentifier: "CustomMovieCell")
     }
     
     func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
@@ -47,30 +47,21 @@ class APICollectionViewAdapter: NSObject, AdapterProtocol, UICollectionViewDeleg
     }
     
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
-        let cellFor = collectionView.dequeueReusableCell(withReuseIdentifier: "CustomMovieCell", for: indexPath)
-                    
-        guard
-            let customCell = cellFor as? CustomCollectionViewCell
-        else {
-            return UICollectionViewCell()
-        }
-
-        customCell.updateData(movie: data[indexPath.item])
-        return customCell
+        return CustomCollectionViewCell.buildMovieCell(collectionView, in: indexPath, with: data[indexPath.item])
     }
 }
 
 class CoreDataCollectionViewAdapter: NSObject, AdapterProtocol, UICollectionViewDelegate, UICollectionViewDataSource, UICollectionViewDelegateFlowLayout {
     
-    var delegate: AdapterDelegate?
     private unowned var adaptated: UICollectionView?
+    var delegate: AdapterDelegate?
     var data: [MoviesEntity] = []
     
     func setUpCollectionView(_ collectionView: UICollectionView){
+        collectionView.register(UINib(nibName: "FavoriteCollectionViewCell", bundle: nil), forCellWithReuseIdentifier: "FavoriteCell")
+        collectionView.dataSource = self
+        collectionView.delegate = self
         self.adaptated = collectionView
-        self.adaptated?.dataSource = self
-        self.adaptated?.delegate = self
-        self.adaptated?.register(UINib(nibName: "FavoriteCollectionViewCell", bundle: nil), forCellWithReuseIdentifier: "FavoriteCell")
     }
     
     func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
@@ -86,15 +77,8 @@ class CoreDataCollectionViewAdapter: NSObject, AdapterProtocol, UICollectionView
     }
     
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
-        let cellFor = collectionView.dequeueReusableCell(withReuseIdentifier: "FavoriteCell", for: indexPath)
-                    
-        guard
-            let customCell = cellFor as? FavoriteCollectionViewCell
-        else {
-            return UICollectionViewCell()
-        }
-        
-        customCell.updateData(movie: data[indexPath.item])
-        return customCell
+        let customCell = collectionView.dequeueReusableCell(withReuseIdentifier: "FavoriteCell", for: indexPath) as? FavoriteCollectionViewCell
+        customCell?.updateData(movie: data[indexPath.item])
+        return customCell ?? UICollectionViewCell()
     }
 }

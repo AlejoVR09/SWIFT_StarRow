@@ -8,16 +8,16 @@
 import UIKit
 
 protocol DetailsViewControllerDelegate {
-    func detailsViewController(_ detailsViewController: DetailsViewController)
+    func didTapRemove(_ idMovie: Int)
+    func didTapToAdd(_ movie: DetailsMovieEntity)
 }
 
 class DetailsViewController: UIViewController {
     
-
     var id: Int
-    var detailsView: DetailsView
     var delegate: DetailsViewControllerDelegate
-    var movieSelected: DetailsMovieEntity?
+    var detailsView: DetailsView
+    var movieSelected: DetailsMovieEntity!
     
     lazy var detailWS = DetailsWS()
     
@@ -47,25 +47,27 @@ class DetailsViewController: UIViewController {
         self.detailWS.execute(id: self.id){ movie in
             DispatchQueue.main.async {
                 self.movieSelected = DetailsMovieEntity(movieDetailsApi: movie)
-                self.detailsView.setUpView(data: self.movieSelected ?? DetailsMovieEntity(id: 0, name: "", backDrop: "", poster: "", genrers: [], description: "", releaseDate: "", voteAverage: 0))
+                self.detailsView.setUpView(data: self.movieSelected)
                 self.navigationItem.rightBarButtonItem = self.verifyMovieInCoreData()
             }
         }
     }
     
     @objc func popView(){
-        self.delegate.detailsViewController(self)
         self.navigationController?.popViewController(animated: true)
     }
     
     @objc private func didButtonPressedToAddFavorite(){
         self.navigationItem.rightBarButtonItem?.image = UIImage(systemName: "star.fill")
         self.navigationItem.rightBarButtonItem?.action = #selector(didButtonPressedToDeleteFromFavorites)
+        
         let movie = MovieCoreData(context: self.context)
-        movie.idMovie = Double(self.movieSelected?.id ?? 0)
-        movie.originalTitle = self.movieSelected?.name
-        movie.posterPath = self.movieSelected?.poster
-        movie.releaseDate = self.movieSelected?.releaseDate
+        movie.idMovie = Double(self.movieSelected.id)
+        movie.originalTitle = self.movieSelected.name
+        movie.posterPath = self.movieSelected.poster
+        movie.releaseDate = self.movieSelected.releaseDate
+        self.delegate.didTapToAdd(movieSelected)
+        
         do {
             try self.context.save()
         }
@@ -77,9 +79,12 @@ class DetailsViewController: UIViewController {
     @objc private func didButtonPressedToDeleteFromFavorites(){
         self.navigationItem.rightBarButtonItem?.image = UIImage(systemName: "star")
         self.navigationItem.rightBarButtonItem?.action = #selector(didButtonPressedToAddFavorite)
+        
         let moviesSaved = self.retrieveData()
-        let result = moviesSaved.first { $0.originalTitle == self.movieSelected?.name }
+        let result = moviesSaved.first { $0.originalTitle == self.movieSelected.name }
+        self.delegate.didTapRemove(movieSelected.id)
         guard let result = result else { return }
+        
         self.context.delete(result)
         do {
             try self.context.save()
@@ -91,12 +96,7 @@ class DetailsViewController: UIViewController {
 
     private func verifyMovieInCoreData() -> UIBarButtonItem {
         let result = self.retrieveData().first{ $0.originalTitle == self.movieSelected?.name }
-        guard
-            result != nil
-        else {
-            return UIBarButtonItem(image: UIImage(systemName: "star"), style: .plain, target: self, action: #selector(didButtonPressedToAddFavorite))
-        }
-        return UIBarButtonItem(image: UIImage(systemName: "star.fill"), style: .plain, target: self, action: #selector(didButtonPressedToDeleteFromFavorites))
+        return result != nil ? UIBarButtonItem(image: UIImage(systemName: "star.fill"), style: .plain, target: self, action: #selector(didButtonPressedToDeleteFromFavorites)) : UIBarButtonItem(image: UIImage(systemName: "star"), style: .plain, target: self, action: #selector(didButtonPressedToAddFavorite))
     }
     
     private func retrieveData() -> [MovieCoreData]{

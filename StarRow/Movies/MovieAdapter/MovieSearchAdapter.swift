@@ -25,7 +25,7 @@ class MovieSearchAdapter:NSObject, UISearchBarDelegate {
             }
         )
         self.filteredMovies.isEmpty ? self.moviesView?.setSeachView() : self.moviesView?.removeSearchView()
-        self.moviesView?.movies = filteredMovies
+        self.moviesView?.updateCollectionView(filteredMovies)
     }
     
     func searchBarTextDidBeginEditing(_ searchBar: UISearchBar) {
@@ -34,7 +34,8 @@ class MovieSearchAdapter:NSObject, UISearchBarDelegate {
     
     func searchBarTextDidEndEditing(_ searchBar: UISearchBar) {
         (self.filteredMovies.isEmpty  && searchBar.text != "") ? self.moviesView?.setSeachView() : self.moviesView?.removeSearchView()
-        searchBar.text == "" ? {self.moviesView?.movies = self.movies}() : {self.moviesView?.movies = filteredMovies}()
+        searchBar.text == "" ? self.moviesView?.updateCollectionView(self.movies) : self.moviesView?.updateCollectionView(filteredMovies)
+        searchBar.resignFirstResponder()
     }
     
     func searchBarSearchButtonClicked(_ searchBar: UISearchBar) {

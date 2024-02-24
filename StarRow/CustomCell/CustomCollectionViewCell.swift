@@ -41,3 +41,11 @@ class CustomCollectionViewCell: UICollectionViewCell {
         self.dateLabel.text = movie.releaseDate
     }
 }
+
+extension CustomCollectionViewCell {
+    class func buildMovieCell(_ collectionView: UICollectionView, in indexPath: IndexPath, with movie: MoviesEntity) -> Self{
+        let customCell = collectionView.dequeueReusableCell(withReuseIdentifier: "CustomMovieCell", for: indexPath) as? Self
+        customCell?.updateData(movie: movie)
+        return customCell ?? Self()
+    }
+}

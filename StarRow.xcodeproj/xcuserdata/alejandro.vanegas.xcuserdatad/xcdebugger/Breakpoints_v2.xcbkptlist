@@ -3,4 +3,117 @@
    uuid = "74CB1E81-E797-4116-9E37-D9C04D1D21C8"
    type = "1"
    version = "2.0">
+   <Breakpoints>
+      <BreakpointProxy
+         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
+         <BreakpointContent
+            uuid = "BFF00EEE-F90F-4A0F-AD9F-FBFC3DF7080A"
+            shouldBeEnabled = "Yes"
+            ignoreCount = "0"
+            continueAfterRunningActions = "No"
+            filePath = "StarRow/Login/LoginViewController.swift"
+            startingColumnNumber = "9223372036854775807"
+            endingColumnNumber = "9223372036854775807"
+            startingLineNumber = "11"
+            endingLineNumber = "11"
+            landmarkName = "LoginViewController"
+            landmarkType = "3">
+            <Locations>
+               <Location
+                  uuid = "BFF00EEE-F90F-4A0F-AD9F-FBFC3DF7080A - 66128f9028203c9d"
+                  shouldBeEnabled = "Yes"
+                  ignoreCount = "0"
+                  continueAfterRunningActions = "No"
+                  symbolName = "StarRow.LoginViewController.__allocating_init(nibName: Swift.Optional&lt;Swift.String&gt;, bundle: Swift.Optional&lt;__C.NSBundle&gt;) -&gt; StarRow.LoginViewController"
+                  moduleName = "StarRow"
+                  usesParentBreakpointCondition = "Yes"
+                  urlString = "file:///Users/alejandro.vanegas/Desktop/Projects/StarRow/StarRow/Login/LoginViewController.swift"
+                  startingColumnNumber = "9223372036854775807"
+                  endingColumnNumber = "9223372036854775807"
+                  startingLineNumber = "0"
+                  endingLineNumber = "0"
+                  offsetFromSymbolStart = "31">
+               </Location>
+               <Location
+                  uuid = "BFF00EEE-F90F-4A0F-AD9F-FBFC3DF7080A - a188400d6557fc02"
+                  shouldBeEnabled = "Yes"
+                  ignoreCount = "0"
+                  continueAfterRunningActions = "No"
+                  symbolName = "StarRow.LoginViewController.init(nibName: Swift.Optional&lt;Swift.String&gt;, bundle: Swift.Optional&lt;__C.NSBundle&gt;) -&gt; StarRow.LoginViewController"
+                  moduleName = "StarRow"
+                  usesParentBreakpointCondition = "Yes"
+                  urlString = "file:///Users/alejandro.vanegas/Desktop/Projects/StarRow/StarRow/Login/LoginViewController.swift"
+                  startingColumnNumber = "9223372036854775807"
+                  endingColumnNumber = "9223372036854775807"
+                  startingLineNumber = "11"
+                  endingLineNumber = "11"
+                  offsetFromSymbolStart = "0">
+               </Location>
+               <Location
+                  uuid = "BFF00EEE-F90F-4A0F-AD9F-FBFC3DF7080A - 5a5872976b8c5033"
+                  shouldBeEnabled = "Yes"
+                  ignoreCount = "0"
+                  continueAfterRunningActions = "No"
+                  symbolName = "StarRow.LoginViewController.__deallocating_deinit"
+                  moduleName = "StarRow"
+                  usesParentBreakpointCondition = "Yes"
+                  urlString = "file:///Users/alejandro.vanegas/Desktop/Projects/StarRow/StarRow/Login/LoginViewController.swift"
+                  startingColumnNumber = "9223372036854775807"
+                  endingColumnNumber = "9223372036854775807"
+                  startingLineNumber = "0"
+                  endingLineNumber = "0"
+                  offsetFromSymbolStart = "16">
+               </Location>
+            </Locations>
+         </BreakpointContent>
+      </BreakpointProxy>
+      <BreakpointProxy
+         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
+         <BreakpointContent
+            uuid = "F2F6AE42-13F6-4E07-81E6-F1C55F9F4D39"
+            shouldBeEnabled = "No"
+            ignoreCount = "0"
+            continueAfterRunningActions = "No"
+            filePath = "StarRow/Movies/MoviesView.swift"
+            startingColumnNumber = "9223372036854775807"
+            endingColumnNumber = "9223372036854775807"
+            startingLineNumber = "21"
+            endingLineNumber = "21"
+            landmarkName = "init(adapter:searchBarAdapter:)"
+            landmarkType = "7">
+            <Locations>
+               <Location
+                  uuid = "F2F6AE42-13F6-4E07-81E6-F1C55F9F4D39 - 6f870c00952ea6e9"
+                  shouldBeEnabled = "Yes"
+                  ignoreCount = "0"
+                  continueAfterRunningActions = "No"
+                  symbolName = "StarRow.MoviesView.__allocating_init(adapter: StarRow.AdapterProtocol, searchBarAdapter: StarRow.MovieSearchAdapter) -&gt; StarRow.MoviesView"
+                  moduleName = "StarRow"
+                  usesParentBreakpointCondition = "Yes"
+                  urlString = "file:///Users/alejandro.vanegas/Desktop/Projects/StarRow/StarRow/Movies/MoviesView.swift"
+                  startingColumnNumber = "9223372036854775807"
+                  endingColumnNumber = "9223372036854775807"
+                  startingLineNumber = "0"
+                  endingLineNumber = "0"
+                  offsetFromSymbolStart = "29">
+               </Location>
+               <Location
+                  uuid = "F2F6AE42-13F6-4E07-81E6-F1C55F9F4D39 - 48f145b117a743ab"
+                  shouldBeEnabled = "Yes"
+                  ignoreCount = "0"
+                  continueAfterRunningActions = "No"
+                  symbolName = "StarRow.MoviesView.init(adapter: StarRow.AdapterProtocol, searchBarAdapter: StarRow.MovieSearchAdapter) -&gt; StarRow.MoviesView"
+                  moduleName = "StarRow"
+                  usesParentBreakpointCondition = "Yes"
+                  urlString = "file:///Users/alejandro.vanegas/Desktop/Projects/StarRow/StarRow/Movies/MoviesView.swift"
+                  startingColumnNumber = "9223372036854775807"
+                  endingColumnNumber = "9223372036854775807"
+                  startingLineNumber = "17"
+                  endingLineNumber = "17"
+                  offsetFromSymbolStart = "207">
+               </Location>
+            </Locations>
+         </BreakpointContent>
+      </BreakpointProxy>
+   </Breakpoints>
 </Bucket>

@@ -16,14 +16,14 @@ class MoviesListOnlineStrategy: MoviesListViewStrategy {
         self.moviesView = moviesView
     }
     
-    func loadMoviesList() {
-        moviesView.setCollectionView(MoviesView.buildOnline(moviesView: moviesView))
-    }
-    
     func fetch(){
         self.moviesWS.execute(){ arrayMovies in
-            self.moviesView.movies = arrayMovies.toMovieEntityFromApi
             self.moviesView.searchBarAdapter.movies = arrayMovies.toMovieEntityFromApi
+            self.moviesView.updateCollectionView(arrayMovies.toMovieEntityFromApi)
         }
+    }
+    
+    func pullToRefresh() {
+        self.moviesView.addPullToRefresh()
     }
 }

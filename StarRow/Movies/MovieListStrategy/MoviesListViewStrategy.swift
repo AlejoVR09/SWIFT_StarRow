@@ -7,7 +7,8 @@
 
 import Foundation
 
-protocol MoviesListViewStrategy {
-    func loadMoviesList()
+@objc protocol MoviesListViewStrategy {
     func fetch()
+    @objc optional func reloadView()
+    @objc optional func pullToRefresh()
 }

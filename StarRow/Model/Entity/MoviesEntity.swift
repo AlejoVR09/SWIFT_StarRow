@@ -29,6 +29,13 @@ struct MoviesEntity {
         self.poster = moviesCoreData.posterPath ?? ""
         self.releaseDate = moviesCoreData.releaseDate ?? ""
     }
+    
+    init(detailsMovie: DetailsMovieEntity){
+        self.id = detailsMovie.id
+        self.name = detailsMovie.name
+        self.poster = detailsMovie.poster
+        self.releaseDate = detailsMovie.releaseDate
+    }
 }
 
 extension MoviesEntity: Equatable {
@@ -44,6 +51,12 @@ extension Array where Element == MoviesWS.Response.MovieDTO {
 extension Array where Element == MovieCoreData {
     var toMovieEntityFromCoreData: [MoviesEntity] {
         self.map({ MoviesEntity(moviesCoreData: $0) })
+    }
+}
+
+extension Array where Element == DetailsMovieEntity {
+    var toMoviesEntityFromDetailsMovie: [MoviesEntity] {
+        self.map({ MoviesEntity(detailsMovie: $0) })
     }
 }
 

@@ -9,13 +9,12 @@ import UIKit
 
 
 class LoginViewController: UIViewController {
-    var strategy: LoginViewStrategy
+    var strategy: LoginViewStrategy?
     var loginView: LoginView
     
     lazy var notificationCenter = NotificationManager(notificationManagerDelegate: self)
     
-    init(strategy: LoginViewStrategy, loginView: LoginView) {
-        self.strategy = strategy
+    init(loginView: LoginView) {
         self.loginView = loginView
         super.init(nibName: nil, bundle: nil)
     }
@@ -30,34 +29,32 @@ class LoginViewController: UIViewController {
         
         self.view = loginView
         self.navigationItem.title = "Login"
-        
-        self.strategy.loadLoginView(loginView)
     }
     
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
         self.notificationCenter.registerObserver()
-        
+        self.strategy = UserDefaults.standard.bool(forKey: "isLoggedIn") ? ShortLoginStrategy() : LargeLoginStrategy()
+        self.strategy?.loadLoginView(self.loginView)
     }
     
     override func viewWillDisappear(_ animated: Bool) {
         super.viewWillDisappear(animated)
         self.notificationCenter.removeObserver()
+        self.strategy?.removeView?(self.loginView)
     }
 }
 
 extension LoginViewController {
-    static func buildLargeLogin() -> LoginViewController {
+    class func buildLargeLogin() -> LoginViewController {
         let view = LoginView()
-        let strategy = LargeLoginStrategy()
-        let controller = LoginViewController(strategy: strategy, loginView: view)
+        let controller = LoginViewController(loginView: view)
         return controller
     }
     
-    static func buildShortLogin() -> LoginViewController {
+     class func buildShortLogin() -> LoginViewController {
         let view = LoginView()
-        let strategy = ShortLoginStrategy()
-        let controller = LoginViewController(strategy: strategy, loginView: view)
+        let controller = LoginViewController(loginView: view)
         return controller
     }
 }

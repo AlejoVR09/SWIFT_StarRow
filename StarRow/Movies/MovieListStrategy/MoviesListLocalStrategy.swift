@@ -18,18 +18,18 @@ class MoviesListLocalStrategy: MoviesListViewStrategy {
         self.moviesView = moviesView
     }
     
-    func loadMoviesList() {
-        self.moviesView.setCollectionView(MoviesView.buildLocal(moviesView: moviesView))
-    }
-    
     func fetch(){
         do{
             let movies = try self.context.fetch(MovieCoreData.fetchRequest())
-            self.moviesView.movies = movies.toMovieEntityFromCoreData
             self.moviesView.searchBarAdapter.movies = movies.toMovieEntityFromCoreData
+            self.moviesView.updateCollectionView(movies.toMovieEntityFromCoreData)
         }
         catch {
             print("There is no favorite movies avaible!")
         }
+    }
+    
+    func reloadView() {
+        self.moviesView.searchBarAdapter.filteredMovies.isEmpty ? self.fetch() : {self.moviesView.updateCollectionView(self.moviesView.searchBarAdapter.filteredMovies)}()
     }
 }

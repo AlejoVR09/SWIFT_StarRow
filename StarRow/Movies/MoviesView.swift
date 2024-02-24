@@ -23,7 +23,6 @@ class MoviesView: UIView {
         self.searchBarAdapter = searchBarAdapter
         self.searchBar.delegate = self.searchBarAdapter
         
-        
         super.init(frame: .init(x: 0, y: 0, width: UIScreen.main.bounds.width, height: UIScreen.main.bounds.height))
         backgroundColor = .white
         self.tapGesture = UITapGestureRecognizer(target: self, action: #selector(handleTap(_ :)))
@@ -39,6 +38,10 @@ class MoviesView: UIView {
     
     private var movieCollectionView: UICollectionView = {
         let collectionView = UICollectionView(frame: .zero, collectionViewLayout: UICollectionViewFlowLayout())
+        collectionView.translatesAutoresizingMaskIntoConstraints = false
+        collectionView.alwaysBounceVertical = false
+        collectionView.bounces = false
+        collectionView.showsVerticalScrollIndicator = false
         return collectionView
     }()
     
@@ -55,6 +58,7 @@ class MoviesView: UIView {
         let view = UIView()
         view.translatesAutoresizingMaskIntoConstraints = false
         view.backgroundColor = .white
+        view.isHidden = true
         return view
     }()
     
@@ -84,26 +88,42 @@ class MoviesView: UIView {
         self.endEditing(true)
     }
     
-    var movies: [MoviesEntity] = [] {
-        didSet{
-            DispatchQueue.main.async {
-                self.adapter.data = self.movies
-                self.updateCollectionView(self.movies)
-            }
+    func setUpAdapter(){
+        self.adapter.setUpCollectionView(self.movieCollectionView)
+    }
+    
+    func updateCollectionViewWithContent(){
+        DispatchQueue.main.async {
+            let contentOffset = self.movieCollectionView.contentOffset
+            self.movieCollectionView.reloadData()
+            self.movieCollectionView.layoutIfNeeded()
+            self.movieCollectionView.setContentOffset(contentOffset, animated: false)
         }
     }
     
     func updateCollectionView(_ newArrayMovies: [MoviesEntity]){
-        let contentOffset = self.movieCollectionView.contentOffset
-        self.movieCollectionView.reloadData()
-        self.movieCollectionView.layoutIfNeeded()
-        self.movieCollectionView.setContentOffset(contentOffset, animated: false)
+        self.adapter.data = newArrayMovies
+        DispatchQueue.main.async {
+            self.movieCollectionView.reloadData()
+        }
     }
     
-    func clearSearchBar(){
-        self.searchBar.text = ""
+    func addPullToRefresh(){
+        self.movieCollectionView.alwaysBounceVertical = true
+        self.movieCollectionView.bounces = true
+        self.movieCollectionView.refreshControl = pullToRefresh
     }
     
+    func scrollToTop(){
+        self.movieCollectionView.setContentOffset(CGPoint.zero, animated: true)
+    }
+    
+    func closeKeyboard(){
+        self.searchBar.resignFirstResponder()
+    }
+}
+
+extension MoviesView {
     private func setConstraints(){
         addSubview(searchBar)
         NSLayoutConstraint.activate([
@@ -112,11 +132,7 @@ class MoviesView: UIView {
             searchBar.trailingAnchor.constraint(equalTo: safeAreaLayoutGuide.trailingAnchor),
             searchBar.leadingAnchor.constraint(equalTo: safeAreaLayoutGuide.leadingAnchor),
         ])
-    }
-    
-    func setCollectionView(_ collectionViewBuilder: UICollectionView) {
-        movieCollectionView = collectionViewBuilder
-        movieCollectionView.translatesAutoresizingMaskIntoConstraints = false
+        
         addSubview(movieCollectionView)
         NSLayoutConstraint.activate([
             movieCollectionView.topAnchor.constraint(equalTo: self.searchBar.bottomAnchor),
@@ -124,9 +140,7 @@ class MoviesView: UIView {
             movieCollectionView.trailingAnchor.constraint(equalTo: safeAreaLayoutGuide.trailingAnchor),
             movieCollectionView.leadingAnchor.constraint(equalTo: safeAreaLayoutGuide.leadingAnchor)
         ])
-    }
-    
-    func setSeachView(){
+        
         addSubview(viewForSearch)
         NSLayoutConstraint.activate([
             viewForSearch.topAnchor.constraint(equalTo: self.searchBar.bottomAnchor),
@@ -140,32 +154,17 @@ class MoviesView: UIView {
             labelForSearch.centerYAnchor.constraint(equalTo: viewForSearch.centerYAnchor, constant: 0),
             labelForSearch.centerXAnchor.constraint(equalTo: viewForSearch.centerXAnchor, constant: 0)
         ])
-        
+    }
+    
+    func setSeachView(){
+        self.viewForSearch.isHidden = false
+        self.movieCollectionView.isHidden = true
         self.tapGesture.isEnabled = true
     }
     
     func removeSearchView(){
-        self.viewForSearch.removeFromSuperview()
+        self.viewForSearch.isHidden = true
+        self.movieCollectionView.isHidden = false
         self.tapGesture.isEnabled = false
-    }
-}
-
-extension MoviesView {
-    class func buildOnline(moviesView: MoviesView) -> UICollectionView{
-        let collectionViewDirector = MoviesCollectionViewDirector()
-        let collectionView = collectionViewDirector.createAPICollectionView(withDelegate: moviesView.adapter as! UICollectionViewDelegate, dataSource: moviesView.adapter as! UICollectionViewDataSource, flowLayout: moviesView.adapter as! UICollectionViewDelegateFlowLayout)
-        collectionView.alwaysBounceVertical = true
-        collectionView.refreshControl = moviesView.pullToRefresh
-        collectionView.showsVerticalScrollIndicator = false
-        
-        return collectionView
-    }
-    
-    class func buildLocal(moviesView: MoviesView) -> UICollectionView{
-        let collectionViewDirector = MoviesCollectionViewDirector()
-        let collectionView = collectionViewDirector.createCoreDataCollectionView(withDelegate: moviesView.adapter as! UICollectionViewDelegate, dataSource: moviesView.adapter as! UICollectionViewDataSource, flowLayout: moviesView.adapter as! UICollectionViewDelegateFlowLayout)
-        collectionView.alwaysBounceVertical = false
-        collectionView.showsVerticalScrollIndicator = false
-        return collectionView
     }
 }

@@ -137,6 +137,14 @@ class LoginView: UIView {
         ])
     }
     
+    func removeLoginView(){
+        userNameTextField.removeFromSuperview()
+        
+        buttonForLoging.removeFromSuperview()
+        
+        buttonForRegister.removeFromSuperview()
+    }
+    
     func setShortLogin(){
         setConstraintsForShortLogin()
     }

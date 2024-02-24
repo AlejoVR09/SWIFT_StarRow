@@ -21,17 +21,10 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
         window.rootViewController = UINavigationController(rootViewController: loginViewControllerBuild())
         self.window = window
         window.makeKeyAndVisible()
-        
-        
     }
     
     func loginViewControllerBuild() -> LoginViewController{
-        guard UserDefaults.standard.bool(forKey: "isLoggedIn")
-        else{
-            return LoginViewController.buildLargeLogin()
-        }
-        return LoginViewController.buildShortLogin()
-        
+        return UserDefaults.standard.bool(forKey: "isLoggedIn") ? LoginViewController.buildShortLogin() : LoginViewController.buildLargeLogin()
     }
 
     func sceneDidDisconnect(_ scene: UIScene) {

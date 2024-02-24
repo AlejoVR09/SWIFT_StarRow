@@ -7,6 +7,7 @@
 
 import Foundation
 
-protocol LoginViewStrategy: AnyObject {
+@objc protocol LoginViewStrategy: AnyObject {
     func loadLoginView(_ loginView: LoginView)
+    @objc optional func removeView(_ loginView: LoginView)
 }
