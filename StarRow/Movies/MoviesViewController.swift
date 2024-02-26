@@ -32,20 +32,12 @@ class MoviesViewController: UIViewController {
         moviesView.setUpAdapter()
         moviesView.delegate = self
         self.strategy.pullToRefresh?()
-        fetchMovies()
+        self.strategy.fetch()
     }
     
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
-        reloadView()
-    }
-
-    private func fetchMovies(){
-        self.strategy.fetch()
-    }
-    
-    private func reloadView(){
-        self.strategy.reloadView?()
+        self.strategy.reloadView?(){}
     }
 }
 
@@ -57,22 +49,24 @@ extension MoviesViewController: AdapterDelegate{
 }
 
 extension MoviesViewController: DetailsViewControllerDelegate {
-    func didTapToAdd(_ movie: DetailsMovieEntity) {
-        self.moviesView.searchBarAdapter.filteredMovies.isEmpty ? self.moviesView.searchBarAdapter.movies.append(contentsOf: [movie].toMoviesEntityFromDetailsMovie) : {self.moviesView.searchBarAdapter.movies.append(contentsOf: [movie].toMoviesEntityFromDetailsMovie); self.moviesView.searchBarAdapter.filteredMovies.append(contentsOf: [movie].toMoviesEntityFromDetailsMovie)}()
-        reloadView()
+    func didTapToAdd(_ detailViewController: DetailsViewController, theMovie movie: DetailsMovieEntity) {
+        self.strategy.reloadView?() {
+            self.moviesView.searchBarAdapter.filteredMovies.isEmpty && !self.moviesView.searchBarAdapter.movies.contains() { movieToSeach in movieToSeach.name == movie.name} ? self.moviesView.searchBarAdapter.movies.append(contentsOf: [movie].toMoviesEntityFromDetailsMovie) : {self.moviesView.searchBarAdapter.filteredMovies.append(contentsOf: [movie].toMoviesEntityFromDetailsMovie);self.moviesView.searchBarAdapter.movies.append(contentsOf: [movie].toMoviesEntityFromDetailsMovie)}()
+        }
     }
     
-    func didTapRemove(_ idMovie: Int) {
-        self.moviesView.searchBarAdapter.movies = self.moviesView.searchBarAdapter.movies.filter { movie in
-            movie.id != idMovie}
-        self.moviesView.searchBarAdapter.filteredMovies = self.moviesView.searchBarAdapter.filteredMovies.filter { movie in
-            movie.id != idMovie}
-        reloadView()
+    func didTapRemove(_ detailViewController: DetailsViewController, theMovie idMovie: Int) {
+        self.strategy.reloadView?() {
+            self.moviesView.searchBarAdapter.movies = self.moviesView.searchBarAdapter.movies.filter { movie in
+                movie.id != idMovie}
+            self.moviesView.searchBarAdapter.filteredMovies = self.moviesView.searchBarAdapter.filteredMovies.filter { movie in
+                movie.id != idMovie}
+        }
     }
 }
 
 extension MoviesViewController: MoviesViewDelegate{
     func moviesViewPullToRefreshApiData(_ moviesView: MoviesView) {
-        fetchMovies()
+        self.strategy.fetch()
     }
 }

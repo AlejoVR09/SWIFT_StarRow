@@ -21,15 +21,16 @@ class MoviesListLocalStrategy: MoviesListViewStrategy {
     func fetch(){
         do{
             let movies = try self.context.fetch(MovieCoreData.fetchRequest())
-            self.moviesView.searchBarAdapter.movies = movies.toMovieEntityFromCoreData
-            self.moviesView.updateCollectionView(movies.toMovieEntityFromCoreData)
+            self.moviesView.searchBarAdapter.movies = (movies.toMovieEntityFromCoreData).sorted() { $0.name < $1.name }
+            self.moviesView.updateCollectionView((movies.toMovieEntityFromCoreData).sorted() { $0.name < $1.name })
         }
         catch {
             print("There is no favorite movies avaible!")
         }
     }
     
-    func reloadView() {
-        self.moviesView.searchBarAdapter.filteredMovies.isEmpty ? self.fetch() : {self.moviesView.updateCollectionView(self.moviesView.searchBarAdapter.filteredMovies)}()
+    func reloadView(_ fun: () -> Void) {
+        fun()
+        !self.moviesView.searchBarAdapter.isLookingFor ? self.fetch() : {self.moviesView.updateCollectionView(self.moviesView.searchBarAdapter.filteredMovies)}()
     }
 }

@@ -81,6 +81,34 @@ class LoginView: UIView {
         self.endEditing(true)
     }
 
+    @objc private func goToRegisterView(){
+        self.delegate?.loginViewDidButtonPressedToSignUp(loginView: self)
+    }
+    
+    @objc private func goToMoviesView(){
+        self.delegate?.loginView(self, withEmail: self.userNameTextField.text ?? "")
+    }
+}
+
+extension LoginView {
+    func keyboardAppear(_ info: NotificationManager.Info){
+        if info.frame.origin.y < self.userNameTextField.frame.maxY {
+            UIView.animate(withDuration: info.animation) {
+                self.bottomConstraint.constant = self.userNameTextField.frame.maxY - info.frame.origin.y + self.bottomConstraint.constant + 20
+                self.layoutIfNeeded()
+            }
+        }
+    }
+    
+    func keyboardDisappear(_ info: NotificationManager.Info){
+        UIView.animate(withDuration: info.animation) {
+            self.bottomConstraint.constant = 20
+            self.layoutIfNeeded()
+        }
+    }
+}
+
+extension LoginView{
     private func setConstraintsForShortLogin(){
         addSubview(userNameTextField)
         NSLayoutConstraint.activate([
@@ -153,30 +181,5 @@ class LoginView: UIView {
         setConstraintsForLargeLogin()
     }
 
-    @objc private func goToRegisterView(){
-        self.delegate?.loginViewDidButtonPressedToSignUp(loginView: self)
-    }
-    
-    @objc private func goToMoviesView(){
-        self.delegate?.loginView(self, withEmail: self.userNameTextField.text ?? "")
-    }
-}
-
-extension LoginView {
-    func keyboardAppear(_ info: NotificationManager.Info){
-        if info.frame.origin.y < self.userNameTextField.frame.maxY {
-            UIView.animate(withDuration: info.animation) {
-                self.bottomConstraint.constant = self.userNameTextField.frame.maxY - info.frame.origin.y + self.bottomConstraint.constant + 20
-                self.layoutIfNeeded()
-            }
-        }
-    }
-    
-    func keyboardDisappear(_ info: NotificationManager.Info){
-        UIView.animate(withDuration: info.animation) {
-            self.bottomConstraint.constant = 20
-            self.layoutIfNeeded()
-        }
-    }
 }
 

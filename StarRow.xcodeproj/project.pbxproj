@@ -46,6 +46,7 @@
 		55D1B4512B7EC0A100830997 /* MoviesListLocalStrategy.swift in Sources */ = {isa = PBXBuildFile; fileRef = 55D1B4502B7EC0A100830997 /* MoviesListLocalStrategy.swift */; };
 		55D1B4532B7EC0CC00830997 /* MoviesListOnlineStrategy.swift in Sources */ = {isa = PBXBuildFile; fileRef = 55D1B4522B7EC0CC00830997 /* MoviesListOnlineStrategy.swift */; };
 		55DEB55C2B7A78F400363F83 /* NotificationCenter.swift in Sources */ = {isa = PBXBuildFile; fileRef = 55DEB55B2B7A78F400363F83 /* NotificationCenter.swift */; };
+		55EB24612B8CDC3800BCB944 /* UserSession.swift in Sources */ = {isa = PBXBuildFile; fileRef = 55EB24602B8CDC3800BCB944 /* UserSession.swift */; };
 		55F1BCC32B6B008200B6BC79 /* MovieAdapter.swift in Sources */ = {isa = PBXBuildFile; fileRef = 55F1BCC22B6B008200B6BC79 /* MovieAdapter.swift */; };
 /* End PBXBuildFile section */
 
@@ -110,6 +111,7 @@
 		55D1B4502B7EC0A100830997 /* MoviesListLocalStrategy.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MoviesListLocalStrategy.swift; sourceTree = "<group>"; };
 		55D1B4522B7EC0CC00830997 /* MoviesListOnlineStrategy.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MoviesListOnlineStrategy.swift; sourceTree = "<group>"; };
 		55DEB55B2B7A78F400363F83 /* NotificationCenter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NotificationCenter.swift; sourceTree = "<group>"; };
+		55EB24602B8CDC3800BCB944 /* UserSession.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserSession.swift; sourceTree = "<group>"; };
 		55F1BCC22B6B008200B6BC79 /* MovieAdapter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MovieAdapter.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
@@ -308,6 +310,7 @@
 			isa = PBXGroup;
 			children = (
 				55DEB55B2B7A78F400363F83 /* NotificationCenter.swift */,
+				55EB24602B8CDC3800BCB944 /* UserSession.swift */,
 			);
 			path = Utility;
 			sourceTree = "<group>";
@@ -487,6 +490,7 @@
 				553770A02B60665700C69D03 /* StarRow.xcdatamodeld in Sources */,
 				55823D7D2B60A6B100F6AD15 /* MoviesWS.swift in Sources */,
 				553480012B613961001B38B0 /* LoginView.swift in Sources */,
+				55EB24612B8CDC3800BCB944 /* UserSession.swift in Sources */,
 				553480032B614F07001B38B0 /* RegisterView.swift in Sources */,
 				55D1B4512B7EC0A100830997 /* MoviesListLocalStrategy.swift in Sources */,
 				553480052B614F4D001B38B0 /* RegisterViewController.swift in Sources */,

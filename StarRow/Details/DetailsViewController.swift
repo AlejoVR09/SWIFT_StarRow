@@ -8,8 +8,8 @@
 import UIKit
 
 protocol DetailsViewControllerDelegate {
-    func didTapRemove(_ idMovie: Int)
-    func didTapToAdd(_ movie: DetailsMovieEntity)
+    func didTapRemove(_ detailViewController: DetailsViewController, theMovie idMovie: Int)
+    func didTapToAdd(_ detailViewController: DetailsViewController, theMovie movie: DetailsMovieEntity)
 }
 
 class DetailsViewController: UIViewController {
@@ -66,7 +66,7 @@ class DetailsViewController: UIViewController {
         movie.originalTitle = self.movieSelected.name
         movie.posterPath = self.movieSelected.poster
         movie.releaseDate = self.movieSelected.releaseDate
-        self.delegate.didTapToAdd(movieSelected)
+        self.delegate.didTapToAdd(self,theMovie: movieSelected)
         
         do {
             try self.context.save()
@@ -82,7 +82,7 @@ class DetailsViewController: UIViewController {
         
         let moviesSaved = self.retrieveData()
         let result = moviesSaved.first { $0.originalTitle == self.movieSelected.name }
-        self.delegate.didTapRemove(movieSelected.id)
+        self.delegate.didTapRemove(self,theMovie: movieSelected.id)
         guard let result = result else { return }
         
         self.context.delete(result)

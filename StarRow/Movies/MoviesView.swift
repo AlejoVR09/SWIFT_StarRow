@@ -80,6 +80,7 @@ class MoviesView: UIView {
     @objc func pullToRefreshAction(_ sender: UIRefreshControl){
         DispatchQueue.main.asyncAfter(deadline: .now() + 0.2) {
             sender.endRefreshing()
+            self.searchBar.text = ""
             self.delegate?.moviesViewPullToRefreshApiData(self)
         }
     }

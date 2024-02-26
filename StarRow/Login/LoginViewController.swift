@@ -51,12 +51,6 @@ extension LoginViewController {
         let controller = LoginViewController(loginView: view)
         return controller
     }
-    
-     class func buildShortLogin() -> LoginViewController {
-        let view = LoginView()
-        let controller = LoginViewController(loginView: view)
-        return controller
-    }
 }
 
 extension LoginViewController: LoginViewDelegate {
