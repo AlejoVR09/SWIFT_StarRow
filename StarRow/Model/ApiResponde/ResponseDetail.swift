@@ -42,6 +42,10 @@ extension DetailsWS {
             case voteAverage = "vote_average"
             case voteCount = "vote_count"
         }
+        
+        static func getDTIO() -> Self{
+            MovieDTO(adult: false, backdropPath: "", budget: 0, genres: [], homepage: "", id: 0, imdbID: "", originalLanguage: "", originalTitle: "", overview: "", popularity: 0, posterPath: "", productionCompanies: [], releaseDate: "", revenue: 0, runtime: 0, status: "", tagline: "", title: "", video: false, voteAverage: 0, voteCount: 0)
+        }
     }
 }
 

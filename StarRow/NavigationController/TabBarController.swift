@@ -4,8 +4,8 @@ class TabBarController: UITabBarController {
 
     override func viewDidLoad() {
         super.viewDidLoad()
-        navigationItem.title = "In premier"
 
+        self.navigationItem.title = "AppName"
         self.navigationItem.rightBarButtonItem = UIBarButtonItem(
             title: NSLocalizedString("logOut", comment: ""),
             style: .plain,

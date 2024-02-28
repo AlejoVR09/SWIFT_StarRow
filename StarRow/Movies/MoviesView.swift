@@ -8,13 +8,13 @@
 import UIKit
 import Kingfisher
 
-protocol MoviesViewDelegate{
+protocol MoviesViewDelegate: AnyObject{
     func moviesViewPullToRefreshApiData(_ moviesView: MoviesView)
 }
 
-class MoviesView: UIView {
+class MoviesView: UIView{
     
-    var delegate: MoviesViewDelegate?
+    weak var delegate: MoviesViewDelegate?
     var adapter: AdapterProtocol
     var searchBarAdapter: MovieSearchAdapter
     
@@ -88,40 +88,6 @@ class MoviesView: UIView {
     @objc func handleTap(_ sender: UITapGestureRecognizer) {
         self.endEditing(true)
     }
-    
-    func setUpAdapter(){
-        self.adapter.setUpCollectionView(self.movieCollectionView)
-    }
-    
-    func updateCollectionViewWithContent(){
-        DispatchQueue.main.async {
-            let contentOffset = self.movieCollectionView.contentOffset
-            self.movieCollectionView.reloadData()
-            self.movieCollectionView.layoutIfNeeded()
-            self.movieCollectionView.setContentOffset(contentOffset, animated: false)
-        }
-    }
-    
-    func updateCollectionView(_ newArrayMovies: [MoviesEntity]){
-        self.adapter.data = newArrayMovies
-        DispatchQueue.main.async {
-            self.movieCollectionView.reloadData()
-        }
-    }
-    
-    func addPullToRefresh(){
-        self.movieCollectionView.alwaysBounceVertical = true
-        self.movieCollectionView.bounces = true
-        self.movieCollectionView.refreshControl = pullToRefresh
-    }
-    
-    func scrollToTop(){
-        self.movieCollectionView.setContentOffset(CGPoint.zero, animated: true)
-    }
-    
-    func closeKeyboard(){
-        self.searchBar.resignFirstResponder()
-    }
 }
 
 extension MoviesView {
@@ -167,5 +133,34 @@ extension MoviesView {
         self.viewForSearch.isHidden = true
         self.movieCollectionView.isHidden = false
         self.tapGesture.isEnabled = false
+    }
+    
+    func setUpAdapter(){
+        self.adapter.setUpCollectionView(self.movieCollectionView)
+    }
+    
+    func updateCollectionView(_ newArrayMovies: [MoviesEntity]){
+        self.adapter.data = newArrayMovies
+        DispatchQueue.main.async {
+            self.movieCollectionView.reloadData()
+        }
+    }
+    
+    func addPullToRefresh(){
+        self.movieCollectionView.alwaysBounceVertical = true
+        self.movieCollectionView.bounces = true
+        self.movieCollectionView.refreshControl = pullToRefresh
+    }
+    
+    func scrollToTop(){
+        self.movieCollectionView.setContentOffset(CGPoint.zero, animated: true)
+    }
+    
+    func closeKeyboard(){
+        self.searchBar.resignFirstResponder()
+    }
+    
+    func cleanSearchBar(){
+        self.searchBar.text = ""
     }
 }

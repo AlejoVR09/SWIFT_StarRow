@@ -38,6 +38,4 @@ extension MoviesWS.Response {
             case voteCount = "vote_count"
         }
     }
-    
-    
 }

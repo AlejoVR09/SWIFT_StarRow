@@ -7,25 +7,17 @@
 
 import UIKit
 
-protocol DetailsViewControllerDelegate {
-    func didTapRemove(_ detailViewController: DetailsViewController, theMovie idMovie: Int)
-    func didTapToAdd(_ detailViewController: DetailsViewController, theMovie movie: DetailsMovieEntity)
-}
-
 class DetailsViewController: UIViewController {
     
     var id: Int
-    var delegate: DetailsViewControllerDelegate
     var detailsView: DetailsView
     var movieSelected: DetailsMovieEntity!
     
     lazy var detailWS = DetailsWS()
-    
     let context = (UIApplication.shared.delegate as! AppDelegate).persistentContainer.viewContext
     
-    init(detailsView: DetailsView, delegate: DetailsViewControllerDelegate, id: Int) {
+    init(detailsView: DetailsView, id: Int) {
         self.detailsView = detailsView
-        self.delegate = delegate
         self.id = id
         super.init(nibName: nil, bundle: nil)
     }
@@ -39,7 +31,6 @@ class DetailsViewController: UIViewController {
         self.view = detailsView
         
         self.navigationItem.title = "Movie Details"
-        self.navigationItem.leftBarButtonItem = UIBarButtonItem(title: "In premier", style: .plain, target: self, action: #selector(popView))
     }
     
     override func viewDidAppear(_ animated: Bool) {
@@ -53,10 +44,6 @@ class DetailsViewController: UIViewController {
         }
     }
     
-    @objc func popView(){
-        self.navigationController?.popViewController(animated: true)
-    }
-    
     @objc private func didButtonPressedToAddFavorite(){
         self.navigationItem.rightBarButtonItem?.image = UIImage(systemName: "star.fill")
         self.navigationItem.rightBarButtonItem?.action = #selector(didButtonPressedToDeleteFromFavorites)
@@ -66,7 +53,6 @@ class DetailsViewController: UIViewController {
         movie.originalTitle = self.movieSelected.name
         movie.posterPath = self.movieSelected.poster
         movie.releaseDate = self.movieSelected.releaseDate
-        self.delegate.didTapToAdd(self,theMovie: movieSelected)
         
         do {
             try self.context.save()
@@ -82,7 +68,6 @@ class DetailsViewController: UIViewController {
         
         let moviesSaved = self.retrieveData()
         let result = moviesSaved.first { $0.originalTitle == self.movieSelected.name }
-        self.delegate.didTapRemove(self,theMovie: movieSelected.id)
         guard let result = result else { return }
         
         self.context.delete(result)

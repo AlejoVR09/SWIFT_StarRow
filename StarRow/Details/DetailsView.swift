@@ -6,6 +6,7 @@
 //
 
 import UIKit
+import Kingfisher
 
 protocol DetailsViewDelegate {
     
@@ -14,10 +15,30 @@ protocol DetailsViewDelegate {
 class DetailsView: UIView {
     var delegate: DetailsViewDelegate?
     
+    private var container: UIView = {
+        let view = UIView()
+        view.translatesAutoresizingMaskIntoConstraints = false
+        return view
+    }()
+    
+    private var blurEffect: UIBlurEffect = {
+        let blurEffect = UIBlurEffect(style: .dark)
+        return blurEffect
+    }()
+    
     private var visualEffect: UIVisualEffectView = {
-       let visualEffect = UIVisualEffectView()
+        let visualEffect = UIVisualEffectView()
+        let blurEffect = UIBlurEffect(style: .dark)
+        visualEffect.effect = blurEffect
         visualEffect.translatesAutoresizingMaskIntoConstraints = false
         return visualEffect
+    }()
+    
+    private var backDrop: UIImageView = {
+        let image = UIImageView()
+        image.translatesAutoresizingMaskIntoConstraints = false
+        image.contentMode = .scaleAspectFit
+        return image
     }()
     
     private var poster: UIImageView = {
@@ -25,6 +46,27 @@ class DetailsView: UIView {
         image.translatesAutoresizingMaskIntoConstraints = false
         image.contentMode = .scaleAspectFit
         return image
+    }()
+    
+    private var titleLabel: UILabel = {
+        let label = UILabel()
+        label.translatesAutoresizingMaskIntoConstraints = false
+        label.textColor = .white
+        label.font = UIFont.systemFont(ofSize: 16, weight: .bold)
+        return label
+    }()
+    
+    private var releaseDateLabel: UILabel = {
+        let label = UILabel()
+        label.translatesAutoresizingMaskIntoConstraints = false
+        label.textColor = .white
+        label.font = UIFont.italicSystemFont(ofSize: 14)
+        return label
+    }()
+    
+    private var starView: StarMaskView = {
+        let starView = StarMaskView()
+        return starView
     }()
     
     private var genreLabel: UILabel = {
@@ -37,7 +79,8 @@ class DetailsView: UIView {
     private var genrers: UILabel = {
         let label = UILabel()
         label.translatesAutoresizingMaskIntoConstraints = false
-        label.font = UIFont.systemFont(ofSize: 14, weight: .light)
+        label.font = UIFont.italicSystemFont(ofSize: 14)
+        label.textColor = .gray
         return label
     }()
     
@@ -51,7 +94,8 @@ class DetailsView: UIView {
     private var descriptionData: UILabel = {
         let label = UILabel()
         label.translatesAutoresizingMaskIntoConstraints = false
-        label.font = UIFont.systemFont(ofSize: 14, weight: .light)
+        label.font = UIFont.italicSystemFont(ofSize: 14)
+        label.textColor = .gray
         label.numberOfLines = 0
         return label
     }()
@@ -80,26 +124,58 @@ class DetailsView: UIView {
 
 extension DetailsView{
     private func setConstraints(){
-        
-        addSubview(visualEffect)
+        addSubview(container)
         NSLayoutConstraint.activate([
-            visualEffect.heightAnchor.constraint(equalToConstant: 250),
-            visualEffect.topAnchor.constraint(equalTo: safeAreaLayoutGuide.topAnchor),
-            visualEffect.trailingAnchor.constraint(equalTo: safeAreaLayoutGuide.trailingAnchor),
-            visualEffect.leadingAnchor.constraint(equalTo: safeAreaLayoutGuide.leadingAnchor)
+            container.heightAnchor.constraint(equalToConstant: 220),
+            container.topAnchor.constraint(equalTo: safeAreaLayoutGuide.topAnchor),
+            container.trailingAnchor.constraint(equalTo: safeAreaLayoutGuide.trailingAnchor),
+            container.leadingAnchor.constraint(equalTo: safeAreaLayoutGuide.leadingAnchor)
         ])
         
-        visualEffect.contentView.addSubview(poster)
+        container.addSubview(backDrop)
         NSLayoutConstraint.activate([
-            poster.widthAnchor.constraint(equalTo: visualEffect.contentView.widthAnchor, multiplier: 0.3),
-            poster.topAnchor.constraint(equalTo: visualEffect.contentView.topAnchor, constant: 10),
-            poster.bottomAnchor.constraint(equalTo: visualEffect.contentView.bottomAnchor, constant: -10),
-            poster.leadingAnchor.constraint(equalTo: visualEffect.contentView.leadingAnchor, constant: 10)
+            backDrop.trailingAnchor.constraint(equalTo: container.trailingAnchor),
+            backDrop.topAnchor.constraint(equalTo: container.topAnchor),
+            backDrop.bottomAnchor.constraint(equalTo: container.bottomAnchor),
+            backDrop.leadingAnchor.constraint(equalTo: container.leadingAnchor)
         ])
+        
+        backDrop.addSubview(visualEffect)
+        NSLayoutConstraint.activate([
+            visualEffect.trailingAnchor.constraint(equalTo: container.trailingAnchor),
+            visualEffect.topAnchor.constraint(equalTo: container.topAnchor),
+            visualEffect.bottomAnchor.constraint(equalTo: container.bottomAnchor),
+            visualEffect.leadingAnchor.constraint(equalTo: container.leadingAnchor)
+        ])
+        
+        container.addSubview(poster)
+        NSLayoutConstraint.activate([
+            poster.widthAnchor.constraint(equalTo: container.widthAnchor, multiplier: 0.3),
+            poster.topAnchor.constraint(equalTo: container.topAnchor, constant: 10),
+            poster.bottomAnchor.constraint(equalTo: container.bottomAnchor, constant: -10),
+            poster.leadingAnchor.constraint(equalTo: container.leadingAnchor, constant: 10)
+        ])
+        
+        container.addSubview(titleLabel)
+        NSLayoutConstraint.activate([
+            titleLabel.heightAnchor.constraint(equalToConstant: 40),
+            titleLabel.trailingAnchor.constraint(equalTo: container.trailingAnchor, constant: -10),
+            titleLabel.topAnchor.constraint(equalTo: container.topAnchor, constant: 10),
+            titleLabel.leadingAnchor.constraint(equalTo: poster.trailingAnchor, constant: 10)
+        ])
+        
+        container.addSubview(releaseDateLabel)
+        NSLayoutConstraint.activate([
+            releaseDateLabel.heightAnchor.constraint(equalToConstant: 50),
+            releaseDateLabel.trailingAnchor.constraint(equalTo: container.trailingAnchor, constant: -10),
+            releaseDateLabel.topAnchor.constraint(equalTo: titleLabel.bottomAnchor, constant: 5),
+            releaseDateLabel.leadingAnchor.constraint(equalTo: poster.trailingAnchor, constant: 10)
+        ])
+        
         
         addSubview(genreLabel)
         NSLayoutConstraint.activate([
-            genreLabel.topAnchor.constraint(equalTo: visualEffect.bottomAnchor, constant: 20),
+            genreLabel.topAnchor.constraint(equalTo: container.bottomAnchor, constant: 20),
             genreLabel.trailingAnchor.constraint(equalTo: safeAreaLayoutGuide.trailingAnchor, constant: 20),
             genreLabel.leadingAnchor.constraint(equalTo: safeAreaLayoutGuide.leadingAnchor, constant: 20)
         ])
@@ -128,12 +204,14 @@ extension DetailsView{
     
     func setUpView(data: DetailsMovieEntity){
         let url = "https://image.tmdb.org/t/p/w500"
-        self.poster.kf.setImage(with: URL(string: url+data.poster))
+        var array = data.genrers
+        self.backDrop.kf.setImage(with: URL(string: url + data.backDrop))
+        self.poster.kf.setImage(with: URL(string: url + data.poster))
+        self.titleLabel.text = data.name
+        self.releaseDateLabel.text = "Release Date: \n" + data.releaseDate
         self.genreLabel.text = "Generos"
-        var genersConcact = ""
-        for i in data.genrers {
-            genersConcact += (i.name ?? "")+"º"
-        }
+        var genersConcact = "" + (array.remove(at: 0).name ?? "")
+        for i in array { genersConcact += " º " + (i.name ?? "") }
         self.genrers.text = genersConcact
         self.descriptionLabel.text = "Description"
         self.descriptionData.text = data.description

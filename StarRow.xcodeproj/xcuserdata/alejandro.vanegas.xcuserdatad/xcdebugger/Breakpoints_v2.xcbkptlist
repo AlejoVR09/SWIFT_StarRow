@@ -67,53 +67,5 @@
             </Locations>
          </BreakpointContent>
       </BreakpointProxy>
-      <BreakpointProxy
-         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
-         <BreakpointContent
-            uuid = "F2F6AE42-13F6-4E07-81E6-F1C55F9F4D39"
-            shouldBeEnabled = "No"
-            ignoreCount = "0"
-            continueAfterRunningActions = "No"
-            filePath = "StarRow/Movies/MoviesView.swift"
-            startingColumnNumber = "9223372036854775807"
-            endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "21"
-            endingLineNumber = "21"
-            landmarkName = "init(adapter:searchBarAdapter:)"
-            landmarkType = "7">
-            <Locations>
-               <Location
-                  uuid = "F2F6AE42-13F6-4E07-81E6-F1C55F9F4D39 - 6f870c00952ea6e9"
-                  shouldBeEnabled = "Yes"
-                  ignoreCount = "0"
-                  continueAfterRunningActions = "No"
-                  symbolName = "StarRow.MoviesView.__allocating_init(adapter: StarRow.AdapterProtocol, searchBarAdapter: StarRow.MovieSearchAdapter) -&gt; StarRow.MoviesView"
-                  moduleName = "StarRow"
-                  usesParentBreakpointCondition = "Yes"
-                  urlString = "file:///Users/alejandro.vanegas/Desktop/Projects/StarRow/StarRow/Movies/MoviesView.swift"
-                  startingColumnNumber = "9223372036854775807"
-                  endingColumnNumber = "9223372036854775807"
-                  startingLineNumber = "0"
-                  endingLineNumber = "0"
-                  offsetFromSymbolStart = "29">
-               </Location>
-               <Location
-                  uuid = "F2F6AE42-13F6-4E07-81E6-F1C55F9F4D39 - 48f145b117a743ab"
-                  shouldBeEnabled = "Yes"
-                  ignoreCount = "0"
-                  continueAfterRunningActions = "No"
-                  symbolName = "StarRow.MoviesView.init(adapter: StarRow.AdapterProtocol, searchBarAdapter: StarRow.MovieSearchAdapter) -&gt; StarRow.MoviesView"
-                  moduleName = "StarRow"
-                  usesParentBreakpointCondition = "Yes"
-                  urlString = "file:///Users/alejandro.vanegas/Desktop/Projects/StarRow/StarRow/Movies/MoviesView.swift"
-                  startingColumnNumber = "9223372036854775807"
-                  endingColumnNumber = "9223372036854775807"
-                  startingLineNumber = "17"
-                  endingLineNumber = "17"
-                  offsetFromSymbolStart = "207">
-               </Location>
-            </Locations>
-         </BreakpointContent>
-      </BreakpointProxy>
    </Breakpoints>
 </Bucket>

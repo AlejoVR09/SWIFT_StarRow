@@ -34,7 +34,7 @@
                                 <nil key="highlightedColor"/>
                             </label>
                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="asdasd" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" minimumScaleFactor="0.5" translatesAutoresizingMaskIntoConstraints="NO" id="qsH-7R-mo9">
-                                <rect key="frame" x="10" y="363.66666666666669" width="178" height="14.333333333333314"/>
+                                <rect key="frame" x="10" y="342" width="178" height="14.333333333333314"/>
                                 <fontDescription key="fontDescription" type="system" pointSize="12"/>
                                 <nil key="textColor"/>
                                 <nil key="highlightedColor"/>
@@ -42,6 +42,7 @@
                         </subviews>
                         <color key="backgroundColor" systemColor="systemBackgroundColor"/>
                         <constraints>
+                            <constraint firstItem="qsH-7R-mo9" firstAttribute="top" secondItem="qcj-fc-Xfz" secondAttribute="bottom" constant="15" id="1tP-ns-EFd"/>
                             <constraint firstAttribute="trailing" secondItem="16B-TX-5FJ" secondAttribute="trailing" id="GSO-cc-v91"/>
                             <constraint firstAttribute="trailing" secondItem="qcj-fc-Xfz" secondAttribute="trailing" constant="10" id="QJm-Ur-GPs"/>
                             <constraint firstAttribute="trailing" secondItem="qsH-7R-mo9" secondAttribute="trailing" constant="10" id="dVw-aq-vRU"/>
@@ -49,7 +50,6 @@
                             <constraint firstItem="16B-TX-5FJ" firstAttribute="top" secondItem="XEp-qX-312" secondAttribute="top" id="nwj-vi-ll1"/>
                             <constraint firstItem="qsH-7R-mo9" firstAttribute="leading" secondItem="XEp-qX-312" secondAttribute="leading" constant="10" id="pYc-BY-1Og"/>
                             <constraint firstItem="16B-TX-5FJ" firstAttribute="leading" secondItem="XEp-qX-312" secondAttribute="leading" id="vu3-Sw-qPY"/>
-                            <constraint firstAttribute="bottom" secondItem="qsH-7R-mo9" secondAttribute="bottom" constant="20" id="wff-26-DiT"/>
                             <constraint firstItem="qcj-fc-Xfz" firstAttribute="leading" secondItem="XEp-qX-312" secondAttribute="leading" constant="10" id="x4h-Ef-tKf"/>
                         </constraints>
                     </view>
@@ -69,7 +69,7 @@
                 <outlet property="releaseDate" destination="qsH-7R-mo9" id="CXL-Fe-al9"/>
                 <outlet property="title" destination="qcj-fc-Xfz" id="5tb-cB-uYV"/>
             </connections>
-            <point key="canvasLocation" x="264.12213740458014" y="-76.760563380281695"/>
+            <point key="canvasLocation" x="253" y="-92"/>
         </collectionViewCell>
     </objects>
     <resources>

@@ -29,8 +29,8 @@ class MoviesListLocalStrategy: MoviesListViewStrategy {
         }
     }
     
-    func reloadView(_ fun: () -> Void) {
-        fun()
-        !self.moviesView.searchBarAdapter.isLookingFor ? self.fetch() : {self.moviesView.updateCollectionView(self.moviesView.searchBarAdapter.filteredMovies)}()
+    func reloadView() {
+        self.fetch()
+        self.moviesView.cleanSearchBar()
     }
 }

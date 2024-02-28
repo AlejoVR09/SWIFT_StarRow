@@ -1,6 +1,6 @@
 import Foundation
 
-struct MoviesEntity {
+struct MoviesEntity: Equatable {
     var id: Int = 0
     var name: String
     var poster: String
@@ -36,10 +36,6 @@ struct MoviesEntity {
         self.poster = detailsMovie.poster
         self.releaseDate = detailsMovie.releaseDate
     }
-}
-
-extension MoviesEntity: Equatable {
-    
 }
 
 extension Array where Element == MoviesWS.Response.MovieDTO {

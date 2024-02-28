@@ -11,20 +11,20 @@ import Kingfisher
 import CoreData
 
 
-protocol AdapterProtocol {
+protocol AdapterProtocol: AnyObject {
     var delegate: AdapterDelegate? { get set }
     var data: [MoviesEntity] { get set }
     func setUpCollectionView(_ collectionView: UICollectionView)
 }
 
-protocol AdapterDelegate {
+protocol AdapterDelegate: AnyObject {
     func didSelectMovie(_ apiAdapter: AdapterProtocol, indexPath: IndexPath)
 }
 
 class APICollectionViewAdapter: NSObject, AdapterProtocol, UICollectionViewDelegate, UICollectionViewDataSource, UICollectionViewDelegateFlowLayout{
     
     private unowned var adaptated: UICollectionView?
-    var delegate: AdapterDelegate?
+    weak var delegate: AdapterDelegate?
     var data: [MoviesEntity] = []
     
     func setUpCollectionView(_ collectionView: UICollectionView){
@@ -47,7 +47,7 @@ class APICollectionViewAdapter: NSObject, AdapterProtocol, UICollectionViewDeleg
     }
     
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
-        return CustomCollectionViewCell.buildMovieCell(collectionView, in: indexPath, with: data[indexPath.item])
+        return CustomCollectionViewCell.buildMovieCellOnline(collectionView, in: indexPath, with: data[indexPath.item])
     }
 }
 

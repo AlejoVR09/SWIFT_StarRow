@@ -9,6 +9,6 @@ import Foundation
 
 @objc protocol MoviesListViewStrategy {
     func fetch()
-    @objc optional func reloadView(_ fun: () -> Void)
+    @objc optional func reloadView()
     @objc optional func pullToRefresh()
 }
