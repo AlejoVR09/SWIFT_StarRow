@@ -12,16 +12,17 @@ class CustomCollectionViewCell: UICollectionViewCell {
     @IBOutlet weak var imageView: UIImageView!
     @IBOutlet weak var nameLabel: UILabel!
     @IBOutlet weak var dateLabel: UILabel!
-    @IBOutlet weak var fatherView: UIView!
     private let starView: StarMaskView = StarMaskView()
     
     override func awakeFromNib() {
         super.awakeFromNib()
+        backgroundColor = UIColor(named: "Main")
+        setShadow()
         setUpImage()
         labelName()
-        dateName()
+        labelDate()
         setUpStarView()
-        shadowToFatherView()
+        
     }
     
     private func setUpImage(){
@@ -32,44 +33,40 @@ class CustomCollectionViewCell: UICollectionViewCell {
     
     private func labelName(){
         self.nameLabel.font = UIFont.systemFont(ofSize: 18, weight: .bold)
+        self.nameLabel.textColor = UIColor(named: "MainInverse")
     }
     
-    private func dateName(){
+    private func labelDate(){
         self.dateLabel.font = UIFont.italicSystemFont(ofSize: 14)
-        //self.dateLabel.
-        
+        self.dateLabel.textColor = UIColor(named: "MainInverse")
+    }
+    
+    private func setShadow(){
+        self.layer.masksToBounds = false
+        self.layer.cornerRadius = CGFloat(integerLiteral: 10)
+        self.layer.shadowOffset = CGSize(width: 0, height: 0)
+        self.layer.shadowColor = CGColor(red: 0.590, green: 0.590, blue: 0.590, alpha: 1)
+        self.layer.shadowOpacity = 0.5
+        self.layer.shadowRadius = 2.5
     }
     
     private func setUpStarView(){
-        fatherView.addSubview(starView)
+        contentView.addSubview(starView)
         starView.translatesAutoresizingMaskIntoConstraints = false
         NSLayoutConstraint.activate([
-            starView.heightAnchor.constraint(equalToConstant: 50),
-            starView.leadingAnchor.constraint(equalTo: imageView.trailingAnchor, constant: 10),
-            starView.trailingAnchor.constraint(equalTo: fatherView.trailingAnchor, constant: -70),
-            starView.topAnchor.constraint(equalTo: dateLabel.bottomAnchor, constant: 10),
-        ])
-    }
-    
-    private func shadowToFatherView(){
-        self.fatherView.layer.masksToBounds = false
-        self.fatherView.layer.cornerRadius = CGFloat(integerLiteral: 10)
-        self.fatherView.layer.shadowOffset = CGSize(width: 0, height: 0)
-        self.fatherView.layer.shadowColor = CGColor(red: 0, green: 0, blue: 0, alpha: 1)
-        self.fatherView.layer.shadowOpacity = 0.3
-        self.fatherView.layer.shadowRadius = 2.5
+           starView.heightAnchor.constraint(equalToConstant: 50),
+           starView.widthAnchor.constraint(equalToConstant: 180),
+           starView.leadingAnchor.constraint(equalTo: imageView.trailingAnchor, constant: 10),
+           starView.topAnchor.constraint(equalTo: dateLabel.bottomAnchor, constant: 10),
+       ])
     }
     
     func updateData(movie: MoviesEntity){
         self.imageView.kf.setImage(with: URL(string: "https://image.tmdb.org/t/p/w500/" + movie.poster))
         self.nameLabel.text = movie.name
-        self.dateLabel.text = "Release Date: \n" + movie.releaseDate
+        self.dateLabel.text = "Release Date: \n" + MoviesEntity.formatDate(movie.releaseDate)
         self.starView.setProgress(num: Float(movie.voteAverage))
     }
-}
-
-extension CustomCollectionViewCell {
-    
 }
 
 extension CustomCollectionViewCell {

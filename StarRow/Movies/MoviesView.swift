@@ -29,6 +29,8 @@ class MoviesView: UIView{
         addGestureRecognizer(tapGesture)
         self.searchBarAdapter.moviesView = self
         self.tapGesture.isEnabled = false
+        self.backgroundColor = UIColor(named: "Main")
+        setUpAdapter()
         setConstraints()
     }
     

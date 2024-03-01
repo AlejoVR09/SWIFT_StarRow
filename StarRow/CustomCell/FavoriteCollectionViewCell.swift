@@ -10,7 +10,6 @@ import UIKit
 class FavoriteCollectionViewCell: UICollectionViewCell {
     
     @IBOutlet weak var imageView: UIImageView!
-    @IBOutlet weak var fatherView: UIView!
     @IBOutlet weak var title: UILabel!
     @IBOutlet weak var releaseDate: UILabel!
     
@@ -26,14 +25,14 @@ class FavoriteCollectionViewCell: UICollectionViewCell {
     }
     
     private func shadowToFatherView(){
-        self.fatherView.layer.masksToBounds = false
-        self.fatherView.layer.cornerRadius = CGFloat(integerLiteral: 10)
+        self.layer.masksToBounds = false
+        self.layer.cornerRadius = CGFloat(integerLiteral: 10)
     }
     
     func updateData(movie: MoviesEntity){
         self.imageView.kf.setImage(with: URL(string: "https://image.tmdb.org/t/p/w500/" + movie.poster))
         self.title.text = movie.name
-        self.releaseDate.text = movie.releaseDate
+        self.releaseDate.text = MoviesEntity.formatShortDate(movie.releaseDate)
     }
 }
 

@@ -4,7 +4,6 @@ class TabBarController: UITabBarController {
 
     override func viewDidLoad() {
         super.viewDidLoad()
-
         self.navigationItem.title = "AppName"
         self.navigationItem.rightBarButtonItem = UIBarButtonItem(
             title: NSLocalizedString("logOut", comment: ""),
@@ -15,6 +14,7 @@ class TabBarController: UITabBarController {
         self.navigationItem.leftBarButtonItem = UIBarButtonItem()
         tabBar.backgroundColor = .white
         self.setViewControllers([TabBarController.buildOnline(), TabBarController.buildLocal()], animated: true)
+        self.tabBar.backgroundColor = UIColor(named: "Main")
     }
     
     @objc func didButtonPressedLogOut(){
@@ -29,8 +29,8 @@ extension TabBarController {
         let strategy = MoviesListOnlineStrategy(moviesView: moviesView)
         let controller = MoviesViewController(moviesView: moviesView, strategy: strategy)
 
-        controller.tabBarItem.image = UIImage(systemName: "popcorn")
-        controller.tabBarItem.selectedImage = UIImage(systemName: "popcorn.fill")
+        controller.tabBarItem.image = UIImage(systemName: "square.split.2x2")
+        controller.tabBarItem.selectedImage = UIImage(systemName: "square.split.2x2.fill")
         controller.tabBarItem.title = "Movies"
         return controller
     }
@@ -40,8 +40,8 @@ extension TabBarController {
         let strategy = MoviesListLocalStrategy(moviesView: moviesView)
         let controller = MoviesViewController(moviesView: moviesView, strategy: strategy)
         
-        controller.tabBarItem.image = UIImage(systemName: "heart")
-        controller.tabBarItem.selectedImage = UIImage(systemName: "heart.fill")
+        controller.tabBarItem.image = UIImage(systemName: "star")
+        controller.tabBarItem.selectedImage = UIImage(systemName: "star.fill")
         controller.tabBarItem.title = "Favorites"
         return controller
     }

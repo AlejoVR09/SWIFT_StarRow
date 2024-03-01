@@ -11,7 +11,6 @@ class MoviesViewController: UIViewController {
 
     private var strategy: MoviesListViewStrategy
     private let moviesView: MoviesView
-    
     private var idMovieSelected: Int = 0
     
     init(moviesView: MoviesView, strategy: MoviesListViewStrategy) {

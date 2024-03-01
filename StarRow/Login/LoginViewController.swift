@@ -11,7 +11,6 @@ import UIKit
 class LoginViewController: UIViewController {
     var strategy: LoginViewStrategy?
     var loginView: LoginView
-    
     lazy var notificationCenter = NotificationManager(notificationManagerDelegate: self)
     
     init(loginView: LoginView) {
@@ -26,9 +25,7 @@ class LoginViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         loginView.delegate = self
-        
         self.view = loginView
-        self.navigationItem.title = "Login"
     }
     
     override func viewWillAppear(_ animated: Bool) {

@@ -18,7 +18,7 @@ class StarMaskView: UIView {
     }()
     
     init() {
-        super.init(frame: .zero)
+        super.init(frame: .init(x: 0, y: 0, width: 180, height: 180))
         setupMask()
         setupProgressView()
     }
@@ -35,6 +35,7 @@ class StarMaskView: UIView {
             progressView.topAnchor.constraint(equalTo: topAnchor),
             progressView.bottomAnchor.constraint(equalTo: bottomAnchor)
         ])
+        print(bounds.width)
     }
     
     func setProgress(num: Float){
@@ -43,8 +44,8 @@ class StarMaskView: UIView {
     
     private func setupMask() {
         // Tamaño de cada estrella
-        let starWidth = self.progressView.bounds.width / 10
-        let starHeight = self.progressView.bounds.height * 4.5
+        let starWidth = bounds.width / 10
+        let starHeight = bounds.height / 10
         // Crear la capa de máscara
         let maskLayer = CAShapeLayer()
         // Posicionar cada estrella en fila
