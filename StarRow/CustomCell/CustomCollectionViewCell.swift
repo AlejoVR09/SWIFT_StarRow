@@ -9,20 +9,76 @@ import UIKit
 
 class CustomCollectionViewCell: UICollectionViewCell {
 
-    @IBOutlet weak var imageView: UIImageView!
-    @IBOutlet weak var nameLabel: UILabel!
-    @IBOutlet weak var dateLabel: UILabel!
+    //@IBOutlet weak var imageView: UIImageView!
+    //@IBOutlet weak var nameLabel: UILabel!
+    //@IBOutlet weak var dateLabel: UILabel!
+    private var imageView: UIImageView = {
+        let image = UIImageView()
+        image.translatesAutoresizingMaskIntoConstraints = false
+        return image
+    }()
+    
+    private var stack: UIStackView = {
+        let stack = UIStackView()
+        stack.translatesAutoresizingMaskIntoConstraints = false
+        stack.axis = .vertical
+        stack.spacing = 10
+        return stack
+    }()
+    
+    private var nameLabel: UILabel = {
+        let label = UILabel()
+        label.translatesAutoresizingMaskIntoConstraints = false
+        return label
+    }()
+    
+    private var dateLabel: UILabel = {
+        let label = UILabel()
+        label.translatesAutoresizingMaskIntoConstraints = false
+        return label
+    }()
+    
     private let starView: StarMaskView = StarMaskView()
     
     override func awakeFromNib() {
         super.awakeFromNib()
         backgroundColor = UIColor(named: "Main")
+        
         setShadow()
         setUpImage()
         labelName()
         labelDate()
-        setUpStarView()
         
+    }
+    
+    private func setConstraint(){
+        contentView.addSubview(imageView)
+        NSLayoutConstraint.activate([
+            imageView.widthAnchor.constraint(equalTo: imageView.heightAnchor, multiplier: 0.590),
+            imageView.topAnchor.constraint(equalTo: topAnchor),
+            imageView.trailingAnchor.constraint(equalTo: trailingAnchor),
+            imageView.bottomAnchor.constraint(equalTo: bottomAnchor)
+        ])
+        
+        contentView.addSubview(stack)
+        NSLayoutConstraint.activate([
+            stack.widthAnchor.constraint(equalTo: widthAnchor, multiplier: 0.6),
+            stack.topAnchor.constraint(equalTo: topAnchor),
+            stack.trailingAnchor.constraint(equalTo: trailingAnchor),
+            stack.leadingAnchor.constraint(equalTo: imageView.leadingAnchor)
+        ])
+        
+        contentView.addSubview(starView)
+        starView.translatesAutoresizingMaskIntoConstraints = false
+        NSLayoutConstraint.activate([
+           starView.heightAnchor.constraint(equalToConstant: 50),
+           starView.widthAnchor.constraint(equalToConstant: 180),
+           starView.leadingAnchor.constraint(equalTo: imageView.trailingAnchor, constant: 10),
+           starView.topAnchor.constraint(equalTo: stack.bottomAnchor, constant: 10),
+       ])
+        
+        stack.addArrangedSubview(nameLabel)
+        stack.addArrangedSubview(dateLabel)
     }
     
     private func setUpImage(){
@@ -48,17 +104,6 @@ class CustomCollectionViewCell: UICollectionViewCell {
         self.layer.shadowColor = CGColor(red: 0.590, green: 0.590, blue: 0.590, alpha: 1)
         self.layer.shadowOpacity = 0.5
         self.layer.shadowRadius = 2.5
-    }
-    
-    private func setUpStarView(){
-        contentView.addSubview(starView)
-        starView.translatesAutoresizingMaskIntoConstraints = false
-        NSLayoutConstraint.activate([
-           starView.heightAnchor.constraint(equalToConstant: 50),
-           starView.widthAnchor.constraint(equalToConstant: 180),
-           starView.leadingAnchor.constraint(equalTo: imageView.trailingAnchor, constant: 10),
-           starView.topAnchor.constraint(equalTo: dateLabel.bottomAnchor, constant: 10),
-       ])
     }
     
     func updateData(movie: MoviesEntity){

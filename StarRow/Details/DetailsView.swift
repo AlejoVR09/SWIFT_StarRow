@@ -34,11 +34,27 @@ class DetailsView: UIView {
         fatalError("init(coder:) has not been implemented")
     }
     
-    private var referenceLabel: UILabel = {
-        let label = UILabel()
-        label.backgroundColor = UIColor(named: "Main")
-        label.translatesAutoresizingMaskIntoConstraints = false
-        return label
+    private var loadingView: UIView = {
+        let view = UIView()
+        view.translatesAutoresizingMaskIntoConstraints = false
+        view.backgroundColor = UIColor(named: "Main")
+        return view
+    }()
+    
+    private var activityIndicator: UIActivityIndicatorView = {
+        let activity = UIActivityIndicatorView(style: .large)
+        activity.translatesAutoresizingMaskIntoConstraints = false
+        activity.color = UIColor(named: "MainInverse")
+        activity.tintColor = UIColor(named: "MainInverse")
+        activity.startAnimating()
+        return activity
+    }()
+    
+    private var referenceView: UIView = {
+        let view = UIView()
+        view.backgroundColor = UIColor(named: "Main")
+        view.translatesAutoresizingMaskIntoConstraints = false
+        return view
     }()
     
     private var scrollView: UIScrollView = {
@@ -144,7 +160,49 @@ class DetailsView: UIView {
 }
 
 extension DetailsView{
+    func addLoadingView(){
+        self.scrollView.isHidden = true
+        self.loadingView.isHidden = false
+    }
+    
+    func removeLoadingView(){
+        self.scrollView.isHidden = false
+        self.loadingView.isHidden = true
+        self.activityIndicator.stopAnimating()
+    }
+    
+    func setUpView(data: DetailsMovieEntity){
+        let url = "https://image.tmdb.org/t/p/w500"
+        var array = data.genrers
+        self.backDrop.kf.setImage(with: URL(string: url + data.backDrop))
+        self.poster.kf.setImage(with: URL(string: url + data.poster))
+        self.titleLabel.text = data.name
+        self.releaseDateLabel.text = "Release Date: \n" + MoviesEntity.formatDate(data.releaseDate)
+        self.starView.setProgress(num: Float(data.voteAverage))
+        self.genreLabel.text = "Generos"
+        var genersConcact = "" + (array.remove(at: 0).name ?? "")
+        for i in array { genersConcact += " º " + (i.name ?? "") }
+        self.genrers.text = genersConcact
+        self.descriptionLabel.text = "Description"
+        self.descriptionData.text = data.description
+    }
+    
     private func setConstraints(){
+        addSubview(loadingView)
+        NSLayoutConstraint.activate([
+            loadingView.trailingAnchor.constraint(equalTo: safeAreaLayoutGuide.trailingAnchor),
+            loadingView.bottomAnchor.constraint(equalTo: safeAreaLayoutGuide.bottomAnchor),
+            loadingView.topAnchor.constraint(equalTo: safeAreaLayoutGuide.topAnchor),
+            loadingView.leadingAnchor.constraint(equalTo: safeAreaLayoutGuide.leadingAnchor)
+        ])
+        
+        loadingView.addSubview(activityIndicator)
+        NSLayoutConstraint.activate([
+            activityIndicator.centerYAnchor.constraint(equalTo: loadingView.centerYAnchor),
+            activityIndicator.centerXAnchor.constraint(equalTo: loadingView.centerXAnchor),
+            activityIndicator.heightAnchor.constraint(equalToConstant: 100),
+            activityIndicator.widthAnchor.constraint(equalToConstant: 100)
+        ])
         
         addSubview(scrollView)
         NSLayoutConstraint.activate([
@@ -154,21 +212,21 @@ extension DetailsView{
             scrollView.leadingAnchor.constraint(equalTo: safeAreaLayoutGuide.leadingAnchor)
         ])
         
-        scrollView.addSubview(referenceLabel)
+        scrollView.addSubview(referenceView)
         NSLayoutConstraint.activate([
-            referenceLabel.bottomAnchor.constraint(equalTo: scrollView.bottomAnchor),
-            referenceLabel.topAnchor.constraint(equalTo: scrollView.topAnchor),
-            referenceLabel.trailingAnchor.constraint(equalTo: scrollView.trailingAnchor),
-            referenceLabel.leadingAnchor.constraint(equalTo: scrollView.leadingAnchor),
-            referenceLabel.widthAnchor.constraint(equalTo: scrollView.widthAnchor, multiplier: 1)
+            referenceView.bottomAnchor.constraint(equalTo: scrollView.bottomAnchor, constant: -20),
+            referenceView.topAnchor.constraint(equalTo: scrollView.topAnchor),
+            referenceView.trailingAnchor.constraint(equalTo: scrollView.trailingAnchor),
+            referenceView.leadingAnchor.constraint(equalTo: scrollView.leadingAnchor),
+            referenceView.widthAnchor.constraint(equalTo: scrollView.widthAnchor, multiplier: 1)
         ])
         
-        referenceLabel.addSubview(container)
+        referenceView.addSubview(container)
         NSLayoutConstraint.activate([
             container.heightAnchor.constraint(equalToConstant: 220),
-            container.topAnchor.constraint(equalTo: referenceLabel.topAnchor),
-            container.trailingAnchor.constraint(equalTo: referenceLabel.trailingAnchor),
-            container.leadingAnchor.constraint(equalTo: referenceLabel.leadingAnchor)
+            container.topAnchor.constraint(equalTo: referenceView.topAnchor),
+            container.trailingAnchor.constraint(equalTo: referenceView.trailingAnchor),
+            container.leadingAnchor.constraint(equalTo: referenceView.leadingAnchor)
         ])
         
         container.addSubview(backDrop)
@@ -220,49 +278,33 @@ extension DetailsView{
         ])
         
         
-        referenceLabel.addSubview(genreLabel)
+        referenceView.addSubview(genreLabel)
         NSLayoutConstraint.activate([
             genreLabel.topAnchor.constraint(equalTo: container.bottomAnchor, constant: 20),
-            genreLabel.trailingAnchor.constraint(equalTo: referenceLabel.trailingAnchor, constant: 20),
-            genreLabel.leadingAnchor.constraint(equalTo: referenceLabel.leadingAnchor, constant: 20)
+            genreLabel.trailingAnchor.constraint(equalTo: referenceView.trailingAnchor, constant: 20),
+            genreLabel.leadingAnchor.constraint(equalTo: referenceView.leadingAnchor, constant: 20)
         ])
         
-        referenceLabel.addSubview(genrers)
+        referenceView.addSubview(genrers)
         NSLayoutConstraint.activate([
             genrers.topAnchor.constraint(equalTo: genreLabel.bottomAnchor, constant: 10),
-            genrers.trailingAnchor.constraint(equalTo: referenceLabel.trailingAnchor, constant: 20),
-            genrers.leadingAnchor.constraint(equalTo: referenceLabel.leadingAnchor, constant: 20)
+            genrers.trailingAnchor.constraint(equalTo: referenceView.trailingAnchor, constant: 20),
+            genrers.leadingAnchor.constraint(equalTo: referenceView.leadingAnchor, constant: 20)
         ])
         
-        referenceLabel.addSubview(descriptionLabel)
+        referenceView.addSubview(descriptionLabel)
         NSLayoutConstraint.activate([
             bottomConstraint,
-            descriptionLabel.trailingAnchor.constraint(equalTo: referenceLabel.trailingAnchor, constant: -20),
-            descriptionLabel.leadingAnchor.constraint(equalTo: referenceLabel.leadingAnchor, constant: 20)
+            descriptionLabel.trailingAnchor.constraint(equalTo: referenceView.trailingAnchor, constant: -20),
+            descriptionLabel.leadingAnchor.constraint(equalTo: referenceView.leadingAnchor, constant: 20)
         ])
         
-        referenceLabel.addSubview(descriptionData)
+        referenceView.addSubview(descriptionData)
         NSLayoutConstraint.activate([
             descriptionData.topAnchor.constraint(equalTo: descriptionLabel.bottomAnchor, constant: 10),
-            descriptionData.trailingAnchor.constraint(equalTo: referenceLabel.trailingAnchor, constant: -20),
-            descriptionData.leadingAnchor.constraint(equalTo: referenceLabel.leadingAnchor, constant: 20),
-            descriptionData.bottomAnchor.constraint(equalTo: referenceLabel.bottomAnchor, constant: 10)
+            descriptionData.trailingAnchor.constraint(equalTo: referenceView.trailingAnchor, constant: -20),
+            descriptionData.leadingAnchor.constraint(equalTo: referenceView.leadingAnchor, constant: 20),
+            descriptionData.bottomAnchor.constraint(equalTo: referenceView.bottomAnchor, constant: 10)
         ])
-    }
-    
-    func setUpView(data: DetailsMovieEntity){
-        let url = "https://image.tmdb.org/t/p/w500"
-        var array = data.genrers
-        self.backDrop.kf.setImage(with: URL(string: url + data.backDrop))
-        self.poster.kf.setImage(with: URL(string: url + data.poster))
-        self.titleLabel.text = data.name
-        self.releaseDateLabel.text = "Release Date: \n" + MoviesEntity.formatDate(data.releaseDate)
-        self.starView.setProgress(num: Float(data.voteAverage))
-        self.genreLabel.text = "Generos"
-        var genersConcact = "" + (array.remove(at: 0).name ?? "")
-        for i in array { genersConcact += " º " + (i.name ?? "") }
-        self.genrers.text = genersConcact
-        self.descriptionLabel.text = "Description"
-        self.descriptionData.text = data.description
     }
 }

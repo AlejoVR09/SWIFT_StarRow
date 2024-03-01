@@ -18,13 +18,13 @@
                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                 <subviews>
                     <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="cUu-At-8wQ">
-                        <rect key="frame" x="0.0" y="0.0" width="140.66666666666666" height="239"/>
+                        <rect key="frame" x="0.0" y="0.0" width="143.33333333333334" height="239"/>
                         <constraints>
-                            <constraint firstAttribute="width" secondItem="cUu-At-8wQ" secondAttribute="height" multiplier="1:1.7" id="zUv-oS-pic"/>
+                            <constraint firstAttribute="width" secondItem="cUu-At-8wQ" secondAttribute="height" multiplier="0.6" id="zUv-oS-pic"/>
                         </constraints>
                     </imageView>
                     <stackView opaque="NO" contentMode="scaleToFill" axis="vertical" spacing="10" translatesAutoresizingMaskIntoConstraints="NO" id="Zfa-69-rUe">
-                        <rect key="frame" x="150.66666666666663" y="9.9999999999999964" width="222" height="50.666666666666657"/>
+                        <rect key="frame" x="153.33333333333337" y="9.9999999999999964" width="222" height="50.666666666666657"/>
                         <subviews>
                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Label" textAlignment="natural" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Gun-Bi-uZR">
                                 <rect key="frame" x="0.0" y="0.0" width="222" height="20.333333333333332"/>
@@ -53,11 +53,6 @@
                 <constraint firstItem="cUu-At-8wQ" firstAttribute="leading" secondItem="gTV-IL-0wX" secondAttribute="leading" id="y1E-Kb-RGX"/>
             </constraints>
             <size key="customSize" width="370" height="239"/>
-            <connections>
-                <outlet property="dateLabel" destination="xIn-qC-c1q" id="IY6-cD-fh9"/>
-                <outlet property="imageView" destination="cUu-At-8wQ" id="GVj-9K-Nrb"/>
-                <outlet property="nameLabel" destination="Gun-Bi-uZR" id="lrM-Iy-Gtx"/>
-            </connections>
             <point key="canvasLocation" x="293.12977099236639" y="51.056338028169016"/>
         </collectionViewCell>
     </objects>

@@ -29,7 +29,7 @@ class DetailsViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         self.view = detailsView
-        
+        self.detailsView.addLoadingView()
         self.navigationItem.title = "Movie Details"
     }
     
@@ -37,6 +37,7 @@ class DetailsViewController: UIViewController {
         super.viewDidAppear(animated)
         self.detailWS.execute(id: self.id){ movie in
             DispatchQueue.main.async {
+                self.detailsView.removeLoadingView()
                 self.movieSelected = DetailsMovieEntity(movieDetailsApi: movie)
                 self.detailsView.setUpView(data: self.movieSelected)
                 self.navigationItem.rightBarButtonItem = self.verifyMovieInCoreData()

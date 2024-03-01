@@ -45,6 +45,14 @@ class LoginViewController: UIViewController {
 extension LoginViewController {
     class func buildLargeLogin() -> LoginViewController {
         let view = LoginView()
+        let strategy = LargeLoginStrategy()
+        let controller = LoginViewController(loginView: view)
+        return controller
+    }
+    
+    class func buildShortLogin() -> LoginViewController {
+        let view = LoginView()
+        let strategy = ShortLoginStrategy()
         let controller = LoginViewController(loginView: view)
         return controller
     }
