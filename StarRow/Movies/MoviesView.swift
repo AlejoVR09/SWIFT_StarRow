@@ -11,9 +11,8 @@ import Kingfisher
 protocol MoviesViewDelegate: AnyObject{
     func moviesViewPullToRefreshApiData(_ moviesView: MoviesView)
 }
-
+// MARK: UI Elements
 class MoviesView: UIView{
-    
     weak var delegate: MoviesViewDelegate?
     var adapter: AdapterProtocol
     var searchBarAdapter: MovieSearchAdapter
@@ -78,7 +77,9 @@ class MoviesView: UIView{
         refresher.addTarget(self, action: #selector(pullToRefreshAction(_ :)), for: .valueChanged)
         return refresher
     }()
-    
+}
+// MARK: obcj methods
+extension MoviesView {
     @objc func pullToRefreshAction(_ sender: UIRefreshControl){
         DispatchQueue.main.asyncAfter(deadline: .now() + 0.2) {
             sender.endRefreshing()
@@ -91,7 +92,7 @@ class MoviesView: UIView{
         self.endEditing(true)
     }
 }
-
+// MARK: Constraints and Methods
 extension MoviesView {
     private func setConstraints(){
         addSubview(searchBar)

@@ -25,7 +25,7 @@ class TabBarController: UITabBarController {
 
 extension TabBarController {
     static func buildOnline() -> MoviesViewController {
-        let moviesView = MoviesView(adapter: APICollectionViewAdapter(), searchBarAdapter: MovieSearchAdapter())
+        let moviesView = MoviesView(adapter: CollectionViewAdapter(strategy: OnlineAdapterStrategy()), searchBarAdapter: MovieSearchAdapter())
         let strategy = MoviesListOnlineStrategy(moviesView: moviesView)
         let controller = MoviesViewController(moviesView: moviesView, strategy: strategy)
 
@@ -36,7 +36,7 @@ extension TabBarController {
     }
     
     static func buildLocal() -> MoviesViewController {
-        let moviesView = MoviesView(adapter: CoreDataCollectionViewAdapter(), searchBarAdapter: MovieSearchAdapter())
+        let moviesView = MoviesView(adapter: CollectionViewAdapter(strategy: LocalAdapterStrategy()), searchBarAdapter: MovieSearchAdapter())
         let strategy = MoviesListLocalStrategy(moviesView: moviesView)
         let controller = MoviesViewController(moviesView: moviesView, strategy: strategy)
         

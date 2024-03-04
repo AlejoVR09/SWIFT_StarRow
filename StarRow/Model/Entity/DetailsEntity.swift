@@ -33,7 +33,7 @@ struct DetailsMovieEntity {
         self.name = movieDetailsApi.title ?? ""
         self.poster = movieDetailsApi.posterPath ?? ""
         self.backDrop = movieDetailsApi.backdropPath ?? ""
-        self.description = movieDetailsApi.overview ?? ""
+        self.description = movieDetailsApi.overview ?? "No avaible"
         self.genrers = movieDetailsApi.genres ?? []
         self.releaseDate = movieDetailsApi.releaseDate ?? ""
         self.voteAverage = movieDetailsApi.voteAverage ?? 0

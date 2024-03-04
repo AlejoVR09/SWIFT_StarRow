@@ -18,9 +18,13 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
         // This delegate does not imply the connecting scene or session are new (see `application:configurationForConnectingSceneSession` instead).
         guard let windowScene = scene as? UIWindowScene else { return }
         let window = UIWindow(windowScene: windowScene)
-        window.rootViewController = UINavigationController(rootViewController: LoginViewController.buildLargeLogin())
+        window.rootViewController = UINavigationController(rootViewController: strategyOp())
         self.window = window
         window.makeKeyAndVisible()
+    }
+    
+    func strategyOp() -> LoginViewController{
+        UserDefaults.standard.bool(forKey: "isLoggedIn") ? LoginViewController.buildShortLogin() : LoginViewController.buildLargeLogin()
     }
 
     func sceneDidDisconnect(_ scene: UIScene) {

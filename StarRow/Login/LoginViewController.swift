@@ -9,12 +9,13 @@ import UIKit
 
 
 class LoginViewController: UIViewController {
-    var strategy: LoginViewStrategy?
+    var strategy: LoginViewStrategy
     var loginView: LoginView
     lazy var notificationCenter = NotificationManager(notificationManagerDelegate: self)
     
-    init(loginView: LoginView) {
+    init(loginView: LoginView, strategy: LoginViewStrategy) {
         self.loginView = loginView
+        self.strategy = strategy
         super.init(nibName: nil, bundle: nil)
     }
     
@@ -25,35 +26,33 @@ class LoginViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         loginView.delegate = self
+        UserDefaults.standard.setValue(true, forKey: "isLoggedIn")
         self.view = loginView
     }
     
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
         self.notificationCenter.registerObserver()
-        self.strategy = UserDefaults.standard.bool(forKey: "isLoggedIn") ? ShortLoginStrategy() : LargeLoginStrategy()
-        self.strategy?.loadLoginView(self.loginView)
+        self.strategy.loadLoginView(self.loginView)
     }
     
     override func viewWillDisappear(_ animated: Bool) {
         super.viewWillDisappear(animated)
         self.notificationCenter.removeObserver()
-        self.strategy?.removeView?(self.loginView)
+        self.strategy.removeView?(self.loginView)
     }
 }
 
 extension LoginViewController {
     class func buildLargeLogin() -> LoginViewController {
         let view = LoginView()
-        let strategy = LargeLoginStrategy()
-        let controller = LoginViewController(loginView: view)
+        let controller = LoginViewController(loginView: view, strategy: LargeLoginStrategy())
         return controller
     }
     
     class func buildShortLogin() -> LoginViewController {
         let view = LoginView()
-        let strategy = ShortLoginStrategy()
-        let controller = LoginViewController(loginView: view)
+        let controller = LoginViewController(loginView: view, strategy: ShortLoginStrategy())
         return controller
     }
 }

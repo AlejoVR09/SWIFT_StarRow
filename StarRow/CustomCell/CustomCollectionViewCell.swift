@@ -8,13 +8,12 @@
 import UIKit
 
 class CustomCollectionViewCell: UICollectionViewCell {
-
-    //@IBOutlet weak var imageView: UIImageView!
-    //@IBOutlet weak var nameLabel: UILabel!
-    //@IBOutlet weak var dateLabel: UILabel!
     private var imageView: UIImageView = {
         let image = UIImageView()
         image.translatesAutoresizingMaskIntoConstraints = false
+        image.clipsToBounds = true
+        image.layer.cornerRadius = 10
+        image.layer.maskedCorners = [.layerMinXMinYCorner, .layerMinXMaxYCorner]
         return image
     }()
     
@@ -29,81 +28,74 @@ class CustomCollectionViewCell: UICollectionViewCell {
     private var nameLabel: UILabel = {
         let label = UILabel()
         label.translatesAutoresizingMaskIntoConstraints = false
+        label.textColor = UIColor(named: "MainInverse")
+        label.font = UIFont.systemFont(ofSize: 18, weight: .bold)
+        label.numberOfLines = 0
         return label
     }()
     
     private var dateLabel: UILabel = {
         let label = UILabel()
         label.translatesAutoresizingMaskIntoConstraints = false
+        label.textColor = UIColor(named: "MainInverse")
+        label.font = UIFont.italicSystemFont(ofSize: 14)
+        label.numberOfLines = 0
         return label
     }()
     
     private let starView: StarMaskView = StarMaskView()
-    
-    override func awakeFromNib() {
-        super.awakeFromNib()
+    override init(frame: CGRect) {
+        super.init(frame: frame)
+        setConstraint()
         backgroundColor = UIColor(named: "Main")
-        
         setShadow()
-        setUpImage()
-        labelName()
-        labelDate()
-        
     }
     
+    required init?(coder: NSCoder) {
+        super.init(coder: coder)
+        setConstraint()
+        setShadow()
+    }
+
     private func setConstraint(){
-        contentView.addSubview(imageView)
+        addSubview(stack)
         NSLayoutConstraint.activate([
-            imageView.widthAnchor.constraint(equalTo: imageView.heightAnchor, multiplier: 0.590),
+            stack.topAnchor.constraint(equalTo: topAnchor, constant: 10),
+            stack.trailingAnchor.constraint(equalTo: trailingAnchor, constant: -10),
+            stack.widthAnchor.constraint(equalTo: widthAnchor, multiplier: 0.6)
+        ])
+        
+        stack.addArrangedSubview(nameLabel)
+        stack.addArrangedSubview(dateLabel)
+        
+        let ratioConstraint = imageView.widthAnchor.constraint(equalTo: heightAnchor, multiplier: 0.6)
+        ratioConstraint.priority = UILayoutPriority(900)
+        addSubview(imageView)
+        NSLayoutConstraint.activate([
+            ratioConstraint,
+            imageView.trailingAnchor.constraint(equalTo: stack.leadingAnchor, constant: -10),
             imageView.topAnchor.constraint(equalTo: topAnchor),
-            imageView.trailingAnchor.constraint(equalTo: trailingAnchor),
+            imageView.leadingAnchor.constraint(equalTo: leadingAnchor),
             imageView.bottomAnchor.constraint(equalTo: bottomAnchor)
         ])
         
-        contentView.addSubview(stack)
-        NSLayoutConstraint.activate([
-            stack.widthAnchor.constraint(equalTo: widthAnchor, multiplier: 0.6),
-            stack.topAnchor.constraint(equalTo: topAnchor),
-            stack.trailingAnchor.constraint(equalTo: trailingAnchor),
-            stack.leadingAnchor.constraint(equalTo: imageView.leadingAnchor)
-        ])
-        
-        contentView.addSubview(starView)
+        addSubview(starView)
         starView.translatesAutoresizingMaskIntoConstraints = false
         NSLayoutConstraint.activate([
            starView.heightAnchor.constraint(equalToConstant: 50),
            starView.widthAnchor.constraint(equalToConstant: 180),
            starView.leadingAnchor.constraint(equalTo: imageView.trailingAnchor, constant: 10),
-           starView.topAnchor.constraint(equalTo: stack.bottomAnchor, constant: 10),
+           starView.topAnchor.constraint(equalTo: stack.bottomAnchor, constant: 20),
        ])
-        
-        stack.addArrangedSubview(nameLabel)
-        stack.addArrangedSubview(dateLabel)
-    }
-    
-    private func setUpImage(){
-        self.imageView.clipsToBounds = true
-        self.imageView.layer.cornerRadius = 10
-        self.imageView.layer.maskedCorners = [.layerMinXMinYCorner, .layerMinXMaxYCorner]
-    }
-    
-    private func labelName(){
-        self.nameLabel.font = UIFont.systemFont(ofSize: 18, weight: .bold)
-        self.nameLabel.textColor = UIColor(named: "MainInverse")
-    }
-    
-    private func labelDate(){
-        self.dateLabel.font = UIFont.italicSystemFont(ofSize: 14)
-        self.dateLabel.textColor = UIColor(named: "MainInverse")
     }
     
     private func setShadow(){
         self.layer.masksToBounds = false
         self.layer.cornerRadius = CGFloat(integerLiteral: 10)
         self.layer.shadowOffset = CGSize(width: 0, height: 0)
-        self.layer.shadowColor = CGColor(red: 0.590, green: 0.590, blue: 0.590, alpha: 1)
+        self.layer.shadowColor = CGColor(red: 0.150, green: 0.150, blue: 0.150, alpha: 1)
         self.layer.shadowOpacity = 0.5
-        self.layer.shadowRadius = 2.5
+        self.layer.shadowRadius = 1.5
     }
     
     func updateData(movie: MoviesEntity){
@@ -116,12 +108,6 @@ class CustomCollectionViewCell: UICollectionViewCell {
 
 extension CustomCollectionViewCell {
     class func buildMovieCellOnline(_ collectionView: UICollectionView, in indexPath: IndexPath, with movie: MoviesEntity) -> Self{
-        let customCell = collectionView.dequeueReusableCell(withReuseIdentifier: "CustomMovieCell", for: indexPath) as? Self
-        customCell?.updateData(movie: movie)
-        return customCell ?? Self()
-    }
-    
-    class func buildMovieCellLocal(_ collectionView: UICollectionView, in indexPath: IndexPath, with movie: MoviesEntity) -> Self{
         let customCell = collectionView.dequeueReusableCell(withReuseIdentifier: "CustomMovieCell", for: indexPath) as? Self
         customCell?.updateData(movie: movie)
         return customCell ?? Self()

@@ -37,7 +37,7 @@ class FavoriteCollectionViewCell: UICollectionViewCell {
 }
 
 extension FavoriteCollectionViewCell {
-    class func buildFavoriteCell(_ collectionView: UICollectionView, in indexPath: IndexPath, with movie: MoviesEntity) -> FavoriteCollectionViewCell{
+    class func buildMovieCellLocal(_ collectionView: UICollectionView, in indexPath: IndexPath, with movie: MoviesEntity) -> FavoriteCollectionViewCell{
         let customCell = collectionView.dequeueReusableCell(withReuseIdentifier: "FavoriteCell", for: indexPath) as? Self
         customCell?.updateData(movie: movie)
         return customCell ?? Self()

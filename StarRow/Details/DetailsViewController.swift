@@ -37,10 +37,10 @@ class DetailsViewController: UIViewController {
         super.viewDidAppear(animated)
         self.detailWS.execute(id: self.id){ movie in
             DispatchQueue.main.async {
-                self.detailsView.removeLoadingView()
                 self.movieSelected = DetailsMovieEntity(movieDetailsApi: movie)
                 self.detailsView.setUpView(data: self.movieSelected)
                 self.navigationItem.rightBarButtonItem = self.verifyMovieInCoreData()
+                self.detailsView.removeLoadingView()
             }
         }
     }

@@ -35,7 +35,6 @@ class StarMaskView: UIView {
             progressView.topAnchor.constraint(equalTo: topAnchor),
             progressView.bottomAnchor.constraint(equalTo: bottomAnchor)
         ])
-        print(bounds.width)
     }
     
     func setProgress(num: Float){
