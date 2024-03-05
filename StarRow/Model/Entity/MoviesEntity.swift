@@ -30,13 +30,6 @@ struct MoviesEntity: Equatable {
         self.releaseDate = moviesCoreData.releaseDate ?? ""
     }
     
-    init(detailsMovie: DetailsMovieEntity){
-        self.id = detailsMovie.id
-        self.name = detailsMovie.name
-        self.poster = detailsMovie.poster
-        self.releaseDate = detailsMovie.releaseDate
-    }
-    
     static func formatDate(_ dateString: String) -> String {
         let dateFormatter = DateFormatter()
         dateFormatter.locale = Locale.autoupdatingCurrent
@@ -83,9 +76,4 @@ extension Array where Element == MovieCoreData {
     }
 }
 
-extension Array where Element == DetailsMovieEntity {
-    var toMoviesEntityFromDetailsMovie: [MoviesEntity] {
-        self.map({ MoviesEntity(detailsMovie: $0) })
-    }
-}
 

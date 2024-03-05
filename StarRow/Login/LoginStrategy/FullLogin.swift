@@ -1,21 +1,16 @@
 //
-//  LoginView.swift
+//  LargeLoginViewController.swift
 //  StarRow
 //
-//  Created by Alejandro Vanegas Rondon on 24/01/24.
+//  Created by Alejandro Vanegas Rondon on 15/02/24.
 //
 
 import UIKit
 
-protocol LoginViewDelegate {
-    func loginView(_ loginView: LoginViewProtocol, withEmail email: String)
-    func loginViewDidButtonPressedToSignUp(loginView: LoginViewProtocol)
-}
-
-class LoginView: UIView {
-    var delegate: LoginViewDelegate?
+class FullLoginView: UIView {
+    var delegate: LoginViewDelegate
     
-    override init(frame: CGRect) {
+    init(delegate: LoginViewDelegate){
         bottomConstraint = NSLayoutConstraint(
             item: buttonForLoging,
             attribute: .top,
@@ -24,10 +19,12 @@ class LoginView: UIView {
             attribute: .bottom,
             multiplier: 1,
             constant: 20)
+        self.delegate = delegate
         super.init(frame: .init(x: 0, y: 0, width: UIScreen.main.bounds.width, height: UIScreen.main.bounds.height))
         tapGesture = UITapGestureRecognizer(target: self, action: #selector(handleTap(_ :)))
         addGestureRecognizer(tapGesture)
         backgroundColor = UIColor(named: "Main")
+        setLogin()
     }
     
     required init?(coder: NSCoder) {
@@ -121,15 +118,15 @@ class LoginView: UIView {
     }
 
     @objc private func goToRegisterView(){
-//        self.delegate?.loginViewDidButtonPressedToSignUp(loginView: self)
+        self.delegate.loginViewDidButtonPressedToSignUp(loginView: self)
     }
     
     @objc private func goToMoviesView(){
-//        self.delegate?.loginView(self, withEmail: self.userNameTextField.text ?? "")
+        self.delegate.loginView(self, withEmail: self.userNameTextField.text ?? "")
     }
 }
 
-extension LoginView {
+extension FullLoginView {
     func keyboardAppear(_ info: NotificationManager.Info){
         if info.frame.origin.y < self.userNameTextField.frame.maxY {
             UIView.animate(withDuration: info.animation) {
@@ -147,40 +144,9 @@ extension LoginView {
     }
 }
 
-extension LoginView{
-    private func setConstraintsForShortLogin(){
-        addSubview(loginLabel)
-        NSLayoutConstraint.activate([
-            loginLabel.heightAnchor.constraint(equalToConstant: 50),
-            loginLabel.trailingAnchor.constraint(equalTo: safeAreaLayoutGuide.trailingAnchor, constant: -50),
-            loginLabel.leadingAnchor.constraint(equalTo: safeAreaLayoutGuide.leadingAnchor, constant: 50),
-        ])
-        
-        addSubview(userNameTextField)
-        NSLayoutConstraint.activate([
-            userNameTextField.topAnchor.constraint(equalTo: loginLabel.bottomAnchor, constant: 50),
-            userNameTextField.heightAnchor.constraint(equalToConstant: 50),
-            userNameTextField.trailingAnchor.constraint(equalTo: safeAreaLayoutGuide.trailingAnchor, constant: -50),
-            userNameTextField.leadingAnchor.constraint(equalTo: safeAreaLayoutGuide.leadingAnchor, constant: 50)
-        ])
-        
-        addSubview(buttonForLoging)
-        NSLayoutConstraint.activate([
-            bottomConstraint,
-            buttonForLoging.trailingAnchor.constraint(equalTo: safeAreaLayoutGuide.trailingAnchor, constant: -50),
-            buttonForLoging.leadingAnchor.constraint(equalTo: safeAreaLayoutGuide.leadingAnchor, constant: 50)
-        ])
-        
-        addSubview(buttonForRegister)
-        NSLayoutConstraint.activate([
-            buttonForRegister.topAnchor.constraint(equalTo: buttonForLoging.bottomAnchor, constant: 20),
-            buttonForRegister.bottomAnchor.constraint(equalTo: safeAreaLayoutGuide.bottomAnchor, constant: -50),
-            buttonForRegister.trailingAnchor.constraint(equalTo: safeAreaLayoutGuide.trailingAnchor, constant: -50),
-            buttonForRegister.leadingAnchor.constraint(equalTo: safeAreaLayoutGuide.leadingAnchor, constant: 50)
-        ])
-    }
+extension FullLoginView: LoginViewProtocol {
     
-    private func setConstraintsForLargeLogin(){
+    private func setConstraints(){
         addSubview(upperImage)
         NSLayoutConstraint.activate([
             upperImage.heightAnchor.constraint(equalTo: heightAnchor, multiplier: 0.3),
@@ -243,13 +209,9 @@ extension LoginView{
         buttonForRegister.removeFromSuperview()
     }
     
-    func setShortLogin(){
-        setConstraintsForShortLogin()
+    func setLogin(){
+        setConstraints()
     }
-    
-    func setLargeLogin(){
-        setConstraintsForLargeLogin()
-    }
-
 }
+
 

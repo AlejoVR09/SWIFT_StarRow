@@ -7,7 +7,12 @@
 
 import Foundation
 
+protocol LoginViewProtocol {
+    func keyboardAppear(_ info: NotificationManager.Info)
+    func keyboardDisappear(_ info: NotificationManager.Info)
+}
+
 @objc protocol LoginViewStrategy: AnyObject {
-    func loadLoginView(_ loginView: LoginView)
+    func setConstraints(_ loginView: LoginView)
     @objc optional func removeView(_ loginView: LoginView)
 }

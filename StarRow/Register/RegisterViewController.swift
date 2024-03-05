@@ -26,7 +26,6 @@ class RegisterViewController: UIViewController {
         super.viewDidLoad()
         self.view = registerView
         self.registerView.delegate = self
-        
         self.navigationItem.title = "Sing up"
 
     }

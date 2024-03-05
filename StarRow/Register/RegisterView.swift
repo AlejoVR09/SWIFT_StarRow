@@ -21,8 +21,42 @@ class RegisterView: UIView {
         image.translatesAutoresizingMaskIntoConstraints = false
         return image
     }()
+    
+    private var visualEffect: UIVisualEffectView = {
+        let visualEffect = UIVisualEffectView()
+        visualEffect.effect = UIBlurEffect(style: .dark)
+        visualEffect.layer.opacity = 0.5
+        visualEffect.translatesAutoresizingMaskIntoConstraints = false
+        return visualEffect
+    }()
+    
+    private var view: UIView = {
+        let view = UIView()
+        view.layer.opacity = 0.5
+        
+        view.translatesAutoresizingMaskIntoConstraints = false
+        return view
+    }()
 
     private let userNameTextField: UITextField = {
+        let textField = UITextField()
+        textField.backgroundColor = .init(red: 0.816, green: 0.851, blue: 0.910, alpha: 1)
+        textField.placeholder = "User Name"
+        textField.borderStyle = .roundedRect
+        textField.translatesAutoresizingMaskIntoConstraints = false
+        return textField
+    }()
+    
+    private let userEmailTextField: UITextField = {
+        let textField = UITextField()
+        textField.backgroundColor = .init(red: 0.816, green: 0.851, blue: 0.910, alpha: 1)
+        textField.placeholder = "Email"
+        textField.borderStyle = .roundedRect
+        textField.translatesAutoresizingMaskIntoConstraints = false
+        return textField
+    }()
+    
+    private let userPhoneTextField: UITextField = {
         let textField = UITextField()
         textField.backgroundColor = .init(red: 0.816, green: 0.851, blue: 0.910, alpha: 1)
         textField.placeholder = "Email"
@@ -57,7 +91,7 @@ class RegisterView: UIView {
             attribute: .bottom,
             multiplier: 1,
             constant: 20)
-        super.init(frame: .init(x: 0, y: 0, width: UIScreen.main.bounds.width, height: UIScreen.main.bounds.height))
+        super.init(frame: .zero)
         tapGesture = UITapGestureRecognizer(target: self, action: #selector(handleTap(_ :)))
         addGestureRecognizer(tapGesture)
         backgroundColor = .black
@@ -74,31 +108,6 @@ class RegisterView: UIView {
     
     @objc private func goToMoviesView(){
         self.delegate?.buttonPressedToSign(self)
-    }
-    
-    private func setConstraintsForRegister(){
-        addSubview(backGroundImage)
-        NSLayoutConstraint.activate([
-            backGroundImage.topAnchor.constraint(equalTo: topAnchor),
-            backGroundImage.bottomAnchor.constraint(equalTo: bottomAnchor),
-            backGroundImage.trailingAnchor.constraint(equalTo: trailingAnchor),
-            backGroundImage.leadingAnchor.constraint(equalTo: leadingAnchor)
-        ])
-        
-        addSubview(userNameTextField)
-        NSLayoutConstraint.activate([
-            userNameTextField.heightAnchor.constraint(equalToConstant: 50),
-            userNameTextField.trailingAnchor.constraint(equalTo: safeAreaLayoutGuide.trailingAnchor, constant: -50),
-            userNameTextField.leadingAnchor.constraint(equalTo: safeAreaLayoutGuide.leadingAnchor, constant: 50)
-        ])
-        
-        addSubview(signUpButton)
-        NSLayoutConstraint.activate([
-            bottomConstraint,
-            signUpButton.bottomAnchor.constraint(equalTo: safeAreaLayoutGuide.bottomAnchor, constant: -50),
-            signUpButton.trailingAnchor.constraint(equalTo: safeAreaLayoutGuide.trailingAnchor, constant: -50),
-            signUpButton.leadingAnchor.constraint(equalTo: safeAreaLayoutGuide.leadingAnchor, constant: 50)
-        ])
     }
 }
 
@@ -117,5 +126,40 @@ extension RegisterView {
             self.bottomConstraint.constant = 20
             self.layoutIfNeeded()
         }
+    }
+}
+
+extension RegisterView {
+    private func setConstraintsForRegister(){
+        addSubview(backGroundImage)
+        NSLayoutConstraint.activate([
+            backGroundImage.topAnchor.constraint(equalTo: topAnchor),
+            backGroundImage.bottomAnchor.constraint(equalTo: bottomAnchor),
+            backGroundImage.trailingAnchor.constraint(equalTo: trailingAnchor),
+            backGroundImage.leadingAnchor.constraint(equalTo: leadingAnchor)
+        ])
+        
+        backGroundImage.addSubview(visualEffect)
+        NSLayoutConstraint.activate([
+            visualEffect.topAnchor.constraint(equalTo: backGroundImage.topAnchor),
+            visualEffect.bottomAnchor.constraint(equalTo: backGroundImage.bottomAnchor),
+            visualEffect.trailingAnchor.constraint(equalTo: backGroundImage.trailingAnchor),
+            visualEffect.leadingAnchor.constraint(equalTo: backGroundImage.leadingAnchor)
+        ])
+        
+        addSubview(userNameTextField)
+        NSLayoutConstraint.activate([
+            userNameTextField.heightAnchor.constraint(equalToConstant: 50),
+            userNameTextField.trailingAnchor.constraint(equalTo: safeAreaLayoutGuide.trailingAnchor, constant: -50),
+            userNameTextField.leadingAnchor.constraint(equalTo: safeAreaLayoutGuide.leadingAnchor, constant: 50)
+        ])
+        
+        addSubview(signUpButton)
+        NSLayoutConstraint.activate([
+            bottomConstraint,
+            signUpButton.bottomAnchor.constraint(equalTo: safeAreaLayoutGuide.bottomAnchor, constant: -50),
+            signUpButton.trailingAnchor.constraint(equalTo: safeAreaLayoutGuide.trailingAnchor, constant: -50),
+            signUpButton.leadingAnchor.constraint(equalTo: safeAreaLayoutGuide.leadingAnchor, constant: 50)
+        ])
     }
 }

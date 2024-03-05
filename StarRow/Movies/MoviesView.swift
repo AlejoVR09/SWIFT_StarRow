@@ -20,8 +20,6 @@ class MoviesView: UIView{
     init(adapter: AdapterProtocol, searchBarAdapter: MovieSearchAdapter) {
         self.adapter = adapter
         self.searchBarAdapter = searchBarAdapter
-        self.searchBar.delegate = self.searchBarAdapter
-        
         super.init(frame: .init(x: 0, y: 0, width: UIScreen.main.bounds.width, height: UIScreen.main.bounds.height))
         backgroundColor = .white
         self.tapGesture = UITapGestureRecognizer(target: self, action: #selector(handleTap(_ :)))
@@ -58,7 +56,7 @@ class MoviesView: UIView{
     private var viewForSearch: UIView = {
         let view = UIView()
         view.translatesAutoresizingMaskIntoConstraints = false
-        view.backgroundColor = .white
+        view.backgroundColor = UIColor(named: "Main")
         view.isHidden = true
         return view
     }()
@@ -67,6 +65,7 @@ class MoviesView: UIView{
         let label = UILabel()
         label.translatesAutoresizingMaskIntoConstraints = false
         label.text = "Cannot find searched element/s"
+        label.textColor = UIColor(named: "MainInverse")
         return label
     }()
     
@@ -93,6 +92,51 @@ extension MoviesView {
     }
 }
 // MARK: Constraints and Methods
+extension MoviesView {
+    func setSeachView(){
+        self.viewForSearch.isHidden = false
+        self.movieCollectionView.isHidden = true
+        self.tapGesture.isEnabled = true
+    }
+    
+    func removeSearchView(){
+        self.viewForSearch.isHidden = true
+        self.movieCollectionView.isHidden = false
+        self.tapGesture.isEnabled = false
+    }
+    
+    func setUpAdapter(){
+        self.adapter.setUpCollectionView(self.movieCollectionView)
+        self.searchBarAdapter.setUpSearchBar(self.searchBar)
+        self.delegate?.moviesViewPullToRefreshApiData(self)
+    }
+    
+    func updateCollectionView(_ newArrayMovies: [MoviesEntity]){
+        self.adapter.data = newArrayMovies
+        DispatchQueue.main.async {
+            self.movieCollectionView.reloadData()
+        }
+    }
+    
+    func addPullToRefresh(){
+        self.movieCollectionView.alwaysBounceVertical = true
+        self.movieCollectionView.bounces = true
+        self.movieCollectionView.refreshControl = pullToRefresh
+    }
+    
+    func scrollToTop(){
+        self.movieCollectionView.setContentOffset(CGPoint.zero, animated: true)
+    }
+    
+    func closeKeyboard(){
+        self.searchBar.resignFirstResponder()
+    }
+    
+    func cleanSearchBar(){
+        self.searchBar.text = ""
+    }
+}
+
 extension MoviesView {
     private func setConstraints(){
         addSubview(searchBar)
@@ -124,46 +168,5 @@ extension MoviesView {
             labelForSearch.centerYAnchor.constraint(equalTo: viewForSearch.centerYAnchor, constant: 0),
             labelForSearch.centerXAnchor.constraint(equalTo: viewForSearch.centerXAnchor, constant: 0)
         ])
-    }
-    
-    func setSeachView(){
-        self.viewForSearch.isHidden = false
-        self.movieCollectionView.isHidden = true
-        self.tapGesture.isEnabled = true
-    }
-    
-    func removeSearchView(){
-        self.viewForSearch.isHidden = true
-        self.movieCollectionView.isHidden = false
-        self.tapGesture.isEnabled = false
-    }
-    
-    func setUpAdapter(){
-        self.adapter.setUpCollectionView(self.movieCollectionView)
-    }
-    
-    func updateCollectionView(_ newArrayMovies: [MoviesEntity]){
-        self.adapter.data = newArrayMovies
-        DispatchQueue.main.async {
-            self.movieCollectionView.reloadData()
-        }
-    }
-    
-    func addPullToRefresh(){
-        self.movieCollectionView.alwaysBounceVertical = true
-        self.movieCollectionView.bounces = true
-        self.movieCollectionView.refreshControl = pullToRefresh
-    }
-    
-    func scrollToTop(){
-        self.movieCollectionView.setContentOffset(CGPoint.zero, animated: true)
-    }
-    
-    func closeKeyboard(){
-        self.searchBar.resignFirstResponder()
-    }
-    
-    func cleanSearchBar(){
-        self.searchBar.text = ""
     }
 }

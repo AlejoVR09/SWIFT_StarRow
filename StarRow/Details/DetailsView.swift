@@ -69,15 +69,9 @@ class DetailsView: UIView {
         return view
     }()
     
-    private var blurEffect: UIBlurEffect = {
-        let blurEffect = UIBlurEffect(style: .dark)
-        return blurEffect
-    }()
-    
     private var visualEffect: UIVisualEffectView = {
         let visualEffect = UIVisualEffectView()
-        let blurEffect = UIBlurEffect(style: .dark)
-        visualEffect.effect = blurEffect
+        visualEffect.effect = UIBlurEffect(style: .dark)
         visualEffect.translatesAutoresizingMaskIntoConstraints = false
         return visualEffect
     }()
@@ -186,7 +180,9 @@ extension DetailsView{
         self.descriptionLabel.text = "Description"
         self.descriptionData.text = data.description
     }
-    
+}
+
+extension DetailsView {
     private func setConstraints(){
         addSubview(loadingView)
         NSLayoutConstraint.activate([

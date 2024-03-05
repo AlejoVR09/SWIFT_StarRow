@@ -23,7 +23,7 @@ protocol AdapterDelegate: AnyObject {
 
 class CollectionViewAdapter: NSObject, AdapterProtocol, UICollectionViewDelegate, UICollectionViewDataSource{
     
-    private unowned var adaptated: UICollectionView?
+    private unowned var adapted: UICollectionView?
     weak var delegate: AdapterDelegate?
     var data: [MoviesEntity] = []
     var strategy: AdapterStrategyProtocol
@@ -36,8 +36,8 @@ class CollectionViewAdapter: NSObject, AdapterProtocol, UICollectionViewDelegate
         self.strategy.registerCell(collectionView)
         collectionView.dataSource = self
         collectionView.delegate = self
-        self.adaptated = collectionView
-        self.adaptated?.collectionViewLayout = self.strategy.createLayout()
+        self.adapted = collectionView
+        self.adapted?.collectionViewLayout = self.strategy.createLayout()
     }
     
     func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {

@@ -8,15 +8,21 @@
 import Foundation
 import UIKit
 
-class MovieSearchAdapter:NSObject, UISearchBarDelegate {
-    
+class MovieSearchAdapter: NSObject, UISearchBarDelegate {
     var moviesView: MoviesView?
     var movies: [MoviesEntity] = []
     var filteredMovies: [MoviesEntity] = []
     var isLookingFor: Bool = false
+    private unowned var adapted: UISearchBar?
+    
+    func setUpSearchBar(_ searchBar: UISearchBar){
+        searchBar.delegate = self
+        self.adapted = searchBar
+    }
     
     func searchBar(_ searchBar: UISearchBar, textDidChange searchText: String) {
-        self.filteredMovies = self.movies.filter({ movie in movie.name.lowercased().contains(searchText.lowercased()) })
+        let loweredText = searchText.lowercased()
+        self.filteredMovies = self.movies.filter({ movie in movie.name.lowercased().contains(loweredText) })
         self.filteredMovies.isEmpty ? self.moviesView?.setSeachView() : self.moviesView?.removeSearchView()
         self.moviesView?.updateCollectionView(filteredMovies)
     }
