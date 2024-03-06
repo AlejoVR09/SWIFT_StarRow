@@ -19,7 +19,7 @@ class TabBarController: UITabBarController {
     
     @objc func didButtonPressedLogOut(){
         UserDefaults.standard.removeObject(forKey: "isLoggedIn")
-        self.navigationController?.popViewController(animated: true)
+        self.navigationController?.popToRootViewController(animated: true)
     }
 }
 

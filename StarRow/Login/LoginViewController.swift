@@ -14,13 +14,13 @@ class LoginViewController: UIViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        UserDefaults.standard.setValue(true, forKey: "isLoggedIn")
     }
     
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
         self.notificationCenter.registerObserver()
-        self.view = UserDefaults.standard.bool(forKey: "isLoggedIn") ? ShortLoginView(delegate: self) : FullLoginView(delegate: self)
+        self.loginView = UserDefaults.standard.bool(forKey: "isLoggedIn") ? ShortLoginView(delegate: self) : FullLoginView(delegate: self)
+        self.view = self.loginView as? UIView
     }
     
     override func viewWillDisappear(_ animated: Bool) {
@@ -37,6 +37,10 @@ extension LoginViewController: LoginViewDelegate {
     
     func loginViewDidButtonPressedToSignUp(loginView: LoginViewProtocol) {
         self.navigationController?.show(RegisterViewController(registerView: RegisterView()), sender: nil)
+    }
+    
+    func loginViewGoToLargeLogin() {
+        self.view = FullLoginView(delegate: self)
     }
 }
 

@@ -13,7 +13,7 @@ protocol NotificationManagerDelegate: AnyObject {
     func NotificationManagerDelegate(_ notificationManager: NotificationManager, keyboardWillHide info: NotificationManager.Info)
 }
 
-class NotificationManager {
+class NotificationManager: NSObject {
     
     unowned let notificationManagerDelegate: NotificationManagerDelegate
     
