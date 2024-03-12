@@ -34,7 +34,7 @@ class FullLoginView: UIView, LoginViewProtocol {
     private let appNameView: UIView = {
         let view = UIView()
         view.translatesAutoresizingMaskIntoConstraints = false
-        view.layer.cornerRadius = 50
+        view.layer.cornerRadius = 30
         view.backgroundColor = .white
         view.layer.maskedCorners = [.layerMinXMinYCorner, .layerMinXMaxYCorner]
         view.layer.shadowOffset = CGSize(width: 0, height: 0)
@@ -47,7 +47,7 @@ class FullLoginView: UIView, LoginViewProtocol {
     private let appNameLabel: UILabel = {
         let label = UILabel()
         label.textColor = .black
-        label.font = UIFont(name: "Impact", size: 24)
+        label.font = UIFont(name: "Marker Felt", size: 30)
         label.textAlignment = .center
         label.text = "StarRow"
         label.translatesAutoresizingMaskIntoConstraints = false
@@ -65,24 +65,14 @@ class FullLoginView: UIView, LoginViewProtocol {
     private let loginLabel: UILabel = {
         let label = UILabel()
         label.textColor = UIColor(named: "MainInverse")
-        label.font = UIFont(name: "Impact", size: 36)
+        label.font = UIFont(name: "Marker Felt", size: 36)
         label.textAlignment = .center
         label.text = "Login"
         label.translatesAutoresizingMaskIntoConstraints = false
         return label
     }()
     
-    private let userNameTextField: UITextField = {
-        let textField = UITextField()
-        textField.backgroundColor = .init(white: 0, alpha: 0)
-        textField.placeholder = "Email"
-        textField.textColor = UIColor(named: "MainInverse")
-        textField.layer.borderColor = UIColor(named: "MainText")?.cgColor
-        textField.layer.borderWidth = 1
-        textField.borderStyle = .roundedRect
-        textField.translatesAutoresizingMaskIntoConstraints = false
-        return textField
-    }()
+    private let userNameTextField: UITextField = MainTextField(withText: "Email")
     
     private let buttonForLoging: UIButton = {
         let button = UIButton(type: .system)
@@ -91,7 +81,7 @@ class FullLoginView: UIView, LoginViewProtocol {
         button.layer.borderWidth = 1
         button.backgroundColor = .clear
         button.titleLabel?.tintColor = UIColor(named: "MainInverse")
-        button.titleLabel?.font = UIFont.systemFont(ofSize: 20)
+        button.titleLabel?.font = UIFont(name: "Marker Felt", size: 24 )
         button.layer.cornerRadius = 15
         button.setTitle("Login", for: .normal)
         button.translatesAutoresizingMaskIntoConstraints = false
@@ -99,21 +89,20 @@ class FullLoginView: UIView, LoginViewProtocol {
         return button
     }()
     
-    private let stackView: UIStackView = {
-        let stack = UIStackView()
-        stack.axis = .horizontal
-        stack.distribution = .fillEqually
-        stack.translatesAutoresizingMaskIntoConstraints = false
-        return stack
-    }()
+    private let stackView: UIStackView = StackViewType(orientation: .vertical, innerSpacing: 10)
+    
+    private let innerStack: UIStackView = StackViewType(orientation: .horizontal, innerSpacing: 10)
     
     private let buttonForRegister: UIButton = {
         let button = UIButton(type: .system)
         button.frame = .zero
         button.setTitle("Create Account", for: .normal)
         button.titleLabel?.tintColor = UIColor(named: "MainInverse")
-        button.titleLabel?.font = UIFont.systemFont(ofSize: 16, weight: .light)
+        button.titleLabel?.font = UIFont(name: "Marker Felt", size: 18)
         button.translatesAutoresizingMaskIntoConstraints = false
+        button.layer.borderColor = UIColor(named: "MainText")?.cgColor
+        button.layer.borderWidth = 1
+        button.layer.cornerRadius = 15
         button.addTarget(nil, action: #selector(goToRegisterView), for: .touchUpInside)
         return button
     }()
@@ -122,18 +111,20 @@ class FullLoginView: UIView, LoginViewProtocol {
         let switcher = UISwitch()
         switcher.frame = .zero
         switcher.tintColor = UIColor(named: "Main")
-        switcher.thumbTintColor = UIColor(named: "MainInverse")
         switcher.onTintColor = UIColor(named: "MainText")
         switcher.translatesAutoresizingMaskIntoConstraints = false
         switcher.addTarget(nil, action: #selector(yes), for: .touchUpInside)
         return switcher
     }()
     
-    private let separator: UIView = {
-       let view = UIView()
-        view.backgroundColor = UIColor(named: "MainInverse")
-        view.translatesAutoresizingMaskIntoConstraints = false
-        return view
+    private let rememberMeLabel: UILabel = {
+        let label = UILabel()
+        label.textColor = UIColor(named: "MainInverse")
+        label.font = UIFont(name: "Marker Felt", size: 18)
+        label.textAlignment = .center
+        label.text = "Remember Me?"
+        label.translatesAutoresizingMaskIntoConstraints = false
+        return label
     }()
     
     private let separatorToLabel: UIView = {
@@ -195,10 +186,10 @@ extension FullLoginView {
         
         addSubview(appNameView)
         NSLayoutConstraint.activate([
-            appNameView.heightAnchor.constraint(equalToConstant: 100),
+            appNameView.heightAnchor.constraint(equalToConstant: 60),
             appNameView.topAnchor.constraint(equalTo: upperImage.bottomAnchor, constant: -25),
             appNameView.trailingAnchor.constraint(equalTo: trailingAnchor, constant: 0),
-            appNameView.leadingAnchor.constraint(equalTo: leadingAnchor, constant: 25)
+            appNameView.leadingAnchor.constraint(equalTo: leadingAnchor, constant: 45)
         ])
         
         
@@ -210,9 +201,9 @@ extension FullLoginView {
         
         addSubview(contentView)
         NSLayoutConstraint.activate([
-            contentView.bottomAnchor.constraint(equalTo: safeAreaLayoutGuide.bottomAnchor, constant: -40),
-            contentView.leadingAnchor.constraint(equalTo: safeAreaLayoutGuide.leadingAnchor, constant: 10),
-            contentView.trailingAnchor.constraint(equalTo: safeAreaLayoutGuide.trailingAnchor, constant: -10),
+            contentView.bottomAnchor.constraint(equalTo: safeAreaLayoutGuide.bottomAnchor, constant: -60),
+            contentView.leadingAnchor.constraint(equalTo: safeAreaLayoutGuide.leadingAnchor, constant: 15),
+            contentView.trailingAnchor.constraint(equalTo: safeAreaLayoutGuide.trailingAnchor, constant: -15),
             contentView.topAnchor.constraint(equalTo: appNameView.bottomAnchor, constant: 20)
         ])
         
@@ -221,12 +212,20 @@ extension FullLoginView {
             loginLabel.heightAnchor.constraint(equalToConstant: 50),
             loginLabel.trailingAnchor.constraint(equalTo: contentView.trailingAnchor, constant: -50),
             loginLabel.leadingAnchor.constraint(equalTo: contentView.leadingAnchor, constant: 50),
-            loginLabel.topAnchor.constraint(equalTo: contentView.topAnchor, constant: 10)
+            loginLabel.topAnchor.constraint(equalTo: contentView.topAnchor, constant: 20)
         ])
         
-        contentView.addSubview(userNameTextField)
+        contentView.addSubview(separatorToLabel)
         NSLayoutConstraint.activate([
-            userNameTextField.heightAnchor.constraint(equalToConstant: 50),
+            separatorToLabel.heightAnchor.constraint(equalToConstant: 1),
+            separatorToLabel.trailingAnchor.constraint(equalTo: contentView.trailingAnchor, constant: -20),
+            separatorToLabel.leadingAnchor.constraint(equalTo: contentView.leadingAnchor, constant: 20),
+            separatorToLabel.topAnchor.constraint(equalTo: loginLabel.bottomAnchor, constant: 1)
+        ])
+        
+        addSubview(userNameTextField)
+        NSLayoutConstraint.activate([
+            userNameTextField.heightAnchor.constraint(equalToConstant: 60),
             userNameTextField.trailingAnchor.constraint(equalTo: safeAreaLayoutGuide.trailingAnchor, constant: -50),
             userNameTextField.leadingAnchor.constraint(equalTo: safeAreaLayoutGuide.leadingAnchor, constant: 50)
         ])
@@ -234,22 +233,23 @@ extension FullLoginView {
         contentView.addSubview(buttonForLoging)
         NSLayoutConstraint.activate([
             bottomConstraint,
-            buttonForLoging.trailingAnchor.constraint(equalTo: contentView.trailingAnchor, constant: -40),
-            buttonForLoging.leadingAnchor.constraint(equalTo: contentView.leadingAnchor, constant: 40)
+            buttonForLoging.trailingAnchor.constraint(equalTo: contentView.trailingAnchor, constant: -30),
+            buttonForLoging.leadingAnchor.constraint(equalTo: contentView.leadingAnchor, constant: 30),
+            buttonForLoging.heightAnchor.constraint(equalToConstant: 50)
         ])
         
         contentView.addSubview(stackView)
         NSLayoutConstraint.activate([
             stackView.topAnchor.constraint(equalTo: buttonForLoging.bottomAnchor, constant: 20),
-            stackView.bottomAnchor.constraint(equalTo: contentView.bottomAnchor, constant: -50),
-            stackView.trailingAnchor.constraint(equalTo: contentView.trailingAnchor, constant: -40),
-            stackView.leadingAnchor.constraint(equalTo: contentView.leadingAnchor, constant: 40)
+            stackView.bottomAnchor.constraint(equalTo: contentView.bottomAnchor, constant: -40),
+            stackView.trailingAnchor.constraint(equalTo: contentView.trailingAnchor, constant: -30),
+            stackView.leadingAnchor.constraint(equalTo: contentView.leadingAnchor, constant: 30)
         ])
         
-        stackView.addArrangedSubview(switcher)
+        stackView.addArrangedSubview(innerStack)
+        innerStack.addArrangedSubview(switcher)
+        innerStack.addArrangedSubview(rememberMeLabel)
         stackView.addArrangedSubview(buttonForRegister)
-        
-        
         
     }
 }

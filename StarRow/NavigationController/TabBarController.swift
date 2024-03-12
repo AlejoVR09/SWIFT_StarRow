@@ -4,9 +4,9 @@ class TabBarController: UITabBarController {
 
     override func viewDidLoad() {
         super.viewDidLoad()
-        self.navigationItem.title = "AppName"
+        self.navigationItem.title = "Row Stars"
         self.navigationItem.rightBarButtonItem = UIBarButtonItem(
-            title: NSLocalizedString("logOut", comment: ""),
+            image: UIImage(systemName: "person.circle"),
             style: .plain,
             target: self,
             action: #selector(didButtonPressedLogOut)
@@ -18,8 +18,7 @@ class TabBarController: UITabBarController {
     }
     
     @objc func didButtonPressedLogOut(){
-        UserDefaults.standard.removeObject(forKey: "isLoggedIn")
-        self.navigationController?.popToRootViewController(animated: true)
+        self.navigationController?.present(ProfileViewController(profileView: ProfileView(), delegate: self), animated: true)
     }
 }
 
@@ -44,5 +43,11 @@ extension TabBarController {
         controller.tabBarItem.selectedImage = UIImage(systemName: "star.fill")
         controller.tabBarItem.title = "Favorites"
         return controller
+    }
+}
+
+extension TabBarController: ProfileViewControllerDelegate {
+    func closeViewController(_ profileViewController: ProfileViewController) {
+        self.navigationController?.popToRootViewController(animated: true)
     }
 }

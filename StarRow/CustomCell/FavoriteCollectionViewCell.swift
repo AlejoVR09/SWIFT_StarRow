@@ -30,9 +30,27 @@ class FavoriteCollectionViewCell: UICollectionViewCell {
     }
     
     func updateData(movie: MoviesEntity){
-        self.imageView.kf.setImage(with: URL(string: "https://image.tmdb.org/t/p/w500/" + movie.poster))
         self.title.text = movie.name
         self.releaseDate.text = MoviesEntity.formatShortDate(movie.releaseDate)
+        guard let url = URL(string: "https://image.tmdb.org/t/p/w500/" + movie.poster) else { return }
+        URLSession.shared.dataTask(with: url) { (data, response, error) in
+            guard error == nil else {
+                DispatchQueue.main.async {
+                    self.imageView.image = UIImage(named: "star")
+                }
+                return
+            }
+            guard let imageData = data else {
+                DispatchQueue.main.async {
+                    self.imageView.image = UIImage(named: "star")
+                }
+                return
+            }
+            DispatchQueue.main.async {
+                self.imageView.image = UIImage(data: imageData as Data)
+            }
+        }.resume()
+        
     }
 }
 

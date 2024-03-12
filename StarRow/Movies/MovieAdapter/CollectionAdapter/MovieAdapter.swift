@@ -11,25 +11,25 @@ import CoreData
 
 
 protocol AdapterProtocol: AnyObject {
-    var delegate: AdapterDelegate? { get set }
     var data: [MoviesEntity] { get set }
     var strategy: AdapterStrategyProtocol { get set }
     func setUpCollectionView(_ collectionView: UICollectionView)
-}
-
-protocol AdapterDelegate: AnyObject {
-    func didSelectMovie(_ apiAdapter: AdapterProtocol, indexPath: IndexPath)
+    func didSelectHandler(_ handler: @escaping (_ movie: MoviesEntity) -> Void)
 }
 
 class CollectionViewAdapter: NSObject, AdapterProtocol, UICollectionViewDelegate, UICollectionViewDataSource{
     
     private unowned var adapted: UICollectionView?
-    weak var delegate: AdapterDelegate?
     var data: [MoviesEntity] = []
     var strategy: AdapterStrategyProtocol
+    private var didSelect: ((_ movie: MoviesEntity) -> Void)?
     
     init(strategy: AdapterStrategyProtocol) {
         self.strategy = strategy
+    }
+    
+    func didSelectHandler(_ handler: @escaping (_ movie: MoviesEntity) -> Void) {
+        self.didSelect = handler
     }
     
     func setUpCollectionView(_ collectionView: UICollectionView){
@@ -41,7 +41,7 @@ class CollectionViewAdapter: NSObject, AdapterProtocol, UICollectionViewDelegate
     }
     
     func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
-        self.delegate?.didSelectMovie(self, indexPath: indexPath)
+        self.didSelect?(data[indexPath.item])
     }
 
     func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
@@ -49,6 +49,6 @@ class CollectionViewAdapter: NSObject, AdapterProtocol, UICollectionViewDelegate
     }
     
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
-        return self.strategy.reusableCell(collectionView, cellForItemAt: indexPath, data: self.data[indexPath.item])
+        return self.strategy.reusableCell(collectionView, cellForItemAt: indexPath, data: self.data[indexPath.row])
     }
 }

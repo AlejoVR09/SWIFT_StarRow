@@ -43,18 +43,25 @@ class CustomCollectionViewCell: UICollectionViewCell {
         return label
     }()
     
-    private let starView: StarMaskView = StarMaskView()
+    private let starView: StarMaskView = StarMaskView(size: 180)
+    
     override init(frame: CGRect) {
         super.init(frame: frame)
-        setConstraint()
         backgroundColor = UIColor(named: "Main")
         setShadow()
+        setConstraint()
     }
     
     required init?(coder: NSCoder) {
         super.init(coder: coder)
-        setConstraint()
         setShadow()
+        setConstraint()
+    }
+    
+    override func prepareForReuse() {
+        super.prepareForReuse()
+        setShadow()
+        setConstraint()
     }
 
     private func setConstraint(){
@@ -80,9 +87,8 @@ class CustomCollectionViewCell: UICollectionViewCell {
         ])
         
         addSubview(starView)
-        starView.translatesAutoresizingMaskIntoConstraints = false
         NSLayoutConstraint.activate([
-           starView.heightAnchor.constraint(equalToConstant: 50),
+           starView.heightAnchor.constraint(equalToConstant: 20),
            starView.widthAnchor.constraint(equalToConstant: 180),
            starView.leadingAnchor.constraint(equalTo: imageView.trailingAnchor, constant: 10),
            starView.topAnchor.constraint(equalTo: stack.bottomAnchor, constant: 20),
@@ -93,16 +99,34 @@ class CustomCollectionViewCell: UICollectionViewCell {
         self.layer.masksToBounds = false
         self.layer.cornerRadius = CGFloat(integerLiteral: 10)
         self.layer.shadowOffset = CGSize(width: 0, height: 0)
-        self.layer.shadowColor = CGColor(red: 0.150, green: 0.150, blue: 0.150, alpha: 1)
+        self.layer.shadowColor = CGColor(red: 0.2, green: 0.2, blue: 2, alpha: 1)
         self.layer.shadowOpacity = 0.5
-        self.layer.shadowRadius = 1.5
+        self.layer.shadowRadius = 2
     }
     
     func updateData(movie: MoviesEntity){
-        self.imageView.kf.setImage(with: URL(string: "https://image.tmdb.org/t/p/w500/" + movie.poster))
         self.nameLabel.text = movie.name
         self.dateLabel.text = "Release Date: \n" + MoviesEntity.formatDate(movie.releaseDate)
         self.starView.setProgress(num: Float(movie.voteAverage))
+        guard let url = URL(string: "https://image.tmdb.org/t/p/w500/" + movie.poster) else { return }
+        URLSession.shared.dataTask(with: url) { (data, response, error) in
+            guard error == nil else {
+                DispatchQueue.main.async {
+                    self.imageView.image = UIImage(named: "star")
+                }
+                return
+            }
+            guard let imageData = data else {
+                DispatchQueue.main.async {
+                    self.imageView.image = UIImage(named: "star")
+                }
+                return
+            }
+            DispatchQueue.main.async {
+                self.imageView.image = UIImage(data: imageData as Data)
+            }
+        }.resume()
+        
     }
 }
 

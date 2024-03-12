@@ -22,6 +22,11 @@ class ShortLoginView: UIView, LoginViewProtocol {
         fatalError()
     }
     
+    override func draw(_ rect: CGRect) {
+        super.draw(rect)
+        setUpCirclebutton()
+    }
+    
     private let backGroundImage: UIImageView = {
         let image = UIImageView(image: UIImage(named: "RowStar_2"))
         image.contentMode = .scaleAspectFill
@@ -48,22 +53,25 @@ class ShortLoginView: UIView, LoginViewProtocol {
     private let loginLabel: UILabel = {
         let label = UILabel()
         label.textColor = UIColor(named: "MainInverse")
-        label.font = UIFont(name: "Impact", size: 36)
+        label.font = UIFont(name: "Marker Felt", size: 36)
         label.textAlignment = .center
-        label.text = "Login"
+        label.text = "Login as: "
         label.translatesAutoresizingMaskIntoConstraints = false
         return label
     }()
     
     private let buttonForLoging: UIButton = {
         let button = UIButton(type: .system)
-        button.frame = .zero
-        button.layer.borderColor = UIColor(named: "MainText")?.cgColor
+        button.backgroundColor = .clear
+        button.clipsToBounds = true
         button.layer.borderWidth = 1
-        button.backgroundColor = UIColor(named: "MainOpacity")
-        button.setTitle("Login", for: .normal)
+        button.titleLabel?.numberOfLines = 0
+        button.titleLabel?.lineBreakMode = .byTruncatingTail
+        button.titleLabel?.textAlignment = .center
+        button.layer.borderColor = UIColor(named: "MainText")?.cgColor
+        button.setTitle("jhondoe@gmail.com", for: .normal)
         button.titleLabel?.tintColor = UIColor(named: "MainInverse")
-        button.titleLabel?.font = UIFont.systemFont(ofSize: 20)
+        button.titleLabel?.font = UIFont(name: "Marker Felt", size: 20)
         button.translatesAutoresizingMaskIntoConstraints = false
         button.addTarget(nil, action: #selector(goToMoviesView), for: .touchUpInside)
         return button
@@ -86,7 +94,7 @@ class ShortLoginView: UIView, LoginViewProtocol {
         button.layer.cornerRadius = 15
         button.setTitle("Create Account", for: .normal)
         button.titleLabel?.tintColor = UIColor(named: "MainInverse")
-        button.titleLabel?.font = UIFont.systemFont(ofSize: 16, weight: .light)
+        button.titleLabel?.font = UIFont(name: "Marker Felt", size: 18)
         button.translatesAutoresizingMaskIntoConstraints = false
         button.addTarget(nil, action: #selector(goToRegisterView), for: .touchUpInside)
         return button
@@ -100,7 +108,7 @@ class ShortLoginView: UIView, LoginViewProtocol {
         button.layer.cornerRadius = 15
         button.setTitle("Use another account", for: .normal)
         button.titleLabel?.tintColor = UIColor(named: "MainInverse")
-        button.titleLabel?.font = UIFont.systemFont(ofSize: 16, weight: .light)
+        button.titleLabel?.font = UIFont(name: "Marker Felt", size: 18)
         button.translatesAutoresizingMaskIntoConstraints = false
         button.addTarget(nil, action: #selector(goToLargeLogin), for: .touchUpInside)
         return button
@@ -120,6 +128,9 @@ class ShortLoginView: UIView, LoginViewProtocol {
         return view
     }()
     
+    private func setUpCirclebutton(){
+        self.buttonForLoging.layer.cornerRadius = self.buttonForLoging.bounds.height / 2
+    }
 }
 
 extension ShortLoginView {
@@ -159,14 +170,14 @@ extension ShortLoginView {
             contentView.centerXAnchor.constraint(equalTo: centerXAnchor, constant: 0),
             contentView.centerYAnchor.constraint(equalTo: centerYAnchor, constant: -20),
             contentView.widthAnchor.constraint(equalTo: widthAnchor, multiplier: 0.8),
-            contentView.heightAnchor.constraint(equalTo: heightAnchor, multiplier: 0.4)
+            contentView.heightAnchor.constraint(equalTo: heightAnchor, multiplier: 0.6)
         ])
         
         contentView.addSubview(loginLabel)
         NSLayoutConstraint.activate([
-            loginLabel.heightAnchor.constraint(equalToConstant: 50),
-            loginLabel.trailingAnchor.constraint(equalTo: contentView.trailingAnchor, constant: -50),
-            loginLabel.leadingAnchor.constraint(equalTo: contentView.leadingAnchor, constant: 50),
+            loginLabel.heightAnchor.constraint(equalToConstant: 60),
+            loginLabel.trailingAnchor.constraint(equalTo: contentView.trailingAnchor, constant: -10),
+            loginLabel.leadingAnchor.constraint(equalTo: contentView.leadingAnchor, constant: 10),
         ])
         
         contentView.addSubview(separatorToLabel)
@@ -180,7 +191,8 @@ extension ShortLoginView {
         contentView.addSubview(buttonForLoging)
         NSLayoutConstraint.activate([
             buttonForLoging.topAnchor.constraint(equalTo: separatorToLabel.bottomAnchor, constant: 25),
-            buttonForLoging.widthAnchor.constraint(equalTo: contentView.widthAnchor, multiplier: 0.5),
+            buttonForLoging.widthAnchor.constraint(equalToConstant: 240),
+            buttonForLoging.heightAnchor.constraint(equalToConstant: 240),
             buttonForLoging.centerXAnchor.constraint(equalTo: centerXAnchor, constant: 0),
             buttonForLoging.centerYAnchor.constraint(equalTo: centerYAnchor, constant: -40)
         ])
@@ -197,7 +209,8 @@ extension ShortLoginView {
         NSLayoutConstraint.activate([
             stackView.topAnchor.constraint(equalTo: separatorToButton.bottomAnchor, constant: 25),
             stackView.trailingAnchor.constraint(equalTo: contentView.trailingAnchor, constant: -10),
-            stackView.leadingAnchor.constraint(equalTo: contentView.leadingAnchor, constant: 10)
+            stackView.leadingAnchor.constraint(equalTo: contentView.leadingAnchor, constant: 10),
+            stackView.bottomAnchor.constraint(equalTo: contentView.bottomAnchor, constant: -25)
         ])
         
         stackView.addArrangedSubview(buttonForLargeLogin)

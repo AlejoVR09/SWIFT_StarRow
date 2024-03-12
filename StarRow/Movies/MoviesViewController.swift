@@ -16,7 +16,6 @@ class MoviesViewController: UIViewController {
         self.moviesView = moviesView
         self.strategy = strategy
         super.init(nibName: nil, bundle: nil)
-        self.moviesView.adapter.delegate = self
     }
     
     required init?(coder: NSCoder) {
@@ -26,11 +25,12 @@ class MoviesViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         self.view = moviesView
-        moviesView.setUpAdapter()
+        moviesView.setUpAdapters()
         moviesView.delegate = self
         self.strategy.pullToRefresh?()
         self.strategy.fetch()
     }
+    
     
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
@@ -38,14 +38,12 @@ class MoviesViewController: UIViewController {
     }
 }
 
-extension MoviesViewController: AdapterDelegate{
-    func didSelectMovie(_ apiAdapter: AdapterProtocol, indexPath: IndexPath) {
-        self.moviesView.closeKeyboard()
-        self.navigationController?.show(DetailsViewController(detailsView: DetailsView(), id: self.moviesView.adapter.data[indexPath.item].id), sender: nil)
-    }
-}
-
 extension MoviesViewController: MoviesViewDelegate{
+    func moviesView(_ moviesView: MoviesView, didSelectMovie movie: MoviesEntity) {
+        self.moviesView.closeKeyboard()
+        self.navigationController?.show(DetailsViewController(detailsView: DetailsView(), id: movie.id), sender: nil)
+    }
+    
     func moviesViewPullToRefreshApiData(_ moviesView: MoviesView) {
         self.strategy.fetch()
     }

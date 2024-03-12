@@ -10,6 +10,7 @@ import Kingfisher
 
 protocol MoviesViewDelegate: AnyObject{
     func moviesViewPullToRefreshApiData(_ moviesView: MoviesView)
+    func moviesView(_ moviesView: MoviesView, didSelectMovie movie: MoviesEntity)
 }
 // MARK: UI Elements
 class MoviesView: UIView{
@@ -27,13 +28,28 @@ class MoviesView: UIView{
         self.searchBarAdapter.moviesView = self
         self.tapGesture.isEnabled = false
         self.backgroundColor = UIColor(named: "Main")
-        setUpAdapter()
         setConstraints()
     }
     
     required init?(coder: NSCoder) {
         fatalError()
     }
+    
+    private var loadingView: UIView = {
+        let view = UIView()
+        view.translatesAutoresizingMaskIntoConstraints = false
+        view.backgroundColor = UIColor(named: "Main")
+        return view
+    }()
+    
+    private var activityIndicator: UIActivityIndicatorView = {
+        let activity = UIActivityIndicatorView(style: .large)
+        activity.translatesAutoresizingMaskIntoConstraints = false
+        activity.color = UIColor(named: "MainInverse")
+        activity.tintColor = UIColor(named: "MainInverse")
+        activity.startAnimating()
+        return activity
+    }()
     
     private var movieCollectionView: UICollectionView = {
         let collectionView = UICollectionView(frame: .zero, collectionViewLayout: UICollectionViewFlowLayout())
@@ -105,10 +121,13 @@ extension MoviesView {
         self.tapGesture.isEnabled = false
     }
     
-    func setUpAdapter(){
+    func setUpAdapters(){
         self.adapter.setUpCollectionView(self.movieCollectionView)
         self.searchBarAdapter.setUpSearchBar(self.searchBar)
         self.delegate?.moviesViewPullToRefreshApiData(self)
+        self.adapter.didSelectHandler { movie in
+            self.delegate?.moviesView(self, didSelectMovie: movie)
+        }
     }
     
     func updateCollectionView(_ newArrayMovies: [MoviesEntity]){
@@ -139,6 +158,7 @@ extension MoviesView {
 
 extension MoviesView {
     private func setConstraints(){
+        
         addSubview(searchBar)
         NSLayoutConstraint.activate([
             searchBar.topAnchor.constraint(equalTo: safeAreaLayoutGuide.topAnchor),

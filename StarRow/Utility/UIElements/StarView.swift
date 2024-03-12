@@ -8,6 +8,7 @@
 import UIKit
 
 class StarMaskView: UIView {
+    let size: Int
     
     let progressView: UIProgressView = {
         let progressView = UIProgressView(progressViewStyle: .default)
@@ -17,8 +18,10 @@ class StarMaskView: UIView {
         return progressView
     }()
     
-    init() {
-        super.init(frame: .init(x: 0, y: 0, width: 180, height: 180))
+    init(size: Int) {
+        self.size = size
+        super.init(frame: .init(x: 0, y: 0, width: self.size, height: 20))
+        translatesAutoresizingMaskIntoConstraints = false
         setupMask()
         setupProgressView()
     }
@@ -44,7 +47,7 @@ class StarMaskView: UIView {
     private func setupMask() {
         // Tamaño de cada estrella
         let starWidth = bounds.width / 10
-        let starHeight = bounds.height / 10
+        let starHeight = bounds.height
         // Crear la capa de máscara
         let maskLayer = CAShapeLayer()
         // Posicionar cada estrella en fila

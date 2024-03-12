@@ -6,15 +6,8 @@
 //
 
 import UIKit
-import Kingfisher
-
-protocol DetailsViewDelegate {
-    
-}
 
 class DetailsView: UIView {
-    var delegate: DetailsViewDelegate?
-    
     init() {
         bottomConstraint = NSLayoutConstraint(
             item: descriptionLabel,
@@ -108,11 +101,7 @@ class DetailsView: UIView {
         return label
     }()
     
-    private var starView: StarMaskView = {
-        let starView = StarMaskView()
-        starView.translatesAutoresizingMaskIntoConstraints = false
-        return starView
-    }()
+    private var starView: StarMaskView = StarMaskView(size: 180)
     
     private var genreLabel: UILabel = {
         let label = UILabel()
@@ -165,11 +154,32 @@ extension DetailsView{
         self.activityIndicator.stopAnimating()
     }
     
-    func setUpView(data: DetailsMovieEntity){
+    private func downloadImage(data: String, element: UIImageView){
         let url = "https://image.tmdb.org/t/p/w500"
+        guard let url = URL(string: url + data) else { return }
+        URLSession.shared.dataTask(with: url) { (data, response, error) in
+            guard error == nil else {
+                DispatchQueue.main.async {
+                    element.image = UIImage(named: "star")
+                }
+                return
+            }
+            guard let imageData = data else {
+                DispatchQueue.main.async {
+                    element.image = UIImage(named: "star")
+                }
+                return
+            }
+            DispatchQueue.main.async {
+                element.image = UIImage(data: imageData as Data)
+            }
+        }.resume()
+    }
+    
+    func setUpView(data: DetailsMovieEntity){
+        self.downloadImage(data: data.poster, element: self.poster)
+        self.downloadImage(data: data.backDrop, element: self.backDrop)
         var array = data.genrers
-        self.backDrop.kf.setImage(with: URL(string: url + data.backDrop))
-        self.poster.kf.setImage(with: URL(string: url + data.poster))
         self.titleLabel.text = data.name
         self.releaseDateLabel.text = "Release Date: \n" + MoviesEntity.formatDate(data.releaseDate)
         self.starView.setProgress(num: Float(data.voteAverage))
@@ -267,7 +277,7 @@ extension DetailsView {
         
         container.addSubview(starView)
         NSLayoutConstraint.activate([
-            starView.heightAnchor.constraint(equalToConstant: 50),
+            starView.heightAnchor.constraint(equalToConstant: 20),
             starView.widthAnchor.constraint(equalToConstant: 180),
             starView.topAnchor.constraint(equalTo: releaseDateLabel.bottomAnchor, constant: 10),
             starView.leadingAnchor.constraint(equalTo: poster.trailingAnchor, constant: 10)

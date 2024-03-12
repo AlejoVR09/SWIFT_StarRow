@@ -12,11 +12,23 @@ protocol RegisterViewDelegate {
 }
 
 class RegisterView: UIView {
-    
     var delegate: RegisterViewDelegate?
     
+    override init(frame: CGRect) {
+        bottomConstraint = signUpButton.topAnchor.constraint(equalTo: phoneStack.bottomAnchor, constant: 20)
+        super.init(frame: .zero)
+        tapGesture = UITapGestureRecognizer(target: self, action: #selector(handleTap(_ :)))
+        addGestureRecognizer(tapGesture)
+        backgroundColor = .black
+        setConstraintsForRegister()
+    }
+    
+    required init?(coder: NSCoder) {
+        fatalError()
+    }
+    
     private let backGroundImage: UIImageView = {
-        let image = UIImageView(image: UIImage(named: "RowStar_2"))
+        let image = UIImageView(image: UIImage(named: "RowStar_1"))
         image.contentMode = .scaleAspectFill
         image.translatesAutoresizingMaskIntoConstraints = false
         return image
@@ -30,47 +42,40 @@ class RegisterView: UIView {
         return visualEffect
     }()
     
-    private var view: UIView = {
+    private var contentView: UIView = {
         let view = UIView()
-        view.layer.opacity = 0.5
-        
+        view.layer.cornerRadius = 15
+        view.backgroundColor = UIColor(named: "MainOpacity")
         view.translatesAutoresizingMaskIntoConstraints = false
         return view
     }()
 
-    private let userNameTextField: UITextField = {
-        let textField = UITextField()
-        textField.backgroundColor = .init(red: 0.816, green: 0.851, blue: 0.910, alpha: 1)
-        textField.placeholder = "User Name"
-        textField.borderStyle = .roundedRect
-        textField.translatesAutoresizingMaskIntoConstraints = false
-        return textField
-    }()
+    private let nameStack: UIStackView = StackViewType(orientation: .vertical, innerSpacing: 0)
     
-    private let userEmailTextField: UITextField = {
-        let textField = UITextField()
-        textField.backgroundColor = .init(red: 0.816, green: 0.851, blue: 0.910, alpha: 1)
-        textField.placeholder = "Email"
-        textField.borderStyle = .roundedRect
-        textField.translatesAutoresizingMaskIntoConstraints = false
-        return textField
-    }()
+    private let emailStack: UIStackView = StackViewType(orientation: .vertical, innerSpacing: 0)
     
-    private let userPhoneTextField: UITextField = {
-        let textField = UITextField()
-        textField.backgroundColor = .init(red: 0.816, green: 0.851, blue: 0.910, alpha: 1)
-        textField.placeholder = "Email"
-        textField.borderStyle = .roundedRect
-        textField.translatesAutoresizingMaskIntoConstraints = false
-        return textField
-    }()
+    private let phoneStack: UIStackView = StackViewType(orientation: .vertical, innerSpacing: 0)
+    
+    private let userNameLabel: UILabel = MainLabel(withText: "Name", color: "MainInverse", alignment: .left, size: 16)
+    
+    private let userEmailLabel: UILabel = MainLabel(withText: "Email", color: "MainInverse", alignment: .left, size: 16)
+    
+    private let userPhoneLabel: UILabel = MainLabel(withText: "Phone", color: "MainInverse", alignment: .left, size: 16)
+
+    private let userNameTextField: UITextField = MainTextField(withText: "Name")
+    
+    private let userEmailTextField: UITextField = MainTextField(withText: "Email")
+    
+    private let userPhoneTextField: UITextField = MainTextField(withText: "Phone")
     
     private let signUpButton: UIButton = {
         let button = UIButton(type: .system)
         button.frame = .zero
-        button.backgroundColor = .init(red: 0.144, green: 0.240, blue: 0.628, alpha: 1)
-        button.titleLabel?.tintColor = .white
-        button.titleLabel?.font = UIFont.systemFont(ofSize: 20)
+        button.layer.borderColor = UIColor(named: "MainText")?.cgColor
+        button.layer.borderWidth = 1
+        button.backgroundColor = .clear
+        button.titleLabel?.tintColor = UIColor(named: "MainInverse")
+        button.titleLabel?.font = UIFont(name: "Marker Felt", size: 24 )
         button.layer.cornerRadius = 15
         button.setTitle("Login", for: .normal)
         button.translatesAutoresizingMaskIntoConstraints = false
@@ -78,30 +83,19 @@ class RegisterView: UIView {
         return button
     }()
     
+    private let separatorToLabel: UIView = {
+       let view = UIView()
+        view.backgroundColor = UIColor(named: "MainInverse")
+        view.translatesAutoresizingMaskIntoConstraints = false
+        return view
+    }()
+    
     private var tapGesture: UITapGestureRecognizer!
     
     private var bottomConstraint: NSLayoutConstraint
-    
-    override init(frame: CGRect) {
-        bottomConstraint = NSLayoutConstraint(
-            item: signUpButton,
-            attribute: .top,
-            relatedBy: .equal,
-            toItem: userNameTextField,
-            attribute: .bottom,
-            multiplier: 1,
-            constant: 20)
-        super.init(frame: .zero)
-        tapGesture = UITapGestureRecognizer(target: self, action: #selector(handleTap(_ :)))
-        addGestureRecognizer(tapGesture)
-        backgroundColor = .black
-        setConstraintsForRegister()
-    }
-    
-    required init?(coder: NSCoder) {
-        fatalError()
-    }
-    
+}
+
+extension RegisterView {
     @objc func handleTap(_ sender: UITapGestureRecognizer) {
         self.endEditing(true)
     }
@@ -113,9 +107,9 @@ class RegisterView: UIView {
 
 extension RegisterView {
     func keyBoardWillShow(_ info: NotificationManager.Info){
-        if info.frame.origin.y < self.userNameTextField.frame.maxY {
+        if info.frame.origin.y < self.userPhoneTextField.frame.maxY {
             UIView.animate(withDuration: info.animation) {
-                self.bottomConstraint.constant = self.userNameTextField.frame.maxY - info.frame.origin.y + self.bottomConstraint.constant + 20
+                self.bottomConstraint.constant = self.userPhoneTextField.frame.maxY - info.frame.origin.y + self.bottomConstraint.constant + 20
                 self.layoutIfNeeded()
             }
         }
@@ -147,19 +141,67 @@ extension RegisterView {
             visualEffect.leadingAnchor.constraint(equalTo: backGroundImage.leadingAnchor)
         ])
         
-        addSubview(userNameTextField)
+        addSubview(contentView)
         NSLayoutConstraint.activate([
-            userNameTextField.heightAnchor.constraint(equalToConstant: 50),
-            userNameTextField.trailingAnchor.constraint(equalTo: safeAreaLayoutGuide.trailingAnchor, constant: -50),
-            userNameTextField.leadingAnchor.constraint(equalTo: safeAreaLayoutGuide.leadingAnchor, constant: 50)
+            contentView.heightAnchor.constraint(equalToConstant: 400),
+            contentView.topAnchor.constraint(equalTo: safeAreaLayoutGuide.topAnchor, constant: 10),
+            contentView.trailingAnchor.constraint(equalTo: safeAreaLayoutGuide.trailingAnchor, constant: -50),
+            contentView.leadingAnchor.constraint(equalTo: safeAreaLayoutGuide.leadingAnchor, constant: 50),
         ])
         
-        addSubview(signUpButton)
+        contentView.addSubview(separatorToLabel)
+        NSLayoutConstraint.activate([
+            separatorToLabel.heightAnchor.constraint(equalToConstant: 1),
+            separatorToLabel.trailingAnchor.constraint(equalTo: contentView.trailingAnchor, constant: -20),
+            separatorToLabel.leadingAnchor.constraint(equalTo: contentView.leadingAnchor, constant: 20),
+            separatorToLabel.topAnchor.constraint(equalTo: contentView.topAnchor, constant: 20)
+        ])
+        
+        
+        contentView.addSubview(nameStack)
+        NSLayoutConstraint.activate([
+            nameStack.topAnchor.constraint(equalTo: separatorToLabel.bottomAnchor, constant: 10),
+            nameStack.trailingAnchor.constraint(equalTo: contentView.trailingAnchor, constant: -10),
+            nameStack.leadingAnchor.constraint(equalTo: contentView.leadingAnchor, constant: 10),
+        ])
+        nameStack.addArrangedSubview(userNameLabel)
+        nameStack.addArrangedSubview(userNameTextField)
+        NSLayoutConstraint.activate([
+            userNameTextField.heightAnchor.constraint(equalToConstant: 40)
+        ])
+        
+        contentView.addSubview(emailStack)
+        NSLayoutConstraint.activate([
+            emailStack.topAnchor.constraint(equalTo: nameStack.bottomAnchor, constant: 10),
+            emailStack.trailingAnchor.constraint(equalTo: contentView.trailingAnchor, constant: -10),
+            emailStack.leadingAnchor.constraint(equalTo: contentView.leadingAnchor, constant: 10),
+        ])
+        
+        emailStack.addArrangedSubview(userEmailLabel)
+        emailStack.addArrangedSubview(userEmailTextField)
+        NSLayoutConstraint.activate([
+            userEmailTextField.heightAnchor.constraint(equalToConstant: 40)
+        ])
+        
+        contentView.addSubview(phoneStack)
+        NSLayoutConstraint.activate([
+            phoneStack.topAnchor.constraint(equalTo: emailStack.bottomAnchor, constant: 10),
+            phoneStack.trailingAnchor.constraint(equalTo: contentView.trailingAnchor, constant: -10),
+            phoneStack.leadingAnchor.constraint(equalTo: contentView.leadingAnchor, constant: 10)
+        ])
+        
+        phoneStack.addArrangedSubview(userPhoneLabel)
+        phoneStack.addArrangedSubview(userPhoneTextField)
+        NSLayoutConstraint.activate([
+            userPhoneTextField.heightAnchor.constraint(equalToConstant: 40)
+        ])
+        
+        contentView.addSubview(signUpButton)
         NSLayoutConstraint.activate([
             bottomConstraint,
-            signUpButton.bottomAnchor.constraint(equalTo: safeAreaLayoutGuide.bottomAnchor, constant: -50),
-            signUpButton.trailingAnchor.constraint(equalTo: safeAreaLayoutGuide.trailingAnchor, constant: -50),
-            signUpButton.leadingAnchor.constraint(equalTo: safeAreaLayoutGuide.leadingAnchor, constant: 50)
+            signUpButton.heightAnchor.constraint(equalToConstant: 50),
+            signUpButton.trailingAnchor.constraint(equalTo: contentView.trailingAnchor, constant: -10),
+            signUpButton.leadingAnchor.constraint(equalTo: contentView.leadingAnchor, constant: 10)
         ])
     }
 }
