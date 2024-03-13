@@ -65,7 +65,7 @@ class FullLoginView: UIView, LoginViewProtocol {
     private let loginLabel: UILabel = {
         let label = UILabel()
         label.textColor = UIColor(named: "MainInverse")
-        label.font = UIFont(name: "Marker Felt", size: 36)
+        label.font = UIFont.boldSystemFont(ofSize: 36)
         label.textAlignment = .center
         label.text = "Login"
         label.translatesAutoresizingMaskIntoConstraints = false
@@ -81,7 +81,7 @@ class FullLoginView: UIView, LoginViewProtocol {
         button.layer.borderWidth = 1
         button.backgroundColor = .clear
         button.titleLabel?.tintColor = UIColor(named: "MainInverse")
-        button.titleLabel?.font = UIFont(name: "Marker Felt", size: 24 )
+        button.titleLabel?.font = UIFont.boldSystemFont(ofSize: 20)
         button.layer.cornerRadius = 15
         button.setTitle("Login", for: .normal)
         button.translatesAutoresizingMaskIntoConstraints = false
@@ -98,7 +98,7 @@ class FullLoginView: UIView, LoginViewProtocol {
         button.frame = .zero
         button.setTitle("Create Account", for: .normal)
         button.titleLabel?.tintColor = UIColor(named: "MainInverse")
-        button.titleLabel?.font = UIFont(name: "Marker Felt", size: 18)
+        button.titleLabel?.font = UIFont.boldSystemFont(ofSize: 16)
         button.translatesAutoresizingMaskIntoConstraints = false
         button.layer.borderColor = UIColor(named: "MainText")?.cgColor
         button.layer.borderWidth = 1
@@ -120,19 +120,14 @@ class FullLoginView: UIView, LoginViewProtocol {
     private let rememberMeLabel: UILabel = {
         let label = UILabel()
         label.textColor = UIColor(named: "MainInverse")
-        label.font = UIFont(name: "Marker Felt", size: 18)
+        label.font = UIFont.systemFont(ofSize: 16)
         label.textAlignment = .center
         label.text = "Remember Me?"
         label.translatesAutoresizingMaskIntoConstraints = false
         return label
     }()
     
-    private let separatorToLabel: UIView = {
-       let view = UIView()
-        view.backgroundColor = UIColor(named: "MainInverse")
-        view.translatesAutoresizingMaskIntoConstraints = false
-        return view
-    }()
+    private let separatorToLabel: SeparatorView = SeparatorView()
     
     private var tapGesture: UITapGestureRecognizer!
     

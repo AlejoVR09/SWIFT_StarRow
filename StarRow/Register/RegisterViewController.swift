@@ -11,8 +11,6 @@ class RegisterViewController: UIViewController {
 
     var registerView: RegisterView
     
-    lazy var notificationManager = NotificationManager(notificationManagerDelegate: self)
-    
     init(registerView: RegisterView) {
         self.registerView = registerView
         super.init(nibName: nil, bundle: nil)
@@ -26,32 +24,18 @@ class RegisterViewController: UIViewController {
         super.viewDidLoad()
         self.view = registerView
         self.registerView.delegate = self
-        self.navigationItem.title = "Sing up"
+        self.navigationItem.leftBarButtonItem = UIBarButtonItem(title: "Back", style: .plain, target: self, action: #selector(signOut))
     }
-    
-    override func viewWillAppear(_ animated: Bool) {
-        super.viewWillAppear(animated)
-        self.notificationManager.registerObserver()
-    }
-    
-    override func viewWillDisappear(_ animated: Bool) {
-        super.viewWillDisappear(animated)
-        self.notificationManager.removeObserver()
+}
+
+extension RegisterViewController {
+    @objc func signOut(){
+        self.navigationController?.popViewController(animated: true)
     }
 }
 
 extension RegisterViewController: RegisterViewDelegate {
     func buttonPressedToSign(_ registerView: RegisterView) {
         self.navigationController?.show(TabBarController(), sender: nil)
-    }
-}
-
-extension RegisterViewController: NotificationManagerDelegate {
-    func NotificationManagerDelegate(_ notificationManager: NotificationManager, keyboardWillShow info: NotificationManager.Info) {
-        self.registerView.keyBoardWillShow(info)
-    }
-    
-    func NotificationManagerDelegate(_ notificationManager: NotificationManager, keyboardWillHide info: NotificationManager.Info) {
-        self.registerView.keyBoardWillHide(info)
     }
 }

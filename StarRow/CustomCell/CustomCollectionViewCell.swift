@@ -104,6 +104,13 @@ class CustomCollectionViewCell: UICollectionViewCell {
         self.layer.shadowRadius = 2
     }
     
+    private func updateImage(){
+        DispatchQueue.main.async {
+            self.imageView.contentMode = .scaleAspectFit
+            self.imageView.image = UIImage(systemName: "person.circle")
+        }
+    }
+    
     func updateData(movie: MoviesEntity){
         self.nameLabel.text = movie.name
         self.dateLabel.text = "Release Date: \n" + MoviesEntity.formatDate(movie.releaseDate)
@@ -111,19 +118,18 @@ class CustomCollectionViewCell: UICollectionViewCell {
         guard let url = URL(string: "https://image.tmdb.org/t/p/w500/" + movie.poster) else { return }
         URLSession.shared.dataTask(with: url) { (data, response, error) in
             guard error == nil else {
-                DispatchQueue.main.async {
-                    self.imageView.image = UIImage(named: "star")
-                }
+                self.updateImage()
                 return
             }
-            guard let imageData = data else {
+            guard let imageData = data else { return }
+            guard let httpResponse = response as? HTTPURLResponse else { return }
+            switch httpResponse.statusCode {
+            case 400...500:
+                self.updateImage()
+            default:
                 DispatchQueue.main.async {
-                    self.imageView.image = UIImage(named: "star")
+                    self.imageView.image = UIImage(data: imageData as Data)
                 }
-                return
-            }
-            DispatchQueue.main.async {
-                self.imageView.image = UIImage(data: imageData as Data)
             }
         }.resume()
         

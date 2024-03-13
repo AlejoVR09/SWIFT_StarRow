@@ -23,7 +23,7 @@ class MainTextField: UITextField {
     private func setUpTextField(text: String){
         self.backgroundColor = .init(white: 0, alpha: 0)
         self.placeholder = text
-        self.font = UIFont(name: "Marker Felt", size: 16)
+        self.font = UIFont.systemFont(ofSize: 16)
         self.textColor = UIColor(named: "Main")
         self.layer.borderColor = UIColor(named: "MainText")?.cgColor
         self.layer.borderWidth = 1

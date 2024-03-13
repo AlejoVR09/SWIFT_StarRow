@@ -12,7 +12,6 @@ class TabBarController: UITabBarController {
             action: #selector(didButtonPressedLogOut)
         )
         self.navigationItem.leftBarButtonItem = UIBarButtonItem()
-        tabBar.backgroundColor = .white
         self.setViewControllers([TabBarController.buildOnline(), TabBarController.buildLocal()], animated: true)
         self.tabBar.backgroundColor = UIColor(named: "Main")
     }

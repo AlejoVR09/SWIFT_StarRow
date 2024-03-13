@@ -30,7 +30,6 @@
 		553480092B6166CF001B38B0 /* DetailsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 553480082B6166CF001B38B0 /* DetailsView.swift */; };
 		553770962B60665700C69D03 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 553770952B60665700C69D03 /* AppDelegate.swift */; };
 		553770982B60665700C69D03 /* SceneDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 553770972B60665700C69D03 /* SceneDelegate.swift */; };
-		553770A02B60665700C69D03 /* StarRow.xcdatamodeld in Sources */ = {isa = PBXBuildFile; fileRef = 5537709E2B60665700C69D03 /* StarRow.xcdatamodeld */; };
 		553770A22B60665A00C69D03 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 553770A12B60665A00C69D03 /* Assets.xcassets */; };
 		553770A52B60665A00C69D03 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 553770A32B60665A00C69D03 /* LaunchScreen.storyboard */; };
 		553770B02B60665A00C69D03 /* StarRowTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 553770AF2B60665A00C69D03 /* StarRowTests.swift */; };
@@ -40,7 +39,9 @@
 		553770CE2B606C0F00C69D03 /* MoviesView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 553770CD2B606C0F00C69D03 /* MoviesView.swift */; };
 		5541D02B2B8660680044988B /* MovieCoreData+CoreDataClass.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5541D0292B8660680044988B /* MovieCoreData+CoreDataClass.swift */; };
 		5541D02C2B8660680044988B /* MovieCoreData+CoreDataProperties.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5541D02A2B8660680044988B /* MovieCoreData+CoreDataProperties.swift */; };
+		554FA69B2BA0D09000FB1F35 /* SeparatorView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 554FA69A2BA0D09000FB1F35 /* SeparatorView.swift */; };
 		5560CA912B84C46B007834D1 /* MoviesEntity.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5560CA902B84C46B007834D1 /* MoviesEntity.swift */; };
+		5565B1282BA2636200975E76 /* StarRow.xcdatamodeld in Sources */ = {isa = PBXBuildFile; fileRef = 5565B1262BA2636200975E76 /* StarRow.xcdatamodeld */; };
 		5566A9BF2B8E67CD0054AEA3 /* StarView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5566A9BE2B8E67CD0054AEA3 /* StarView.swift */; };
 		557836132B757654005B8538 /* FavoriteCollectionViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 557836112B757654005B8538 /* FavoriteCollectionViewCell.swift */; };
 		557836142B757654005B8538 /* FavoriteCollectionViewCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 557836122B757654005B8538 /* FavoriteCollectionViewCell.xib */; };
@@ -99,7 +100,6 @@
 		553770922B60665700C69D03 /* StarRow.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = StarRow.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		553770952B60665700C69D03 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		553770972B60665700C69D03 /* SceneDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SceneDelegate.swift; sourceTree = "<group>"; };
-		5537709F2B60665700C69D03 /* StarRow.xcdatamodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcdatamodel; path = StarRow.xcdatamodel; sourceTree = "<group>"; };
 		553770A12B60665A00C69D03 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		553770A42B60665A00C69D03 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
 		553770A62B60665A00C69D03 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
@@ -112,7 +112,9 @@
 		553770CD2B606C0F00C69D03 /* MoviesView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MoviesView.swift; sourceTree = "<group>"; };
 		5541D0292B8660680044988B /* MovieCoreData+CoreDataClass.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "MovieCoreData+CoreDataClass.swift"; sourceTree = "<group>"; };
 		5541D02A2B8660680044988B /* MovieCoreData+CoreDataProperties.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "MovieCoreData+CoreDataProperties.swift"; sourceTree = "<group>"; };
+		554FA69A2BA0D09000FB1F35 /* SeparatorView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; name = SeparatorView.swift; path = StarRow/Utility/UIElements/SeparatorView.swift; sourceTree = SOURCE_ROOT; };
 		5560CA902B84C46B007834D1 /* MoviesEntity.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MoviesEntity.swift; sourceTree = "<group>"; };
+		5565B1272BA2636200975E76 /* StarRow.xcdatamodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcdatamodel; path = StarRow.xcdatamodel; sourceTree = "<group>"; };
 		5566A9BE2B8E67CD0054AEA3 /* StarView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StarView.swift; sourceTree = "<group>"; };
 		557836112B757654005B8538 /* FavoriteCollectionViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FavoriteCollectionViewCell.swift; sourceTree = "<group>"; };
 		557836122B757654005B8538 /* FavoriteCollectionViewCell.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = FavoriteCollectionViewCell.xib; sourceTree = "<group>"; };
@@ -180,8 +182,8 @@
 		5501DB342B9FCE3C001908DB /* Profile */ = {
 			isa = PBXGroup;
 			children = (
-				5501DB352B9FCE57001908DB /* ProfileView.swift */,
 				5501DB372B9FCE65001908DB /* ProfileViewController.swift */,
+				5501DB352B9FCE57001908DB /* ProfileView.swift */,
 			);
 			path = Profile;
 			sourceTree = "<group>";
@@ -192,6 +194,7 @@
 				55D1B4492B7E745F00830997 /* LoginStrategy.swift */,
 				55D1B4472B7E73DC00830997 /* ShortLogin.swift */,
 				55D1B44B2B7E7D0700830997 /* FullLogin.swift */,
+				554FA69A2BA0D09000FB1F35 /* SeparatorView.swift */,
 			);
 			path = LoginStrategy;
 			sourceTree = "<group>";
@@ -261,7 +264,7 @@
 				553770A12B60665A00C69D03 /* Assets.xcassets */,
 				553770A32B60665A00C69D03 /* LaunchScreen.storyboard */,
 				553770A62B60665A00C69D03 /* Info.plist */,
-				5537709E2B60665700C69D03 /* StarRow.xcdatamodeld */,
+				5565B1262BA2636200975E76 /* StarRow.xcdatamodeld */,
 				5507FF112B61D7AD007C7C5B /* Localizable.strings */,
 			);
 			path = StarRow;
@@ -549,7 +552,7 @@
 				552A7CA72B74231800D84BEB /* DetailsWS.swift in Sources */,
 				55823D7B2B60A6A800F6AD15 /* ResponseMovie.swift in Sources */,
 				553770962B60665700C69D03 /* AppDelegate.swift in Sources */,
-				553770A02B60665700C69D03 /* StarRow.xcdatamodeld in Sources */,
+				554FA69B2BA0D09000FB1F35 /* SeparatorView.swift in Sources */,
 				55823D7D2B60A6B100F6AD15 /* MoviesWS.swift in Sources */,
 				55EB24612B8CDC3800BCB944 /* UserSession.swift in Sources */,
 				553480032B614F07001B38B0 /* RegisterView.swift in Sources */,
@@ -575,6 +578,7 @@
 				5566A9BF2B8E67CD0054AEA3 /* StarView.swift in Sources */,
 				553770982B60665700C69D03 /* SceneDelegate.swift in Sources */,
 				5541D02C2B8660680044988B /* MovieCoreData+CoreDataProperties.swift in Sources */,
+				5565B1282BA2636200975E76 /* StarRow.xcdatamodeld in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -945,13 +949,14 @@
 /* End XCSwiftPackageProductDependency section */
 
 /* Begin XCVersionGroup section */
-		5537709E2B60665700C69D03 /* StarRow.xcdatamodeld */ = {
+		5565B1262BA2636200975E76 /* StarRow.xcdatamodeld */ = {
 			isa = XCVersionGroup;
 			children = (
-				5537709F2B60665700C69D03 /* StarRow.xcdatamodel */,
+				5565B1272BA2636200975E76 /* StarRow.xcdatamodel */,
 			);
-			currentVersion = 5537709F2B60665700C69D03 /* StarRow.xcdatamodel */;
-			path = StarRow.xcdatamodeld;
+			currentVersion = 5565B1272BA2636200975E76 /* StarRow.xcdatamodel */;
+			name = StarRow.xcdatamodeld;
+			path = /Users/alejandro.vanegas/Desktop/Projects/StarRow/StarRow/StarRow.xcdatamodeld;
 			sourceTree = "<group>";
 			versionGroupType = wrapper.xcdatamodel;
 		};

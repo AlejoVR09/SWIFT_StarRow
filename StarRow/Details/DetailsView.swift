@@ -17,7 +17,6 @@ class DetailsView: UIView {
             attribute: .bottom,
             multiplier: 1,
             constant: 40)
-        bottomConstraint.priority = UILayoutPriority(900)
         super.init(frame: .init(x: 0, y: 0, width: UIScreen.main.bounds.width, height: UIScreen.main.bounds.height))
         backgroundColor = UIColor(named: "Main")
         setConstraints()
@@ -154,24 +153,32 @@ extension DetailsView{
         self.activityIndicator.stopAnimating()
     }
     
+    private func updateImage(image: UIImageView){
+        DispatchQueue.main.async {
+            image.contentMode = .scaleAspectFit
+            image.image = UIImage(systemName: "person.circle")
+        }
+    }
+    
+
+    
     private func downloadImage(data: String, element: UIImageView){
-        let url = "https://image.tmdb.org/t/p/w500"
+        let url = "https://image.tmdb.org/t/p/w500/"    
         guard let url = URL(string: url + data) else { return }
         URLSession.shared.dataTask(with: url) { (data, response, error) in
             guard error == nil else {
-                DispatchQueue.main.async {
-                    element.image = UIImage(named: "star")
-                }
+                self.updateImage(image: element)
                 return
             }
-            guard let imageData = data else {
+            guard let imageData = data else { return }
+            guard let httpResponse = response as? HTTPURLResponse else { return }
+            switch httpResponse.statusCode {
+            case 400...500:
+                self.updateImage(image: element)
+            default:
                 DispatchQueue.main.async {
-                    element.image = UIImage(named: "star")
+                    element.image = UIImage(data: imageData as Data)
                 }
-                return
-            }
-            DispatchQueue.main.async {
-                element.image = UIImage(data: imageData as Data)
             }
         }.resume()
     }

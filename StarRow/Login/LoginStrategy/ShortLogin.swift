@@ -53,7 +53,7 @@ class ShortLoginView: UIView, LoginViewProtocol {
     private let loginLabel: UILabel = {
         let label = UILabel()
         label.textColor = UIColor(named: "MainInverse")
-        label.font = UIFont(name: "Marker Felt", size: 36)
+        label.font = UIFont.boldSystemFont(ofSize: 36)
         label.textAlignment = .center
         label.text = "Login as: "
         label.translatesAutoresizingMaskIntoConstraints = false
@@ -71,7 +71,7 @@ class ShortLoginView: UIView, LoginViewProtocol {
         button.layer.borderColor = UIColor(named: "MainText")?.cgColor
         button.setTitle("jhondoe@gmail.com", for: .normal)
         button.titleLabel?.tintColor = UIColor(named: "MainInverse")
-        button.titleLabel?.font = UIFont(name: "Marker Felt", size: 20)
+        button.titleLabel?.font = UIFont.systemFont(ofSize: 20)
         button.translatesAutoresizingMaskIntoConstraints = false
         button.addTarget(nil, action: #selector(goToMoviesView), for: .touchUpInside)
         return button
@@ -94,7 +94,7 @@ class ShortLoginView: UIView, LoginViewProtocol {
         button.layer.cornerRadius = 15
         button.setTitle("Create Account", for: .normal)
         button.titleLabel?.tintColor = UIColor(named: "MainInverse")
-        button.titleLabel?.font = UIFont(name: "Marker Felt", size: 18)
+        button.titleLabel?.font = UIFont.boldSystemFont(ofSize: 18)
         button.translatesAutoresizingMaskIntoConstraints = false
         button.addTarget(nil, action: #selector(goToRegisterView), for: .touchUpInside)
         return button
@@ -108,25 +108,15 @@ class ShortLoginView: UIView, LoginViewProtocol {
         button.layer.cornerRadius = 15
         button.setTitle("Use another account", for: .normal)
         button.titleLabel?.tintColor = UIColor(named: "MainInverse")
-        button.titleLabel?.font = UIFont(name: "Marker Felt", size: 18)
+        button.titleLabel?.font = UIFont.boldSystemFont(ofSize: 18)
         button.translatesAutoresizingMaskIntoConstraints = false
         button.addTarget(nil, action: #selector(goToLargeLogin), for: .touchUpInside)
         return button
     }()
     
-    private let separatorToLabel: UIView = {
-       let view = UIView()
-        view.backgroundColor = UIColor(named: "MainInverse")
-        view.translatesAutoresizingMaskIntoConstraints = false
-        return view
-    }()
+    private let separatorToLabel: SeparatorView = SeparatorView()
     
-    private let separatorToButton: UIView = {
-       let view = UIView()
-        view.backgroundColor = UIColor(named: "MainInverse")
-        view.translatesAutoresizingMaskIntoConstraints = false
-        return view
-    }()
+    private let separatorToButton: SeparatorView = SeparatorView()
     
     private func setUpCirclebutton(){
         self.buttonForLoging.layer.cornerRadius = self.buttonForLoging.bounds.height / 2
@@ -175,14 +165,14 @@ extension ShortLoginView {
         
         contentView.addSubview(loginLabel)
         NSLayoutConstraint.activate([
-            loginLabel.heightAnchor.constraint(equalToConstant: 60),
+            loginLabel.heightAnchor.constraint(equalToConstant: 50),
             loginLabel.trailingAnchor.constraint(equalTo: contentView.trailingAnchor, constant: -10),
             loginLabel.leadingAnchor.constraint(equalTo: contentView.leadingAnchor, constant: 10),
         ])
         
         contentView.addSubview(separatorToLabel)
         NSLayoutConstraint.activate([
-            separatorToLabel.topAnchor.constraint(equalTo: loginLabel.bottomAnchor, constant: 25),
+            separatorToLabel.topAnchor.constraint(equalTo: loginLabel.bottomAnchor, constant: 1),
             separatorToLabel.heightAnchor.constraint(equalToConstant: 1),
             separatorToLabel.trailingAnchor.constraint(equalTo: contentView.trailingAnchor, constant: -10),
             separatorToLabel.leadingAnchor.constraint(equalTo: contentView.leadingAnchor, constant: 10)

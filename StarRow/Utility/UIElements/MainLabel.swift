@@ -30,7 +30,7 @@ class MainLabel: UILabel {
     private func setUpLabel(){
         self.textColor = .black
         self.textColor = UIColor(named: self.color)
-        self.font = UIFont(name: "Marker Felt", size: self.size)
+        self.font = UIFont.systemFont(ofSize: self.size)
         self.textAlignment = self.alignment
         self.text = self.withText
         self.translatesAutoresizingMaskIntoConstraints = false

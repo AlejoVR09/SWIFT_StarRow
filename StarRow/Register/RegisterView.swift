@@ -49,6 +49,16 @@ class RegisterView: UIView {
         view.translatesAutoresizingMaskIntoConstraints = false
         return view
     }()
+    
+    private let signUpLabel: UILabel = {
+        let label = UILabel()
+        label.textColor = UIColor(named: "MainInverse")
+        label.font = UIFont.boldSystemFont(ofSize: 36)
+        label.textAlignment = .center
+        label.text = "Sign Up"
+        label.translatesAutoresizingMaskIntoConstraints = false
+        return label
+    }()
 
     private let nameStack: UIStackView = StackViewType(orientation: .vertical, innerSpacing: 0)
     
@@ -75,20 +85,15 @@ class RegisterView: UIView {
         button.layer.borderWidth = 1
         button.backgroundColor = .clear
         button.titleLabel?.tintColor = UIColor(named: "MainInverse")
-        button.titleLabel?.font = UIFont(name: "Marker Felt", size: 24 )
+        button.titleLabel?.font = UIFont.boldSystemFont(ofSize: 20)
         button.layer.cornerRadius = 15
-        button.setTitle("Login", for: .normal)
+        button.setTitle("Sign Up", for: .normal)
         button.translatesAutoresizingMaskIntoConstraints = false
         button.addTarget(nil, action: #selector(goToMoviesView), for: .touchUpInside)
         return button
     }()
     
-    private let separatorToLabel: UIView = {
-       let view = UIView()
-        view.backgroundColor = UIColor(named: "MainInverse")
-        view.translatesAutoresizingMaskIntoConstraints = false
-        return view
-    }()
+    private let separatorToLabel: SeparatorView = SeparatorView()
     
     private var tapGesture: UITapGestureRecognizer!
     
@@ -102,24 +107,6 @@ extension RegisterView {
     
     @objc private func goToMoviesView(){
         self.delegate?.buttonPressedToSign(self)
-    }
-}
-
-extension RegisterView {
-    func keyBoardWillShow(_ info: NotificationManager.Info){
-        if info.frame.origin.y < self.userPhoneTextField.frame.maxY {
-            UIView.animate(withDuration: info.animation) {
-                self.bottomConstraint.constant = self.userPhoneTextField.frame.maxY - info.frame.origin.y + self.bottomConstraint.constant + 20
-                self.layoutIfNeeded()
-            }
-        }
-    }
-    
-    func keyBoardWillHide(_ info: NotificationManager.Info){
-        UIView.animate(withDuration: info.animation) {
-            self.bottomConstraint.constant = 20
-            self.layoutIfNeeded()
-        }
     }
 }
 
@@ -149,12 +136,19 @@ extension RegisterView {
             contentView.leadingAnchor.constraint(equalTo: safeAreaLayoutGuide.leadingAnchor, constant: 50),
         ])
         
+        contentView.addSubview(signUpLabel)
+        NSLayoutConstraint.activate([
+            signUpLabel.trailingAnchor.constraint(equalTo: contentView.trailingAnchor, constant: -20),
+            signUpLabel.leadingAnchor.constraint(equalTo: contentView.leadingAnchor, constant: 20),
+            signUpLabel.topAnchor.constraint(equalTo: contentView.topAnchor, constant: 5)
+        ])
+        
         contentView.addSubview(separatorToLabel)
         NSLayoutConstraint.activate([
             separatorToLabel.heightAnchor.constraint(equalToConstant: 1),
             separatorToLabel.trailingAnchor.constraint(equalTo: contentView.trailingAnchor, constant: -20),
             separatorToLabel.leadingAnchor.constraint(equalTo: contentView.leadingAnchor, constant: 20),
-            separatorToLabel.topAnchor.constraint(equalTo: contentView.topAnchor, constant: 20)
+            separatorToLabel.topAnchor.constraint(equalTo: signUpLabel.bottomAnchor, constant: 1)
         ])
         
         

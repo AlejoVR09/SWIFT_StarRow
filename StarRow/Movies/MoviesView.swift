@@ -15,10 +15,10 @@ protocol MoviesViewDelegate: AnyObject{
 // MARK: UI Elements
 class MoviesView: UIView{
     weak var delegate: MoviesViewDelegate?
-    var adapter: AdapterProtocol
+    var adapter: MoviesAdapterProtocol
     var searchBarAdapter: MovieSearchAdapter
     
-    init(adapter: AdapterProtocol, searchBarAdapter: MovieSearchAdapter) {
+    init(adapter: MoviesAdapterProtocol, searchBarAdapter: MovieSearchAdapter) {
         self.adapter = adapter
         self.searchBarAdapter = searchBarAdapter
         super.init(frame: .init(x: 0, y: 0, width: UIScreen.main.bounds.width, height: UIScreen.main.bounds.height))

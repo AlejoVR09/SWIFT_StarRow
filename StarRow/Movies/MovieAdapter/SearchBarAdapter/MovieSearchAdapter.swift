@@ -8,7 +8,13 @@
 import Foundation
 import UIKit
 
-class MovieSearchAdapter: NSObject, UISearchBarDelegate {
+protocol MoviesSearchAdapterProtocol: AnyObject {
+    var data: [MoviesEntity] { get set }
+    func setUpSearchBar(_ collectionView: UICollectionView)
+    func didFilterHandler(_ handler: @escaping (_ movie: [MoviesEntity]) -> Void)
+}
+
+class MovieSearchAdapter: NSObject {
     var moviesView: MoviesView?
     var movies: [MoviesEntity] = []
     var filteredMovies: [MoviesEntity] = []
@@ -19,7 +25,9 @@ class MovieSearchAdapter: NSObject, UISearchBarDelegate {
         searchBar.delegate = self
         self.adapted = searchBar
     }
-    
+}
+
+extension MovieSearchAdapter: UISearchBarDelegate {
     func searchBar(_ searchBar: UISearchBar, textDidChange searchText: String) {
         let loweredText = searchText.lowercased()
         self.filteredMovies = self.movies.filter({ movie in movie.name.lowercased().contains(loweredText) })

@@ -10,14 +10,14 @@ import UIKit
 import CoreData
 
 
-protocol AdapterProtocol: AnyObject {
+protocol MoviesAdapterProtocol: AnyObject {
     var data: [MoviesEntity] { get set }
     var strategy: AdapterStrategyProtocol { get set }
     func setUpCollectionView(_ collectionView: UICollectionView)
     func didSelectHandler(_ handler: @escaping (_ movie: MoviesEntity) -> Void)
 }
 
-class CollectionViewAdapter: NSObject, AdapterProtocol, UICollectionViewDelegate, UICollectionViewDataSource{
+class CollectionViewAdapter: NSObject, MoviesAdapterProtocol{
     
     private unowned var adapted: UICollectionView?
     var data: [MoviesEntity] = []
@@ -39,16 +39,24 @@ class CollectionViewAdapter: NSObject, AdapterProtocol, UICollectionViewDelegate
         self.adapted = collectionView
         self.adapted?.collectionViewLayout = self.strategy.createLayout()
     }
-    
-    func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
-        self.didSelect?(data[indexPath.item])
-    }
+}
 
+extension CollectionViewAdapter: UICollectionViewDataSource {
     func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
         return data.count
     }
     
+    func numberOfSections(in collectionView: UICollectionView) -> Int {
+        1
+    }
+    
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
         return self.strategy.reusableCell(collectionView, cellForItemAt: indexPath, data: self.data[indexPath.row])
+    }
+}
+
+extension CollectionViewAdapter: UICollectionViewDelegate {
+    func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
+        self.didSelect?(data[indexPath.item])
     }
 }

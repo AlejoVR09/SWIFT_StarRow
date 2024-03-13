@@ -16,37 +16,134 @@ class ProfileView: UIView {
     
     init() {
         super.init(frame: .zero)
-        self.backgroundColor = .white
+        backgroundColor = UIColor(named: "Main")
         setContraint()
+        setUpLabelData()
     }
     
     required init?(coder: NSCoder) {
-        fatalError("init(coder:) has not been implemented")
+        super.init(coder: coder)
+        setContraint()
+        setUpLabelData()
     }
+    
+    override func draw(_ rect: CGRect) {
+        super.draw(rect)
+    }
+    
+    private var imageProfile: UIImageView = {
+        let image = UIImageView()
+        image.translatesAutoresizingMaskIntoConstraints = false
+        image.image = UIImage(systemName: "person.circle")
+        return image
+    }()
+    
+    private var separatorToImage: SeparatorView = SeparatorView()
+    
+    private var stackInfo: StackViewType = StackViewType(orientation: .vertical, innerSpacing: 40)
+    
+    private let userNameLabel: UILabel = MainLabel(withText: "Name", color: "MainInverse", alignment: .center, size: 20)
+    
+    private let emailStack: UIStackView = StackViewType(orientation: .vertical, innerSpacing: 10)
+    
+    private let phoneStack: UIStackView = StackViewType(orientation: .vertical, innerSpacing: 10)
+    
+    private let userEmailLabel: UILabel = MainLabel(withText: "Email", color: "MainInverse", alignment: .center, size: 20)
+    
+    private let userPhoneLabel: UILabel = MainLabel(withText: "Phone", color: "MainInverse", alignment: .center, size: 20)
+    
+    private let userEmailData: UILabel = MainLabel(withText: "Name@domain.com", color: "MainInverse", alignment: .center, size: 16)
+    
+    private let userPhoneData: UILabel = MainLabel(withText: "+00 11111111111", color: "MainInverse", alignment: .center, size: 16)
+    
+    private var separatorToInfo: SeparatorView = SeparatorView()
     
     private var signOutButton: UIButton = {
         let button = UIButton(type: .system)
         button.translatesAutoresizingMaskIntoConstraints = false
-        button.setTitle("asd", for: .normal)
+        button.setTitle("Sign Out", for: .normal)
+        button.backgroundColor = .clear
+        button.layer.borderColor = UIColor(named: "MainText")?.cgColor
+        button.layer.borderWidth = 1
+        button.layer.cornerRadius = 15
+        button.titleLabel?.font = UIFont.boldSystemFont(ofSize: 20)
+        button.titleLabel?.tintColor = UIColor(named: "MainInverse")
         button.addTarget(nil, action: #selector(signOut), for: .touchUpInside)
         return button
     }()
     
+    private func setUpLabelData(){
+        addBorder(element: userEmailData)
+        addBorder(element: userPhoneData)
+    }
     
-    
-    private func setContraint(){
-        addSubview(signOutButton)
-        NSLayoutConstraint.activate([
-            signOutButton.heightAnchor.constraint(equalToConstant: 50),
-            signOutButton.bottomAnchor.constraint(equalTo: safeAreaLayoutGuide.bottomAnchor),
-            signOutButton.trailingAnchor.constraint(equalTo: trailingAnchor),
-            signOutButton.leadingAnchor.constraint(equalTo: leadingAnchor)
-        ])
+    private func addBorder(element: UILabel){
+        element.layer.borderColor = UIColor(red: 0, green: 0, blue: 0, alpha: 1).cgColor
+        element.layer.borderWidth = 1
+        element.layer.cornerRadius = 10
     }
 }
 
 extension ProfileView {
     @objc func signOut(){
         self.delegate?.didTapToSingOut(self)
+    }
+}
+
+extension ProfileView {
+    private func setContraint(){
+        addSubview(imageProfile)
+        NSLayoutConstraint.activate([
+            imageProfile.heightAnchor.constraint(equalToConstant: 120),
+            imageProfile.widthAnchor.constraint(equalToConstant: 120),
+            imageProfile.topAnchor.constraint(equalTo: safeAreaLayoutGuide.topAnchor, constant: 20),
+            imageProfile.centerXAnchor.constraint(equalTo: centerXAnchor, constant: 0)
+        ])
+        
+        addSubview(userNameLabel)
+        NSLayoutConstraint.activate([
+            userNameLabel.topAnchor.constraint(equalTo: imageProfile.bottomAnchor, constant: 10),
+            userNameLabel.trailingAnchor.constraint(equalTo: safeAreaLayoutGuide.trailingAnchor, constant: -5),
+            userNameLabel.leadingAnchor.constraint(equalTo: safeAreaLayoutGuide.leadingAnchor, constant: 5)
+        ])
+        
+        addSubview(separatorToImage)
+        NSLayoutConstraint.activate([
+            separatorToImage.heightAnchor.constraint(equalToConstant: 1),
+            separatorToImage.topAnchor.constraint(equalTo: userNameLabel.bottomAnchor, constant: 20),
+            separatorToImage.trailingAnchor.constraint(equalTo: safeAreaLayoutGuide.trailingAnchor, constant: -5),
+            separatorToImage.leadingAnchor.constraint(equalTo: safeAreaLayoutGuide.leadingAnchor, constant: 5)
+        ])
+        
+        addSubview(stackInfo)
+        NSLayoutConstraint.activate([
+            stackInfo.topAnchor.constraint(equalTo: separatorToImage.bottomAnchor, constant: 20),
+            stackInfo.trailingAnchor.constraint(equalTo: safeAreaLayoutGuide.trailingAnchor, constant: -10),
+            stackInfo.leadingAnchor.constraint(equalTo: safeAreaLayoutGuide.leadingAnchor, constant: 10)
+        ])
+        
+        stackInfo.addArrangedSubview(emailStack)
+        emailStack.addArrangedSubview(userEmailLabel)
+        emailStack.addArrangedSubview(userEmailData)
+        
+        stackInfo.addArrangedSubview(phoneStack)
+        phoneStack.addArrangedSubview(userPhoneLabel)
+        phoneStack.addArrangedSubview(userPhoneData)
+        
+        addSubview(separatorToInfo)
+        NSLayoutConstraint.activate([
+            separatorToInfo.heightAnchor.constraint(equalToConstant: 1),
+            separatorToInfo.trailingAnchor.constraint(equalTo: safeAreaLayoutGuide.trailingAnchor, constant: -5),
+            separatorToInfo.leadingAnchor.constraint(equalTo: safeAreaLayoutGuide.leadingAnchor, constant: 5)
+        ])
+        
+        addSubview(signOutButton)
+        NSLayoutConstraint.activate([
+            signOutButton.heightAnchor.constraint(equalToConstant: 50),
+            signOutButton.topAnchor.constraint(equalTo: separatorToInfo.bottomAnchor, constant: 10),
+            signOutButton.bottomAnchor.constraint(equalTo: safeAreaLayoutGuide.bottomAnchor, constant: -50),
+            signOutButton.trailingAnchor.constraint(equalTo: safeAreaLayoutGuide.trailingAnchor, constant: -50),
+            signOutButton.leadingAnchor.constraint(equalTo: safeAreaLayoutGuide.leadingAnchor, constant: 50)
+        ])
     }
 }
