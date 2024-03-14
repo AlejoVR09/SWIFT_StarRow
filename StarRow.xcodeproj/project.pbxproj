@@ -39,9 +39,12 @@
 		553770CE2B606C0F00C69D03 /* MoviesView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 553770CD2B606C0F00C69D03 /* MoviesView.swift */; };
 		5541D02B2B8660680044988B /* MovieCoreData+CoreDataClass.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5541D0292B8660680044988B /* MovieCoreData+CoreDataClass.swift */; };
 		5541D02C2B8660680044988B /* MovieCoreData+CoreDataProperties.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5541D02A2B8660680044988B /* MovieCoreData+CoreDataProperties.swift */; };
+		554634AC2BA30F7D002AD474 /* UserDataExceptions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 554634AB2BA30F7D002AD474 /* UserDataExceptions.swift */; };
 		554FA69B2BA0D09000FB1F35 /* SeparatorView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 554FA69A2BA0D09000FB1F35 /* SeparatorView.swift */; };
 		5560CA912B84C46B007834D1 /* MoviesEntity.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5560CA902B84C46B007834D1 /* MoviesEntity.swift */; };
 		5565B1282BA2636200975E76 /* StarRow.xcdatamodeld in Sources */ = {isa = PBXBuildFile; fileRef = 5565B1262BA2636200975E76 /* StarRow.xcdatamodeld */; };
+		5565B14F2BA2718400975E76 /* AppUser+CoreDataClass.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5565B14D2BA2718400975E76 /* AppUser+CoreDataClass.swift */; };
+		5565B1502BA2718400975E76 /* AppUser+CoreDataProperties.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5565B14E2BA2718400975E76 /* AppUser+CoreDataProperties.swift */; };
 		5566A9BF2B8E67CD0054AEA3 /* StarView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5566A9BE2B8E67CD0054AEA3 /* StarView.swift */; };
 		557836132B757654005B8538 /* FavoriteCollectionViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 557836112B757654005B8538 /* FavoriteCollectionViewCell.swift */; };
 		557836142B757654005B8538 /* FavoriteCollectionViewCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 557836122B757654005B8538 /* FavoriteCollectionViewCell.xib */; };
@@ -112,9 +115,12 @@
 		553770CD2B606C0F00C69D03 /* MoviesView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MoviesView.swift; sourceTree = "<group>"; };
 		5541D0292B8660680044988B /* MovieCoreData+CoreDataClass.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "MovieCoreData+CoreDataClass.swift"; sourceTree = "<group>"; };
 		5541D02A2B8660680044988B /* MovieCoreData+CoreDataProperties.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "MovieCoreData+CoreDataProperties.swift"; sourceTree = "<group>"; };
+		554634AB2BA30F7D002AD474 /* UserDataExceptions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserDataExceptions.swift; sourceTree = "<group>"; };
 		554FA69A2BA0D09000FB1F35 /* SeparatorView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; name = SeparatorView.swift; path = StarRow/Utility/UIElements/SeparatorView.swift; sourceTree = SOURCE_ROOT; };
 		5560CA902B84C46B007834D1 /* MoviesEntity.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MoviesEntity.swift; sourceTree = "<group>"; };
 		5565B1272BA2636200975E76 /* StarRow.xcdatamodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcdatamodel; path = StarRow.xcdatamodel; sourceTree = "<group>"; };
+		5565B14D2BA2718400975E76 /* AppUser+CoreDataClass.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "AppUser+CoreDataClass.swift"; sourceTree = "<group>"; };
+		5565B14E2BA2718400975E76 /* AppUser+CoreDataProperties.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "AppUser+CoreDataProperties.swift"; sourceTree = "<group>"; };
 		5566A9BE2B8E67CD0054AEA3 /* StarView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StarView.swift; sourceTree = "<group>"; };
 		557836112B757654005B8538 /* FavoriteCollectionViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FavoriteCollectionViewCell.swift; sourceTree = "<group>"; };
 		557836122B757654005B8538 /* FavoriteCollectionViewCell.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = FavoriteCollectionViewCell.xib; sourceTree = "<group>"; };
@@ -305,6 +311,14 @@
 			path = NavigationController;
 			sourceTree = "<group>";
 		};
+		554634AA2BA30F25002AD474 /* Exceptions */ = {
+			isa = PBXGroup;
+			children = (
+				554634AB2BA30F7D002AD474 /* UserDataExceptions.swift */,
+			);
+			path = Exceptions;
+			sourceTree = "<group>";
+		};
 		559C86342B976DCA00F41D90 /* Coordinator */ = {
 			isa = PBXGroup;
 			children = (
@@ -372,6 +386,7 @@
 		55DEB55A2B7A78DD00363F83 /* Utility */ = {
 			isa = PBXGroup;
 			children = (
+				554634AA2BA30F25002AD474 /* Exceptions */,
 				5501DB2D2B9F80D1001908DB /* UIElements */,
 				55DEB55B2B7A78F400363F83 /* NotificationCenter.swift */,
 				55EB24602B8CDC3800BCB944 /* UserSession.swift */,
@@ -393,6 +408,8 @@
 		55E343812B72ED20009C6C92 /* CoreData */ = {
 			isa = PBXGroup;
 			children = (
+				5565B14D2BA2718400975E76 /* AppUser+CoreDataClass.swift */,
+				5565B14E2BA2718400975E76 /* AppUser+CoreDataProperties.swift */,
 				5541D0292B8660680044988B /* MovieCoreData+CoreDataClass.swift */,
 				5541D02A2B8660680044988B /* MovieCoreData+CoreDataProperties.swift */,
 			);
@@ -544,6 +561,7 @@
 				55D1B44A2B7E745F00830997 /* LoginStrategy.swift in Sources */,
 				5507FF092B617952007C7C5B /* TabBarController.swift in Sources */,
 				552A7CA92B74252400D84BEB /* ResponseDetail.swift in Sources */,
+				554634AC2BA30F7D002AD474 /* UserDataExceptions.swift in Sources */,
 				5560CA912B84C46B007834D1 /* MoviesEntity.swift in Sources */,
 				55D1B44F2B7EC07000830997 /* MoviesListViewStrategy.swift in Sources */,
 				553770CE2B606C0F00C69D03 /* MoviesView.swift in Sources */,
@@ -566,6 +584,8 @@
 				55D1B4532B7EC0CC00830997 /* MoviesListOnlineStrategy.swift in Sources */,
 				551FB7BA2B69AA9C0054C482 /* CustomCollectionViewCell.swift in Sources */,
 				553480092B6166CF001B38B0 /* DetailsView.swift in Sources */,
+				5565B14F2BA2718400975E76 /* AppUser+CoreDataClass.swift in Sources */,
+				5565B1502BA2718400975E76 /* AppUser+CoreDataProperties.swift in Sources */,
 				5501DB2F2B9F8129001908DB /* MainTextField.swift in Sources */,
 				552A7CA42B7406CB00D84BEB /* DetailsEntity.swift in Sources */,
 				553480072B616592001B38B0 /* DetailsViewController.swift in Sources */,

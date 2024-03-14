@@ -129,7 +129,7 @@ extension ShortLoginView {
     }
     
     @objc private func goToMoviesView(){
-        self.delegate.loginView(self, withEmail: "")
+        self.delegate.loginView(self, withEmail: self.buttonForLoging.titleLabel?.text ?? "")
     }
     
     @objc private func goToLargeLogin(){

@@ -19,11 +19,16 @@ class MovieSearchAdapter: NSObject {
     var movies: [MoviesEntity] = []
     var filteredMovies: [MoviesEntity] = []
     var isLookingFor: Bool = false
+    private var didFilter: ((_ movie: [MoviesEntity]) -> Void)?
     private unowned var adapted: UISearchBar?
     
     func setUpSearchBar(_ searchBar: UISearchBar){
         searchBar.delegate = self
         self.adapted = searchBar
+    }
+    
+    func didFilterHandler(_ handler: @escaping (_ movie: [MoviesEntity]) -> Void){
+        self.didFilter = handler
     }
 }
 

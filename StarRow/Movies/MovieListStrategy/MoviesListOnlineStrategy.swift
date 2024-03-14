@@ -18,7 +18,6 @@ class MoviesListOnlineStrategy: MoviesListViewStrategy {
     
     func fetch(){
         self.moviesWS.execute(){[weak self] arrayMovies in
-            self?.moviesView.searchBarAdapter.movies = arrayMovies.toMovieEntityFromApi
             self?.moviesView.updateCollectionView(arrayMovies.toMovieEntityFromApi)
         }
     }

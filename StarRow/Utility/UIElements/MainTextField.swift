@@ -24,7 +24,7 @@ class MainTextField: UITextField {
         self.backgroundColor = .init(white: 0, alpha: 0)
         self.placeholder = text
         self.font = UIFont.systemFont(ofSize: 16)
-        self.textColor = UIColor(named: "Main")
+        self.textColor = UIColor(named: "MainInverse")
         self.layer.borderColor = UIColor(named: "MainText")?.cgColor
         self.layer.borderWidth = 1
         self.borderStyle = .roundedRect

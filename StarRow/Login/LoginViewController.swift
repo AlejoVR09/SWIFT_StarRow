@@ -9,8 +9,9 @@ import UIKit
 
 
 class LoginViewController: UIViewController {
-    lazy var notificationCenter = NotificationManager(notificationManagerDelegate: self)
+    private lazy var notificationCenter = NotificationManager(notificationManagerDelegate: self)
     private var loginView: LoginViewProtocol?
+    private lazy var userDataValidation = UserDataValidation()
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -18,6 +19,13 @@ class LoginViewController: UIViewController {
     
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
+        do{
+            try print(userDataValidation.validateEmail(email: "Alejandro@.co"))
+        }
+        catch{
+            print(error)
+        }
+        
         self.loginView = UserDefaults.standard.bool(forKey: "isLoggedIn") ? ShortLoginView(delegate: self) : FullLoginView(delegate: self)
         self.view = self.loginView as? UIView
         self.notificationCenter.registerObserver()
@@ -47,8 +55,14 @@ class LoginViewController: UIViewController {
 
 extension LoginViewController: LoginViewDelegate {
     func loginView(_ loginView: LoginViewProtocol, withEmail email: String) {
-        UserDefaults.standard.setValue(true, forKey: "isLoggedIn")
-        self.navigationController?.show(TabBarController(), sender: nil)
+        do{
+            try userDataValidation.validateEmail(email: email)
+            UserDefaults.standard.setValue(true, forKey: "isLoggedIn")
+            self.navigationController?.show(TabBarController(), sender: nil)
+        }
+        catch{
+            print(error)
+        }
     }
     
     func loginViewDidButtonPressedToSignUp(loginView: LoginViewProtocol) {

@@ -125,16 +125,26 @@ extension MoviesView {
         self.adapter.setUpCollectionView(self.movieCollectionView)
         self.searchBarAdapter.setUpSearchBar(self.searchBar)
         self.delegate?.moviesViewPullToRefreshApiData(self)
+        
         self.adapter.didSelectHandler { movie in
             self.delegate?.moviesView(self, didSelectMovie: movie)
         }
+        
+        self.searchBarAdapter.didFilterHandler { movies in
+            self.reloadCollectionViewData(movies)
+        }
     }
     
-    func updateCollectionView(_ newArrayMovies: [MoviesEntity]){
+    private func reloadCollectionViewData(_ newArrayMovies: [MoviesEntity]){
         self.adapter.data = newArrayMovies
         DispatchQueue.main.async {
             self.movieCollectionView.reloadData()
         }
+    }
+    
+    func updateCollectionView(_ newArrayMovies: [MoviesEntity]){
+        self.searchBarAdapter.movies = newArrayMovies
+        reloadCollectionViewData(newArrayMovies)
     }
     
     func addPullToRefresh(){
