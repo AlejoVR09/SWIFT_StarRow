@@ -11,7 +11,7 @@ import CoreData
 
 
 protocol MoviesAdapterProtocol: AnyObject {
-    var data: [MoviesEntity] { get set }
+    var data: [Any] { get set }
     var strategy: AdapterStrategyProtocol { get set }
     func setUpCollectionView(_ collectionView: UICollectionView)
     func didSelectHandler(_ handler: @escaping (_ movie: MoviesEntity) -> Void)
@@ -20,7 +20,7 @@ protocol MoviesAdapterProtocol: AnyObject {
 class CollectionViewAdapter: NSObject, MoviesAdapterProtocol{
     
     private unowned var adapted: UICollectionView?
-    var data: [MoviesEntity] = []
+    var data: [Any] = []
     var strategy: AdapterStrategyProtocol
     private var didSelect: ((_ movie: MoviesEntity) -> Void)?
     
@@ -34,6 +34,7 @@ class CollectionViewAdapter: NSObject, MoviesAdapterProtocol{
     
     func setUpCollectionView(_ collectionView: UICollectionView){
         self.strategy.registerCell(collectionView)
+        collectionView.register(UINib(nibName: "ErrorCellCollectionViewCell", bundle: .main), forCellWithReuseIdentifier: "ErrorCell")
         collectionView.dataSource = self
         collectionView.delegate = self
         self.adapted = collectionView
@@ -51,12 +52,20 @@ extension CollectionViewAdapter: UICollectionViewDataSource {
     }
     
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
-        return self.strategy.reusableCell(collectionView, cellForItemAt: indexPath, data: self.data[indexPath.row])
+        let item = self.data[indexPath.row]
+        if let message = item as? String {
+            return ErrorCellCollectionViewCell.buildMovieCellError(collectionView, in: indexPath, with: message)
+        } else if let movie = item as? MoviesEntity {
+            return self.strategy.reusableCell(collectionView, cellForItemAt: indexPath, data: movie)
+        } else {
+            return UICollectionViewCell()
+        }
     }
 }
 
 extension CollectionViewAdapter: UICollectionViewDelegate {
     func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
-        self.didSelect?(data[indexPath.item])
+        guard let movie = data[indexPath.item] as? MoviesEntity else { return }
+        self.didSelect?(movie)
     }
 }

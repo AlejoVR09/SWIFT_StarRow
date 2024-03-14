@@ -16,16 +16,15 @@ protocol MoviesViewDelegate: AnyObject{
 class MoviesView: UIView{
     weak var delegate: MoviesViewDelegate?
     var adapter: MoviesAdapterProtocol
-    var searchBarAdapter: MovieSearchAdapter
+    var searchBarAdapter: MoviesSearchAdapterProtocol
     
-    init(adapter: MoviesAdapterProtocol, searchBarAdapter: MovieSearchAdapter) {
+    init(adapter: MoviesAdapterProtocol, searchBarAdapter: MoviesSearchAdapterProtocol) {
         self.adapter = adapter
         self.searchBarAdapter = searchBarAdapter
         super.init(frame: .init(x: 0, y: 0, width: UIScreen.main.bounds.width, height: UIScreen.main.bounds.height))
         backgroundColor = .white
         self.tapGesture = UITapGestureRecognizer(target: self, action: #selector(handleTap(_ :)))
         addGestureRecognizer(tapGesture)
-        self.searchBarAdapter.moviesView = self
         self.tapGesture.isEnabled = false
         self.backgroundColor = UIColor(named: "Main")
         setConstraints()

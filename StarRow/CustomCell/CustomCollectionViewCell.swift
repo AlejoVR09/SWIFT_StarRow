@@ -104,7 +104,7 @@ class CustomCollectionViewCell: UICollectionViewCell {
         self.layer.shadowRadius = 2
     }
     
-    private func updateImage(){
+    private func updatePlaceHolderImage(){
         DispatchQueue.main.async {
             self.imageView.contentMode = .scaleAspectFit
             self.imageView.image = UIImage(systemName: "person.circle")
@@ -118,15 +118,16 @@ class CustomCollectionViewCell: UICollectionViewCell {
         guard let url = URL(string: "https://image.tmdb.org/t/p/w500/" + movie.poster) else { return }
         URLSession.shared.dataTask(with: url) { (data, response, error) in
             guard error == nil else {
-                self.updateImage()
+                self.updatePlaceHolderImage()
                 return
             }
-            guard let imageData = data else { return }
+            
             guard let httpResponse = response as? HTTPURLResponse else { return }
             switch httpResponse.statusCode {
             case 400...500:
-                self.updateImage()
+                self.updatePlaceHolderImage()
             default:
+                guard let imageData = data else { return }
                 DispatchQueue.main.async {
                     self.imageView.image = UIImage(data: imageData as Data)
                 }

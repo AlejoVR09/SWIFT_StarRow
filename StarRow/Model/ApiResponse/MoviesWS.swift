@@ -19,7 +19,6 @@ struct MoviesWS {
     
     func parseJSON(movieData: Data?) -> [Response.MovieDTO]{
         guard let movieData = movieData else { return [] }
-        
         do{
             let decodeData = try JSONDecoder().decode(Response.self, from: movieData)
             return decodeData.results ?? []

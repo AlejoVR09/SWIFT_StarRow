@@ -46,14 +46,9 @@ class FavoriteCollectionViewCell: UICollectionViewCell {
                 return
             }
             guard let imageData = data else { return }
-            guard let httpResponse = response as? HTTPURLResponse else { return }
-            switch httpResponse.statusCode {
-            case 400...499:
-                self.updateImage()
-            default:
-                DispatchQueue.main.async {
-                    self.imageView.image = UIImage(data: imageData as Data)
-                }
+            let imagen = UIImage(data: imageData)
+            DispatchQueue.main.async {
+                self.imageView.image = imagen ?? UIImage(systemName: "person.circle")
             }
         }.resume()
     }

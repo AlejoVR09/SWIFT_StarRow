@@ -9,16 +9,13 @@ import Foundation
 import UIKit
 
 protocol MoviesSearchAdapterProtocol: AnyObject {
-    var data: [MoviesEntity] { get set }
-    func setUpSearchBar(_ collectionView: UICollectionView)
+    var movies: [MoviesEntity] { get set }
+    func setUpSearchBar(_ searchBar: UISearchBar)
     func didFilterHandler(_ handler: @escaping (_ movie: [MoviesEntity]) -> Void)
 }
 
-class MovieSearchAdapter: NSObject {
-    var moviesView: MoviesView?
+class MovieSearchAdapter: NSObject, MoviesSearchAdapterProtocol {
     var movies: [MoviesEntity] = []
-    var filteredMovies: [MoviesEntity] = []
-    var isLookingFor: Bool = false
     private var didFilter: ((_ movie: [MoviesEntity]) -> Void)?
     private unowned var adapted: UISearchBar?
     
@@ -35,20 +32,21 @@ class MovieSearchAdapter: NSObject {
 extension MovieSearchAdapter: UISearchBarDelegate {
     func searchBar(_ searchBar: UISearchBar, textDidChange searchText: String) {
         let loweredText = searchText.lowercased()
-        self.filteredMovies = self.movies.filter({ movie in movie.name.lowercased().contains(loweredText) })
-        self.filteredMovies.isEmpty ? self.moviesView?.setSeachView() : self.moviesView?.removeSearchView()
-        self.moviesView?.updateCollectionView(filteredMovies)
+        var arrayResult: [MoviesEntity] = []
+        if loweredText.isEmpty {
+            arrayResult = movies
+        }
+        else{
+            arrayResult = self.movies.filter({ movie in movie.name.lowercased().contains(loweredText) })
+        }
+        
+        self.didFilter?(arrayResult)
     }
     
     func searchBarTextDidBeginEditing(_ searchBar: UISearchBar) {
-        self.isLookingFor = searchBar.text != ""
-        self.filteredMovies.isEmpty ? self.moviesView?.setSeachView() : self.moviesView?.removeSearchView()
     }
     
     func searchBarTextDidEndEditing(_ searchBar: UISearchBar) {
-        self.isLookingFor = searchBar.text != ""
-        self.filteredMovies.isEmpty  && self.isLookingFor ? self.moviesView?.setSeachView() : self.moviesView?.removeSearchView()
-        !self.isLookingFor ? self.moviesView?.updateCollectionView(self.movies) : self.moviesView?.updateCollectionView(filteredMovies)
     }
     
     func searchBarSearchButtonClicked(_ searchBar: UISearchBar) {

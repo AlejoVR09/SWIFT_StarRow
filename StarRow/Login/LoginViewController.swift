@@ -15,6 +15,7 @@ class LoginViewController: UIViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
+        self.modalTransitionStyle = .flipHorizontal
     }
     
     override func viewWillAppear(_ animated: Bool) {

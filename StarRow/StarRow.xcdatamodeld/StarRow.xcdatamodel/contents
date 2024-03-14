@@ -3,14 +3,15 @@
     <entity name="AppUser" representedClassName="AppUser" syncable="YES">
         <attribute name="email" optional="YES" attributeType="String"/>
         <attribute name="id" optional="YES" attributeType="Double" defaultValueString="0.0" usesScalarValueType="YES"/>
-        <attribute name="movies" optional="YES" attributeType="Transformable"/>
         <attribute name="name" optional="YES" attributeType="String"/>
         <attribute name="phone" optional="YES" attributeType="String"/>
+        <relationship name="favorites" optional="YES" toMany="YES" deletionRule="Nullify" destinationEntity="MovieCoreData" inverseName="user" inverseEntity="MovieCoreData"/>
     </entity>
     <entity name="MovieCoreData" representedClassName="MovieCoreData" syncable="YES">
         <attribute name="idMovie" optional="YES" attributeType="Double" defaultValueString="0" usesScalarValueType="YES"/>
         <attribute name="originalTitle" optional="YES" attributeType="String"/>
         <attribute name="posterPath" optional="YES" attributeType="String"/>
         <attribute name="releaseDate" optional="YES" attributeType="String"/>
+        <relationship name="user" optional="YES" maxCount="1" deletionRule="Nullify" destinationEntity="AppUser" inverseName="favorites" inverseEntity="AppUser"/>
     </entity>
 </model>
