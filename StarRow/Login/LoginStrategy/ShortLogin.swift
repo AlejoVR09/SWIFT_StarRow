@@ -129,11 +129,11 @@ extension ShortLoginView {
     }
     
     @objc private func goToMoviesView(){
-        self.delegate.loginView(self, withValidEmail: true)
+        self.delegate.loginView?(self, withValidEmail: true)
     }
     
     @objc private func goToLargeLogin(){
-        self.delegate.loginViewGoToLargeLogin()
+        self.delegate.loginViewGoToLargeLogin?()
     }
 }
 

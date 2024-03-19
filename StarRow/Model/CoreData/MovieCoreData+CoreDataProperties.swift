@@ -2,7 +2,7 @@
 //  MovieCoreData+CoreDataProperties.swift
 //  StarRow
 //
-//  Created by Alejandro Vanegas Rondon on 21/02/24.
+//  Created by Alejandro Vanegas Rondon on 19/03/24.
 //
 //
 
@@ -16,10 +16,11 @@ extension MovieCoreData {
         return NSFetchRequest<MovieCoreData>(entityName: "MovieCoreData")
     }
 
-    @NSManaged public var releaseDate: String?
-    @NSManaged public var posterPath: String?
-    @NSManaged public var originalTitle: String?
     @NSManaged public var idMovie: Double
+    @NSManaged public var originalTitle: String?
+    @NSManaged public var posterPath: String?
+    @NSManaged public var releaseDate: String?
+    //@NSManaged public var user: AppUser?
 
 }
 

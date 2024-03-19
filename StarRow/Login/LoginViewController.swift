@@ -33,10 +33,10 @@ class LoginViewController: UIViewController {
 extension LoginViewController: LoginViewDelegate {
     func loginView(_ loginView: LoginViewProtocol, withValidEmail validEmail: Bool) {
         guard validEmail else {
-            loginView.setEmailErrorText(text: "invalidEmail".localized(withComment: "invalidEmailComment"))
+            loginView.setEmailErrorText?(text: "invalidEmail".localized(withComment: "invalidEmailComment"))
             return
         }
-        UserDefaults.standard.setValue(true, forKey: "isLoggedIn")
+//        UserSession.initSession(email: <#T##String#>, remember: <#T##Bool#>)
         self.navigationController?.show(TabBarController(), sender: nil)
     }
     
@@ -52,11 +52,11 @@ extension LoginViewController: LoginViewDelegate {
 
 extension LoginViewController: NotificationManagerDelegate {
     func NotificationManagerDelegate(_ notificationManager: NotificationManager, keyboardWillShow info: NotificationManager.Info) {
-        self.loginView?.keyboardAppear(info)
+        self.loginView?.keyboardAppear?(info)
     }
     
     func NotificationManagerDelegate(_ notificationManager: NotificationManager, keyboardWillHide info: NotificationManager.Info) {
-        self.loginView?.keyboardDisappear(info)
+        self.loginView?.keyboardDisappear?(info)
     }
 }
 

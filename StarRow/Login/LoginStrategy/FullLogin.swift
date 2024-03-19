@@ -7,7 +7,7 @@
 
 import UIKit
 
-class FullLoginView: UIView, LoginViewProtocol {
+class FullLoginView: UIView {
     private var delegate: LoginViewDelegate
     
     init(delegate: LoginViewDelegate){
@@ -138,8 +138,9 @@ class FullLoginView: UIView, LoginViewProtocol {
     }
 }
 
-extension FullLoginView {
-    func keyboardAppear(_ info: NotificationManager.Info){
+extension FullLoginView: LoginViewProtocol {
+    func keyboardAppear(_ info: Any){
+        guard let info = info as? NotificationManager.Info else { return }
         if info.frame.origin.y < self.userEmailTextField.frame.maxY {
             UIView.animate(withDuration: info.animation) {
                 self.bottomConstraint.constant = self.userEmailTextField.frame.maxY - info.frame.origin.y + self.bottomConstraint.constant + 20
@@ -148,7 +149,8 @@ extension FullLoginView {
         }
     }
     
-    func keyboardDisappear(_ info: NotificationManager.Info){
+    func keyboardDisappear(_ info: Any){
+        guard let info = info as? NotificationManager.Info else { return }
         UIView.animate(withDuration: info.animation) {
             self.bottomConstraint.constant = 20
             self.layoutIfNeeded()
@@ -166,7 +168,7 @@ extension FullLoginView {
     }
     
     @objc private func goToMoviesView(){
-        self.delegate.loginView(self, withValidEmail: userEmailTextField.getCurrentState())
+        self.delegate.loginView?(self, withValidEmail: userEmailTextField.getCurrentState())
     }
      
     @objc private func yes(){

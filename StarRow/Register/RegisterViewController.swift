@@ -39,6 +39,7 @@ extension RegisterViewController: RegisterViewDelegate {
     func buttonPressedToSign(_ registerView: RegisterView, validName: Bool, validEmail: Bool, validPhone: Bool) {
         if validName && validEmail && validPhone {
             self.navigationController?.show(TabBarController(), sender: nil)
+
         }
         else {
             if !validName {

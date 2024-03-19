@@ -7,25 +7,14 @@
 
 import Foundation
 
-protocol LoginViewProtocol {
-    func keyboardAppear(_ info: NotificationManager.Info)
-    func keyboardDisappear(_ info: NotificationManager.Info)
-    func setEmailErrorText(text: String)
+@objc protocol LoginViewProtocol {
+    @objc optional func keyboardAppear(_ info: Any)
+    @objc optional func keyboardDisappear(_ info: Any)
+    @objc optional func setEmailErrorText(text: String)
 }
 
-extension LoginViewProtocol {
-    func keyboardAppear(_ info: NotificationManager.Info){}
-    func keyboardDisappear(_ info: NotificationManager.Info){}
-    func setEmailErrorText(text: String){}
-}
-
-protocol LoginViewDelegate {
-    func loginView(_ loginView: LoginViewProtocol, withValidEmail validEmail: Bool)
+@objc protocol LoginViewDelegate {
+    @objc optional func loginView(_ loginView: LoginViewProtocol, withValidEmail validEmail: Bool)
     func loginViewDidButtonPressedToSignUp(loginView: LoginViewProtocol)
-    func loginViewGoToLargeLogin()
-}
-
-extension LoginViewDelegate {
-    func loginView(_ loginView: LoginViewProtocol, withValidEmail validEmail: Bool){}
-    func loginViewGoToLargeLogin(){}
-}
+    @objc optional func loginViewGoToLargeLogin()
+}  

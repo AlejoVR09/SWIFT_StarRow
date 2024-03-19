@@ -2,7 +2,7 @@
 //  MovieCoreData+CoreDataClass.swift
 //  StarRow
 //
-//  Created by Alejandro Vanegas Rondon on 21/02/24.
+//  Created by Alejandro Vanegas Rondon on 19/03/24.
 //
 //
 
