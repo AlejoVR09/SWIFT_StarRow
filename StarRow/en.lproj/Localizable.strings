@@ -15,6 +15,10 @@ emailCorrectFormat = "Correct Format: AAAAAA@AAAAA.AA";
 emailCorrectFormatComment = "Correct format of the email";
 invalidEmail = "Invalid email";
 invalidEmailComment = "Invalid email error message";
+existingEmail = "Email is current registered";
+existingEmailComment = "Existing email error message";
+notExistingEmail = "Email no registered";
+notExistingEmailComment = "Not existing email error message";
 
 namePlaceHolder = "Name";
 namePlaceHolderComment = "Name Placeholder";

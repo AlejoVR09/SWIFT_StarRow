@@ -113,7 +113,6 @@ class FullLoginView: UIView {
         switcher.tintColor = UIColor(named: AppConstant.Color.mainColor)
         switcher.onTintColor = UIColor(named: AppConstant.Color.mainText)
         switcher.translatesAutoresizingMaskIntoConstraints = false
-        switcher.addTarget(nil, action: #selector(yes), for: .touchUpInside)
         return switcher
     }()
     
@@ -168,10 +167,7 @@ extension FullLoginView {
     }
     
     @objc private func goToMoviesView(){
-        self.delegate.loginView?(self, withValidEmail: userEmailTextField.getCurrentState())
-    }
-     
-    @objc private func yes(){
+        self.delegate.loginView?(self, withEmail: userEmailTextField.text ?? "", validEmail: userEmailTextField.getCurrentState(), remember: self.switcher.isOn)
     }
 }
 

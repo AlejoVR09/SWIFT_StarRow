@@ -9,7 +9,7 @@ import Foundation
 
 class UserSession {
     
-    static private let singleton = UserSession()
+    static private(set) var singleton = UserSession()
     
     static var shared: UserSession {
         return singleton
@@ -17,10 +17,21 @@ class UserSession {
     
     private init() { }
     
-    static func initSession(email: String, remember: Bool){
-        UserDefaults.standard.setValue(true, forKey: "isLoggedIn")
-        UserDefaults.standard.setValue(email, forKey: "emailLogged")
+    static func rememberCurrentProfile(remember: Bool){
+        UserDefaults.standard.setValue(remember, forKey: "isLoggedIn")
         UserDefaults.standard.synchronize()
     }
     
+    static func getRememberedSession() -> Bool {
+        return UserDefaults.standard.bool(forKey: "isLoggedIn")
+    }
+    
+    static func currentSessionProfile(currentUserEmail: String){
+        UserDefaults.standard.setValue(currentUserEmail, forKey: "emailLogged")
+        UserDefaults.standard.synchronize()
+    }
+    
+    static func getCurrentSessionProfile() -> String {
+        return UserDefaults.standard.string(forKey: "emailLogged") ?? ""
+    }
 }

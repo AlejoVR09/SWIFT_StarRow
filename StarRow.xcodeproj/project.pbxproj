@@ -50,6 +50,8 @@
 		55823D7D2B60A6B100F6AD15 /* MoviesWS.swift in Sources */ = {isa = PBXBuildFile; fileRef = 55823D7C2B60A6B100F6AD15 /* MoviesWS.swift */; };
 		559E08572BA9A23500672D9A /* MovieCoreData+CoreDataClass.swift in Sources */ = {isa = PBXBuildFile; fileRef = 559E08532BA9A23500672D9A /* MovieCoreData+CoreDataClass.swift */; };
 		559E08582BA9A23500672D9A /* MovieCoreData+CoreDataProperties.swift in Sources */ = {isa = PBXBuildFile; fileRef = 559E08542BA9A23500672D9A /* MovieCoreData+CoreDataProperties.swift */; };
+		559E08632BA9B57000672D9A /* AppUser+CoreDataClass.swift in Sources */ = {isa = PBXBuildFile; fileRef = 559E08612BA9B57000672D9A /* AppUser+CoreDataClass.swift */; };
+		559E08642BA9B57000672D9A /* AppUser+CoreDataProperties.swift in Sources */ = {isa = PBXBuildFile; fileRef = 559E08622BA9B57000672D9A /* AppUser+CoreDataProperties.swift */; };
 		559E4E412BA87D5B00EBDB52 /* Constants.swift in Sources */ = {isa = PBXBuildFile; fileRef = 559E4E402BA87D5B00EBDB52 /* Constants.swift */; };
 		559E4E442BA89EE300EBDB52 /* StringLocalizable.swift in Sources */ = {isa = PBXBuildFile; fileRef = 559E4E432BA89EE300EBDB52 /* StringLocalizable.swift */; };
 		559E4E462BA8BE1F00EBDB52 /* LocalDateFormatter.swift in Sources */ = {isa = PBXBuildFile; fileRef = 559E4E452BA8BE1F00EBDB52 /* LocalDateFormatter.swift */; };
@@ -129,6 +131,8 @@
 		55823D7C2B60A6B100F6AD15 /* MoviesWS.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MoviesWS.swift; sourceTree = "<group>"; };
 		559E08532BA9A23500672D9A /* MovieCoreData+CoreDataClass.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "MovieCoreData+CoreDataClass.swift"; sourceTree = "<group>"; };
 		559E08542BA9A23500672D9A /* MovieCoreData+CoreDataProperties.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "MovieCoreData+CoreDataProperties.swift"; sourceTree = "<group>"; };
+		559E08612BA9B57000672D9A /* AppUser+CoreDataClass.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "AppUser+CoreDataClass.swift"; sourceTree = "<group>"; };
+		559E08622BA9B57000672D9A /* AppUser+CoreDataProperties.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "AppUser+CoreDataProperties.swift"; sourceTree = "<group>"; };
 		559E4E402BA87D5B00EBDB52 /* Constants.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Constants.swift; sourceTree = "<group>"; };
 		559E4E432BA89EE300EBDB52 /* StringLocalizable.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StringLocalizable.swift; sourceTree = "<group>"; };
 		559E4E452BA8BE1F00EBDB52 /* LocalDateFormatter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LocalDateFormatter.swift; sourceTree = "<group>"; };
@@ -427,6 +431,8 @@
 		55E343812B72ED20009C6C92 /* CoreData */ = {
 			isa = PBXGroup;
 			children = (
+				559E08612BA9B57000672D9A /* AppUser+CoreDataClass.swift */,
+				559E08622BA9B57000672D9A /* AppUser+CoreDataProperties.swift */,
 				559E08532BA9A23500672D9A /* MovieCoreData+CoreDataClass.swift */,
 				559E08542BA9A23500672D9A /* MovieCoreData+CoreDataProperties.swift */,
 			);
@@ -614,6 +620,8 @@
 				55347FFF2B613942001B38B0 /* LoginViewController.swift in Sources */,
 				55D1B4482B7E73DC00830997 /* ShortLogin.swift in Sources */,
 				5566A9BF2B8E67CD0054AEA3 /* StarView.swift in Sources */,
+				559E08632BA9B57000672D9A /* AppUser+CoreDataClass.swift in Sources */,
+				559E08642BA9B57000672D9A /* AppUser+CoreDataProperties.swift in Sources */,
 				559E08572BA9A23500672D9A /* MovieCoreData+CoreDataClass.swift in Sources */,
 				559E08582BA9A23500672D9A /* MovieCoreData+CoreDataProperties.swift in Sources */,
 				553770982B60665700C69D03 /* SceneDelegate.swift in Sources */,

@@ -82,6 +82,12 @@ class ProfileView: UIView {
         element.layer.borderWidth = 1
         element.layer.cornerRadius = 10
     }
+    
+    func setUserData(user: AppUser?){
+        userNameLabel.text = user?.name
+        userEmailData.text = user?.email
+        userPhoneData.text = user?.phone
+    }
 }
 
 extension ProfileView {

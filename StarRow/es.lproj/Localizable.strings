@@ -15,6 +15,10 @@ emailCorrectFormat = "Formato Correcto: AAAAAA@AAAAA.AA";
 emailCorrectFormatComment = "Formato correcto del email";
 invalidEmail = "Correo electronico invalido";
 invalidEmailComment = "Mesaje de error del correo electronico";
+existingEmail = "El correo ya esta registrado";
+existingEmailComment = "Mensaje de error de email ya registrado";
+notExistingEmail = "El correo no esta registrado";
+notExistingEmailComment = "Mensaje para un correo que no esta registrado";
 
 namePlaceHolder = "Nombre";
 namePlaceHolderComment = "Marcador del nombre";

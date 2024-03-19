@@ -11,10 +11,13 @@ import Foundation
     @objc optional func keyboardAppear(_ info: Any)
     @objc optional func keyboardDisappear(_ info: Any)
     @objc optional func setEmailErrorText(text: String)
+    @objc optional func setLogingButtonText(message: String)
+
 }
 
 @objc protocol LoginViewDelegate {
-    @objc optional func loginView(_ loginView: LoginViewProtocol, withValidEmail validEmail: Bool)
+    @objc optional func loginView(_ loginView: LoginViewProtocol, withEmail: String, validEmail: Bool, remember: Bool)
     func loginViewDidButtonPressedToSignUp(loginView: LoginViewProtocol)
     @objc optional func loginViewGoToLargeLogin()
-}  
+    @objc optional func loginViewWithSwitcher(isOn: Bool)
+}

@@ -69,7 +69,6 @@ class ShortLoginView: UIView, LoginViewProtocol {
         button.titleLabel?.lineBreakMode = .byTruncatingTail
         button.titleLabel?.textAlignment = .center
         button.layer.borderColor = UIColor(named: AppConstant.Color.mainText)?.cgColor
-        button.setTitle("jhondoe@gmail.com", for: .normal)
         button.titleLabel?.tintColor = UIColor(named: AppConstant.Color.inverseColor)
         button.titleLabel?.font = UIFont.systemFont(ofSize: 20)
         button.translatesAutoresizingMaskIntoConstraints = false
@@ -121,6 +120,10 @@ class ShortLoginView: UIView, LoginViewProtocol {
     private func setUpCirclebutton(){
         self.buttonForLoging.layer.cornerRadius = self.buttonForLoging.bounds.height / 2
     }
+    
+    func setLogingButtonText(message: String){
+        self.buttonForLoging.setTitle(message, for: .normal)
+    }
 }
 
 extension ShortLoginView {
@@ -129,7 +132,7 @@ extension ShortLoginView {
     }
     
     @objc private func goToMoviesView(){
-        self.delegate.loginView?(self, withValidEmail: true)
+        self.delegate.loginView?(self, withEmail: self.buttonForLoging.titleLabel?.text ?? "", validEmail: true, remember: true)
     }
     
     @objc private func goToLargeLogin(){

@@ -8,7 +8,7 @@
 import UIKit
 
 protocol RegisterViewDelegate {
-    func buttonPressedToSign(_ registerView: RegisterView, validName: Bool, validEmail: Bool, validPhone: Bool)
+    func buttonPressedToSign(_ registerView: RegisterView, withName: String, validName: Bool, withEmail: String, validEmail: Bool, withPhone: String, validPhone: Bool)
 }
 
 class RegisterView: UIView {
@@ -118,7 +118,7 @@ extension RegisterView {
     }
     
     @objc private func goToMoviesView(){
-        self.delegate?.buttonPressedToSign(self, validName: userNameTextField.getCurrentState(), validEmail: userEmailTextField.getCurrentState(), validPhone: userPhoneTextField.getCurrentState())
+        self.delegate?.buttonPressedToSign(self, withName: userNameTextField.text ?? "", validName: userNameTextField.getCurrentState(), withEmail: userEmailTextField.text ?? "", validEmail: userEmailTextField.getCurrentState(), withPhone: userPhoneTextField.text ?? "", validPhone: userPhoneTextField.getCurrentState())
     }
 }
 

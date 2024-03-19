@@ -15,6 +15,7 @@ class ProfileViewController: UIViewController {
     
     let profileView: ProfileView
     let delegate: ProfileViewControllerDelegate
+    let context = (UIApplication.shared.delegate as! AppDelegate).persistentContainer.viewContext
     
     init(profileView: ProfileView, delegate: ProfileViewControllerDelegate) {
         self.profileView = profileView
@@ -30,12 +31,31 @@ class ProfileViewController: UIViewController {
         super.viewDidLoad()
         self.view = profileView
         self.profileView.delegate = self
+        self.profileView.setUserData(user: retrieveUser(email: UserSession.getCurrentSessionProfile()))
+    }
+}
+
+extension ProfileViewController {
+    func retrieveUser(email: String) -> AppUser? {
+        let moviesSaved = self.retrieveData()
+        let result = moviesSaved.first { $0.email == email }
+        guard let result = result else { return nil }
+        return result
+    }
+    
+    private func retrieveData() -> [AppUser]{
+        do{
+            let movies = try self.context.fetch(AppUser.fetchRequest())
+            return movies
+        }
+        catch {
+            return []
+        }
     }
 }
 
 extension ProfileViewController: ProfileViewDelegate {
     func didTapToSingOut(_ profileView: ProfileView) {
-        UserDefaults.standard.removeObject(forKey: "isLoggedIn")
         dismiss(animated: true)
         self.delegate.closeViewController(self)
     }

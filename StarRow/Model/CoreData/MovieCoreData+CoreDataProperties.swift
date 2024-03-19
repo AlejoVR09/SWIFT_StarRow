@@ -20,7 +20,7 @@ extension MovieCoreData {
     @NSManaged public var originalTitle: String?
     @NSManaged public var posterPath: String?
     @NSManaged public var releaseDate: String?
-    //@NSManaged public var user: AppUser?
+    @NSManaged public var user: AppUser?
 
 }
 
