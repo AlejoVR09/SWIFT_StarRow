@@ -16,7 +16,7 @@ class ProfileView: UIView {
     
     init() {
         super.init(frame: .zero)
-        backgroundColor = UIColor(named: "Main")
+        backgroundColor = UIColor(named: AppConstant.Color.mainColor)
         setContraint()
         setUpLabelData()
     }
@@ -42,32 +42,32 @@ class ProfileView: UIView {
     
     private var stackInfo: StackViewType = StackViewType(orientation: .vertical, innerSpacing: 40)
     
-    private let userNameLabel: UILabel = MainLabel(withText: "Name", color: "MainInverse", alignment: .center, size: 20)
+    private let userNameLabel: UILabel = MainLabel(withText: "namePlaceHolder".localized(withComment: "namePlaceHolderComment".localized()), color: AppConstant.Color.inverseColor, alignment: .center, size: 20)
     
     private let emailStack: UIStackView = StackViewType(orientation: .vertical, innerSpacing: 10)
     
     private let phoneStack: UIStackView = StackViewType(orientation: .vertical, innerSpacing: 10)
     
-    private let userEmailLabel: UILabel = MainLabel(withText: "Email", color: "MainInverse", alignment: .center, size: 20)
+    private let userEmailLabel: UILabel = MainLabel(withText: "emailPlaceHolder".localized(withComment: "emailPlaceHolderComment".localized()), color: AppConstant.Color.inverseColor, alignment: .center, size: 20)
     
-    private let userPhoneLabel: UILabel = MainLabel(withText: "Phone", color: "MainInverse", alignment: .center, size: 20)
+    private let userPhoneLabel: UILabel = MainLabel(withText: "phonePlaceHolder".localized(withComment: "phonePlaceHolderComment".localized()), color: AppConstant.Color.inverseColor, alignment: .center, size: 20)
     
-    private let userEmailData: UILabel = MainLabel(withText: "Name@domain.com", color: "MainInverse", alignment: .center, size: 16)
+    private let userEmailData: UILabel = MainLabel(withText: "Name@domain.com", color: AppConstant.Color.inverseColor, alignment: .center, size: 16)
     
-    private let userPhoneData: UILabel = MainLabel(withText: "+00 11111111111", color: "MainInverse", alignment: .center, size: 16)
+    private let userPhoneData: UILabel = MainLabel(withText: "+00 11111111111", color: AppConstant.Color.inverseColor, alignment: .center, size: 16)
     
     private var separatorToInfo: SeparatorView = SeparatorView()
     
     private var signOutButton: UIButton = {
         let button = UIButton(type: .system)
         button.translatesAutoresizingMaskIntoConstraints = false
-        button.setTitle("Sign Out", for: .normal)
+        button.setTitle("signOutText".localized(withComment: "signOutTextComment".localized()), for: .normal)
         button.backgroundColor = .clear
-        button.layer.borderColor = UIColor(named: "MainText")?.cgColor
+        button.layer.borderColor = UIColor(named: AppConstant.Color.mainText)?.cgColor
         button.layer.borderWidth = 1
         button.layer.cornerRadius = 15
         button.titleLabel?.font = UIFont.boldSystemFont(ofSize: 20)
-        button.titleLabel?.tintColor = UIColor(named: "MainInverse")
+        button.titleLabel?.tintColor = UIColor(named: AppConstant.Color.inverseColor)
         button.addTarget(nil, action: #selector(signOut), for: .touchUpInside)
         return button
     }()

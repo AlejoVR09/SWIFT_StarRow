@@ -18,7 +18,7 @@ class DetailsView: UIView {
             multiplier: 1,
             constant: 40)
         super.init(frame: .init(x: 0, y: 0, width: UIScreen.main.bounds.width, height: UIScreen.main.bounds.height))
-        backgroundColor = UIColor(named: "Main")
+        backgroundColor = UIColor(named: AppConstant.Color.mainColor)
         setConstraints()
     }
     
@@ -29,22 +29,22 @@ class DetailsView: UIView {
     private var loadingView: UIView = {
         let view = UIView()
         view.translatesAutoresizingMaskIntoConstraints = false
-        view.backgroundColor = UIColor(named: "Main")
+        view.backgroundColor = UIColor(named: AppConstant.Color.mainColor)
         return view
     }()
     
     private var activityIndicator: UIActivityIndicatorView = {
         let activity = UIActivityIndicatorView(style: .large)
         activity.translatesAutoresizingMaskIntoConstraints = false
-        activity.color = UIColor(named: "MainInverse")
-        activity.tintColor = UIColor(named: "MainInverse")
+        activity.color = UIColor(named: AppConstant.Color.inverseColor)
+        activity.tintColor = UIColor(named: AppConstant.Color.inverseColor)
         activity.startAnimating()
         return activity
     }()
     
     private var referenceView: UIView = {
         let view = UIView()
-        view.backgroundColor = UIColor(named: "Main")
+        view.backgroundColor = UIColor(named: AppConstant.Color.mainColor)
         view.translatesAutoresizingMaskIntoConstraints = false
         return view
     }()
@@ -106,7 +106,7 @@ class DetailsView: UIView {
         let label = UILabel()
         label.translatesAutoresizingMaskIntoConstraints = false
         label.font = UIFont.systemFont(ofSize: 16, weight: .bold)
-        label.textColor = UIColor(named: "MainInverse")
+        label.textColor = UIColor(named: AppConstant.Color.inverseColor)
         label.numberOfLines = 0
         return label
     }()
@@ -115,7 +115,7 @@ class DetailsView: UIView {
         let label = UILabel()
         label.translatesAutoresizingMaskIntoConstraints = false
         label.font = UIFont.italicSystemFont(ofSize: 14)
-        label.textColor = UIColor(cgColor: .init(red: 0.590, green: 0.590, blue: 0.590, alpha: 1))
+        label.textColor = UIColor(cgColor: .init(red: 0.45, green: 0.45, blue: 0.45, alpha: 1))
         label.numberOfLines = 0
         return label
     }()
@@ -124,7 +124,7 @@ class DetailsView: UIView {
         let label = UILabel()
         label.translatesAutoresizingMaskIntoConstraints = false
         label.font = UIFont.systemFont(ofSize: 16, weight: .bold)
-        label.textColor = UIColor(named: "MainInverse")
+        label.textColor = UIColor(named: AppConstant.Color.inverseColor)
         label.numberOfLines = 0
         return label
     }()
@@ -133,7 +133,7 @@ class DetailsView: UIView {
         let label = UILabel()
         label.translatesAutoresizingMaskIntoConstraints = false
         label.font = UIFont.italicSystemFont(ofSize: 14)
-        label.textColor = UIColor(cgColor: .init(red: 0.590, green: 0.590, blue: 0.590, alpha: 1))
+        label.textColor = UIColor(cgColor: .init(red: 0.45, green: 0.45, blue: 0.45, alpha: 1))
         label.numberOfLines = 0
         return label
     }()
@@ -160,11 +160,9 @@ extension DetailsView{
         }
     }
     
-
-    
     private func downloadImage(data: String, element: UIImageView){
-        let url = "https://image.tmdb.org/t/p/w500/"    
-        guard let url = URL(string: url + data) else { return }
+        let url = AppConstant.APIUrl.imageBaseUrl + data
+        guard let url = URL(string: url) else { return }
         URLSession.shared.dataTask(with: url) { (data, response, error) in
             guard error == nil else {
                 self.updateImage(image: element)
@@ -188,13 +186,13 @@ extension DetailsView{
         self.downloadImage(data: data.backDrop, element: self.backDrop)
         var array = data.genrers
         self.titleLabel.text = data.name
-        self.releaseDateLabel.text = "Release Date: \n" + MoviesEntity.formatDate(data.releaseDate)
+        self.releaseDateLabel.text = "\("ReleaseDateText".localized(withComment: "ReleaseDateTextComment".localized())) \n" + LocalDateFormatter.formatDate(data.releaseDate)
         self.starView.setProgress(num: Float(data.voteAverage))
-        self.genreLabel.text = "Generos"
+        self.genreLabel.text = "GenrerText".localized(withComment: "GenrerTextComment".localized())
         var genersConcact = "" + (array.remove(at: 0).name ?? "")
         for i in array { genersConcact += " º " + (i.name ?? "") }
         self.genrers.text = genersConcact
-        self.descriptionLabel.text = "Description"
+        self.descriptionLabel.text = "DescriptionText".localized(withComment: "DescriptionTextComment".localized())
         self.descriptionData.text = data.description
     }
 }

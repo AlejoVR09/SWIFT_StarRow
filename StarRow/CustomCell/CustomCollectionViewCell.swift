@@ -28,7 +28,7 @@ class CustomCollectionViewCell: UICollectionViewCell {
     private var nameLabel: UILabel = {
         let label = UILabel()
         label.translatesAutoresizingMaskIntoConstraints = false
-        label.textColor = UIColor(named: "MainInverse")
+        label.textColor = UIColor(named: AppConstant.Color.inverseColor)
         label.font = UIFont.systemFont(ofSize: 18, weight: .bold)
         label.numberOfLines = 0
         return label
@@ -37,7 +37,7 @@ class CustomCollectionViewCell: UICollectionViewCell {
     private var dateLabel: UILabel = {
         let label = UILabel()
         label.translatesAutoresizingMaskIntoConstraints = false
-        label.textColor = UIColor(named: "MainInverse")
+        label.textColor = UIColor(named: AppConstant.Color.inverseColor)
         label.font = UIFont.italicSystemFont(ofSize: 14)
         label.numberOfLines = 0
         return label
@@ -47,7 +47,7 @@ class CustomCollectionViewCell: UICollectionViewCell {
     
     override init(frame: CGRect) {
         super.init(frame: frame)
-        backgroundColor = UIColor(named: "Main")
+        backgroundColor = UIColor(named: AppConstant.Color.mainColor)
         setShadow()
         setConstraint()
     }
@@ -99,9 +99,9 @@ class CustomCollectionViewCell: UICollectionViewCell {
         self.layer.masksToBounds = false
         self.layer.cornerRadius = CGFloat(integerLiteral: 10)
         self.layer.shadowOffset = CGSize(width: 0, height: 0)
-        self.layer.shadowColor = CGColor(red: 0.2, green: 0.2, blue: 2, alpha: 1)
-        self.layer.shadowOpacity = 0.5
-        self.layer.shadowRadius = 2
+        self.layer.shadowColor = CGColor(red: 0.2, green: 0.2, blue: 0.2, alpha: 1)
+        self.layer.shadowOpacity = 0.9
+        self.layer.shadowRadius = 2.5
     }
     
     private func updatePlaceHolderImage(){
@@ -113,9 +113,9 @@ class CustomCollectionViewCell: UICollectionViewCell {
     
     func updateData(movie: MoviesEntity){
         self.nameLabel.text = movie.name
-        self.dateLabel.text = "Release Date: \n" + MoviesEntity.formatDate(movie.releaseDate)
+        self.dateLabel.text = "\("ReleaseDateText".localized(withComment: "ReleaseDateTextComment".localized())): \n" + LocalDateFormatter.formatDate(movie.releaseDate)
         self.starView.setProgress(num: Float(movie.voteAverage))
-        guard let url = URL(string: "https://image.tmdb.org/t/p/w500/" + movie.poster) else { return }
+        guard let url = URL(string: AppConstant.APIUrl.imageBaseUrl + movie.poster) else { return }
         URLSession.shared.dataTask(with: url) { (data, response, error) in
             guard error == nil else {
                 self.updatePlaceHolderImage()
@@ -139,7 +139,7 @@ class CustomCollectionViewCell: UICollectionViewCell {
 
 extension CustomCollectionViewCell {
     class func buildMovieCellOnline(_ collectionView: UICollectionView, in indexPath: IndexPath, with movie: MoviesEntity) -> Self{
-        let customCell = collectionView.dequeueReusableCell(withReuseIdentifier: "CustomMovieCell", for: indexPath) as? Self
+        let customCell = collectionView.dequeueReusableCell(withReuseIdentifier: AppConstant.CellsInfo.customCellId, for: indexPath) as? Self
         customCell?.updateData(movie: movie)
         return customCell ?? Self()
     }

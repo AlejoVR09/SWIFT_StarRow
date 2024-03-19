@@ -11,12 +11,12 @@ import UIKit
 protocol MoviesSearchAdapterProtocol: AnyObject {
     var movies: [MoviesEntity] { get set }
     func setUpSearchBar(_ searchBar: UISearchBar)
-    func didFilterHandler(_ handler: @escaping (_ movie: [MoviesEntity]) -> Void)
+    func didFilterHandler(_ handler: @escaping (_ result: [Any]) -> Void)
 }
 
 class MovieSearchAdapter: NSObject, MoviesSearchAdapterProtocol {
     var movies: [MoviesEntity] = []
-    private var didFilter: ((_ movie: [MoviesEntity]) -> Void)?
+    private var didFilter: ((_ movie: [Any]) -> Void)?
     private unowned var adapted: UISearchBar?
     
     func setUpSearchBar(_ searchBar: UISearchBar){
@@ -24,7 +24,7 @@ class MovieSearchAdapter: NSObject, MoviesSearchAdapterProtocol {
         self.adapted = searchBar
     }
     
-    func didFilterHandler(_ handler: @escaping (_ movie: [MoviesEntity]) -> Void){
+    func didFilterHandler(_ handler: @escaping (_ result: [Any]) -> Void){
         self.didFilter = handler
     }
 }
@@ -32,21 +32,18 @@ class MovieSearchAdapter: NSObject, MoviesSearchAdapterProtocol {
 extension MovieSearchAdapter: UISearchBarDelegate {
     func searchBar(_ searchBar: UISearchBar, textDidChange searchText: String) {
         let loweredText = searchText.lowercased()
-        var arrayResult: [MoviesEntity] = []
+        var arrayResult: [Any] = []
         if loweredText.isEmpty {
             arrayResult = movies
         }
         else{
-            arrayResult = self.movies.filter({ movie in movie.name.lowercased().contains(loweredText) })
+            arrayResult = self.movies.filter({ $0.name.lowercased().contains(loweredText) })
+            arrayResult = !arrayResult.isEmpty ? arrayResult : ["""
+            \("elementsNoFoundText".localized(withComment: "elementsNoFoundTextComment".localized()))
+            \(searchText)
+            """]
         }
-        
         self.didFilter?(arrayResult)
-    }
-    
-    func searchBarTextDidBeginEditing(_ searchBar: UISearchBar) {
-    }
-    
-    func searchBarTextDidEndEditing(_ searchBar: UISearchBar) {
     }
     
     func searchBarSearchButtonClicked(_ searchBar: UISearchBar) {

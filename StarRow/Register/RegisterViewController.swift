@@ -25,7 +25,7 @@ class RegisterViewController: UIViewController {
         super.viewDidLoad()
         self.view = registerView
         self.registerView.delegate = self
-        self.navigationItem.leftBarButtonItem = UIBarButtonItem(title: "Back", style: .plain, target: self, action: #selector(backToLogin))
+        self.navigationItem.leftBarButtonItem = UIBarButtonItem(title: "BackButtonText".localized(withComment: "BackButtonTextComment".localized()), style: .plain, target: self, action: #selector(backToLogin))
     }
 }
 
@@ -36,21 +36,20 @@ extension RegisterViewController {
 }
 
 extension RegisterViewController: RegisterViewDelegate {
-    func buttonPressedToSign(_ registerView: RegisterView, withName: String, email: String, andPhone: String) {
-        do {
-            try {
-                try userDataValidation.validateName(name: withName)
-                try userDataValidation.validateEmail(email: email)
-                try userDataValidation.validatePhone(phone: andPhone)
-            }()
+    func buttonPressedToSign(_ registerView: RegisterView, validName: Bool, validEmail: Bool, validPhone: Bool) {
+        if validName && validEmail && validPhone {
             self.navigationController?.show(TabBarController(), sender: nil)
-        } catch let errors {
-            print("Se han producido los siguientes errores: \(errors)")
         }
-
-    }
-    
-    func buttonPressedToSign(_ registerView: RegisterView) {
-        
+        else {
+            if !validName {
+                registerView.setNameErrorText(text: "invalidName".localized(withComment: "invalidNameComment".localized()))
+            }
+            if !validEmail {
+                registerView.setEmailErrorText(text: "invalidEmail".localized(withComment: "invalidEmailComment".localized()))
+            }
+            if !validPhone {
+                registerView.setPhoneErrorText(text: "invalidPhone".localized(withComment: "invalidPhoneComment".localized()))
+            }
+        }
     }
 }

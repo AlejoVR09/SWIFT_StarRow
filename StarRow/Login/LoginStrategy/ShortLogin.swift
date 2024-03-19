@@ -14,7 +14,7 @@ class ShortLoginView: UIView, LoginViewProtocol {
     init(delegate: LoginViewDelegate) {
         self.delegate = delegate
         super.init(frame: .zero)
-        backgroundColor = UIColor(named: "Main")
+        backgroundColor = UIColor(named: AppConstant.Color.mainColor)
         setConstraints()
     }
     
@@ -28,7 +28,7 @@ class ShortLoginView: UIView, LoginViewProtocol {
     }
     
     private let backGroundImage: UIImageView = {
-        let image = UIImageView(image: UIImage(named: "RowStar_2"))
+        let image = UIImageView(image: UIImage(named: AppConstant.ImageNames.backgroundImageShortLogin))
         image.contentMode = .scaleAspectFill
         image.translatesAutoresizingMaskIntoConstraints = false
         return image
@@ -45,17 +45,17 @@ class ShortLoginView: UIView, LoginViewProtocol {
     private let contentView: UIView = {
         let view = UIView()
         view.translatesAutoresizingMaskIntoConstraints = false
-        view.backgroundColor = UIColor(named: "MainOpacity")
+        view.backgroundColor = UIColor(named: AppConstant.Color.opacityMainColor)
         view.layer.cornerRadius = 15
         return view
     }()
     
     private let loginLabel: UILabel = {
         let label = UILabel()
-        label.textColor = UIColor(named: "MainInverse")
+        label.textColor = UIColor(named: AppConstant.Color.inverseColor)
         label.font = UIFont.boldSystemFont(ofSize: 36)
         label.textAlignment = .center
-        label.text = "Login as: "
+        label.text = "loginAs".localized(withComment: "loginAsComment".localized())
         label.translatesAutoresizingMaskIntoConstraints = false
         return label
     }()
@@ -68,9 +68,9 @@ class ShortLoginView: UIView, LoginViewProtocol {
         button.titleLabel?.numberOfLines = 0
         button.titleLabel?.lineBreakMode = .byTruncatingTail
         button.titleLabel?.textAlignment = .center
-        button.layer.borderColor = UIColor(named: "MainText")?.cgColor
+        button.layer.borderColor = UIColor(named: AppConstant.Color.mainText)?.cgColor
         button.setTitle("jhondoe@gmail.com", for: .normal)
-        button.titleLabel?.tintColor = UIColor(named: "MainInverse")
+        button.titleLabel?.tintColor = UIColor(named: AppConstant.Color.inverseColor)
         button.titleLabel?.font = UIFont.systemFont(ofSize: 20)
         button.translatesAutoresizingMaskIntoConstraints = false
         button.addTarget(nil, action: #selector(goToMoviesView), for: .touchUpInside)
@@ -89,11 +89,11 @@ class ShortLoginView: UIView, LoginViewProtocol {
     private let buttonForSingUp: UIButton = {
         let button = UIButton(type: .system)
         button.frame = .zero
-        button.layer.borderColor = UIColor(named: "MainText")?.cgColor
+        button.layer.borderColor = UIColor(named: AppConstant.Color.mainText)?.cgColor
         button.layer.borderWidth = 1
         button.layer.cornerRadius = 15
-        button.setTitle("Create Account", for: .normal)
-        button.titleLabel?.tintColor = UIColor(named: "MainInverse")
+        button.setTitle("createAccountText".localized(withComment: "createAccountTextComment".localized()), for: .normal)
+        button.titleLabel?.tintColor = UIColor(named: AppConstant.Color.inverseColor)
         button.titleLabel?.font = UIFont.boldSystemFont(ofSize: 18)
         button.translatesAutoresizingMaskIntoConstraints = false
         button.addTarget(nil, action: #selector(goToRegisterView), for: .touchUpInside)
@@ -103,11 +103,11 @@ class ShortLoginView: UIView, LoginViewProtocol {
     private let buttonForLargeLogin: UIButton = {
         let button = UIButton(type: .system)
         button.frame = .zero
-        button.layer.borderColor = UIColor(named: "MainText")?.cgColor
+        button.layer.borderColor = UIColor(named: AppConstant.Color.mainText)?.cgColor
         button.layer.borderWidth = 1
         button.layer.cornerRadius = 15
-        button.setTitle("Use another account", for: .normal)
-        button.titleLabel?.tintColor = UIColor(named: "MainInverse")
+        button.setTitle("useAnotherAccount".localized(withComment: "useAnotherAccountComment".localized()), for: .normal)
+        button.titleLabel?.tintColor = UIColor(named: AppConstant.Color.inverseColor)
         button.titleLabel?.font = UIFont.boldSystemFont(ofSize: 18)
         button.translatesAutoresizingMaskIntoConstraints = false
         button.addTarget(nil, action: #selector(goToLargeLogin), for: .touchUpInside)
@@ -129,7 +129,7 @@ extension ShortLoginView {
     }
     
     @objc private func goToMoviesView(){
-        self.delegate.loginView(self, withEmail: self.buttonForLoging.titleLabel?.text ?? "")
+        self.delegate.loginView(self, withValidEmail: true)
     }
     
     @objc private func goToLargeLogin(){

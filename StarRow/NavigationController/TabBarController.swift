@@ -4,7 +4,7 @@ class TabBarController: UITabBarController {
 
     override func viewDidLoad() {
         super.viewDidLoad()
-        self.navigationItem.title = "Row Stars"
+        self.navigationItem.title = "appTittle".localized(withComment: "appTittleComment".localized())
         self.navigationItem.rightBarButtonItem = UIBarButtonItem(
             image: UIImage(systemName: "person.circle"),
             style: .plain,
@@ -13,7 +13,7 @@ class TabBarController: UITabBarController {
         )
         self.navigationItem.leftBarButtonItem = UIBarButtonItem()
         self.setViewControllers([TabBarController.buildOnline(), TabBarController.buildLocal()], animated: true)
-        self.tabBar.backgroundColor = UIColor(named: "Main")
+        self.tabBar.backgroundColor = UIColor(named: AppConstant.Color.mainColor)
     }
     
     @objc func didButtonPressedLogOut(){
@@ -29,7 +29,7 @@ extension TabBarController {
 
         controller.tabBarItem.image = UIImage(systemName: "square.split.2x2")
         controller.tabBarItem.selectedImage = UIImage(systemName: "square.split.2x2.fill")
-        controller.tabBarItem.title = "Movies"
+        controller.tabBarItem.title = "MoviesTab".localized(withComment: "MoviesTabComment".localized())
         return controller
     }
     
@@ -40,7 +40,7 @@ extension TabBarController {
         
         controller.tabBarItem.image = UIImage(systemName: "star")
         controller.tabBarItem.selectedImage = UIImage(systemName: "star.fill")
-        controller.tabBarItem.title = "Favorites"
+        controller.tabBarItem.title = "FavoritesTab".localized(withComment: "FavoritesTabComment".localized())
         return controller
     }
 }

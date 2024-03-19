@@ -2,12 +2,11 @@ import Foundation
 
 struct MoviesWS {
     
-    private let url: String = "https://api.themoviedb.org/3/movie/popular?api_key=176de15e8c8523a92ff640f432966c9c&language=es"
+    private let url: String = AppConstant.APIUrl.moviesUrl + "\(Locale.current.language.languageCode ?? "")"
     
     func execute(completionHandle: @escaping (_ arrayMovies: [Response.MovieDTO]) -> Void){
         
         guard let url = URL(string: self.url) else { return }
-            
         let session = URLSession(configuration: .default)
         
         let task = session.dataTask(with: url) { data, response, error in

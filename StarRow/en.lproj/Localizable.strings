@@ -1,1 +1,78 @@
+appTittle = "Star field";
+appTittleComment = "Tittle of the App";
+
+MoviesTab = "Movies";
+MoviesTabComment = "Title for the movies tab";
+FavoritesTab = "Favorites";
+FavoritesTabComment = "Title for the favorites tab";
+
+MovieDetailsTittle = "Movie Details";
+MovieDetailsTittleComment = "Details view title";
+
+emailPlaceHolder = "Email";
+emailPlaceHolderComment = "Email Placeholder";
+emailCorrectFormat = "Correct Format: AAAAAA@AAAAA.AA";
+emailCorrectFormatComment = "Correct format of the email";
+invalidEmail = "Invalid email";
+invalidEmailComment = "Invalid email error message";
+
+namePlaceHolder = "Name";
+namePlaceHolderComment = "Name Placeholder";
+nameCorrectFormat = "Name cannot contain numbers";
+nameCorrectFormatComment = "Correct format for the name";
+invalidName = "Invalid name";
+invalidNameComment = "Invalid name error message";
+
+phonePlaceHolder = "Phone";
+phonePlaceHolderComment = "Phone Placeholder";
+phoneCorrectFormat = "Cannot contain letters - just 10 numbers";
+phoneCorrectFormatComment = "Correct format for the phone number";
+invalidPhone = "Invalid phone number";
+invalidPhoneComment = "Invalid phone error message";
+
+loginTextTittle = "Login";
+loginTextTittleComment = "Login section tittle";
+loginText = "Login";
+loginTextComment = "Login button tittle";
+loginAs = "Login as:";
+loginAsComment = "Login as title section";
+
+createAccountText = "Create Account";
+createAccountTextComment = "Create account button title";
+useAnotherAccount = "User Another Account";
+useAnotherAccountComment = "Title for use another account button";
+
+rememberMe = "Remember me?";
+rememberMeComment = "Remember me section title";
+
+emptyDescription = "No avaible description";
+emptyDescriptionComment = "Message for no avaible description";
+
+BackButtonText = "Back";
+BackButtonTextComment = "Title for the back button used in the main navigation";
+
+signUpText = "Sign Up";
+signUpTextComment = "Title for the sign up section";
+signUpTextButton = "Sign up";
+signUpTextButtonComment = "Title for the sign up button";
+signOutText = "Sign Out";
+signOutTextComment = "Title for the sign out button";
 logOut = "Logout";
+
+ReleaseDateText = "Release Date";
+ReleaseDateTextComment = "Release date text for a label";
+
+SearchBarPlaceHolder = "Search....";
+SearchBarPlaceHolderComment = "SearchBar placeholder";
+
+elementsNoFoundText = "Element/s not found in the search";
+elementsNoFoundTextComment = "Text for no found elements";
+
+EmptyText = "Empty";
+EmptyTextComment = "Text for empty list";
+
+GenrerText = "Genrers";
+GenrerTextComment = "Title for genrers label";
+
+DescriptionText = "Description";
+DescriptionTextComment = "Title for description label";

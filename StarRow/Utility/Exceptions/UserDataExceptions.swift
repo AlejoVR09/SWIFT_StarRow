@@ -7,34 +7,31 @@
 
 import Foundation
 
-enum UserDataException: Error {
-    case userInvalid(message: String)
-    case emailInvalid(message: String)
-    case phoneInvalid(message: String)
-}
-
 class UserDataValidation {
-    func validateName(name: String) throws {
-        let regex = try! NSRegularExpression(pattern: "^[a-zA-Z]+$")
+    class func validateName(name: String) -> Bool {
+        let regex = try! NSRegularExpression(pattern: AppConstant.RegexValidation.nameValidation)
         let range = NSRange(location: 0, length: name.utf16.count)
         guard regex.firstMatch(in: name, options: [], range: range) != nil else { 
-            throw UserDataException.userInvalid(message: "Wrong name")
+            return false
         }
+        return true
     }
     
-    func validateEmail(email: String) throws {
-        let regex = try! NSRegularExpression(pattern: "^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\\.[a-zA-Z]{2,}$")
+    class func validateEmail(email: String) -> Bool {
+        let regex = try! NSRegularExpression(pattern: AppConstant.RegexValidation.emailValidation)
         let range = NSRange(location: 0, length: email.utf16.count)
         guard regex.firstMatch(in: email, options: [], range: range) != nil else {
-            throw UserDataException.emailInvalid(message: "Wrong email")
+            return false
         }
+        return true
     }
     
-    func validatePhone(phone: String) throws {
-        let regex = try! NSRegularExpression(pattern: #"^\d{10}$"#)
+    class func validatePhone(phone: String) -> Bool {
+        let regex = try! NSRegularExpression(pattern: AppConstant.RegexValidation.phoneValidation)
         let range = NSRange(location: 0, length: phone.utf16.count)
         guard regex.firstMatch(in: phone, options: [], range: range) != nil else {
-            throw UserDataException.phoneInvalid(message: "Wrong phone")
+            return false
         }
+        return true
     }
 }

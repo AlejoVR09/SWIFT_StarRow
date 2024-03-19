@@ -37,9 +37,10 @@ class FavoriteCollectionViewCell: UICollectionViewCell {
     }
     
     func updateData(movie: MoviesEntity){
+        
         self.title.text = movie.name
-        self.releaseDate.text = MoviesEntity.formatShortDate(movie.releaseDate)
-        guard let url = URL(string: "https://image.tmdb.org/t/p/w500" + movie.poster) else { return }
+        self.releaseDate.text = LocalDateFormatter.formatShortDate(movie.releaseDate)
+        guard let url = URL(string: AppConstant.APIUrl.imageBaseUrl + movie.poster) else { return }
         URLSession.shared.dataTask(with: url) { (data, response, error) in
             guard error == nil else {
                 self.updateImage()
@@ -56,7 +57,7 @@ class FavoriteCollectionViewCell: UICollectionViewCell {
 
 extension FavoriteCollectionViewCell {
     class func buildMovieCellLocal(_ collectionView: UICollectionView, in indexPath: IndexPath, with movie: MoviesEntity) -> FavoriteCollectionViewCell{
-        let customCell = collectionView.dequeueReusableCell(withReuseIdentifier: "FavoriteCell", for: indexPath) as? Self
+        let customCell = collectionView.dequeueReusableCell(withReuseIdentifier: AppConstant.CellsInfo.favoritesCellId, for: indexPath) as? Self
         customCell?.updateData(movie: movie)
         return customCell ?? Self()
     }

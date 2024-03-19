@@ -8,14 +8,14 @@
 import Foundation
 
 struct DetailsMovieEntity {
-    var id: Int
-    var name: String
-    var backDrop: String
-    var poster: String
-    var genrers: [Genre]
-    var description: String
-    var releaseDate: String
-    var voteAverage: Double
+    var id: Int = 0
+    var name: String = ""
+    var backDrop: String = ""
+    var poster: String = ""
+    var genrers: [Genre] = []
+    var description: String = ""
+    var releaseDate: String = ""
+    var voteAverage: Double = 0
     
     init(id: Int, name: String, backDrop: String, poster: String, genrers: [Genre], description: String, releaseDate: String, voteAverage: Double) {
         self.id = id
@@ -30,12 +30,16 @@ struct DetailsMovieEntity {
     
     init(movieDetailsApi: DetailsWS.MovieDTO) {
         self.id = movieDetailsApi.id ?? 0
-        self.name = movieDetailsApi.title ?? ""
+        self.name = movieDetailsApi.originalTitle ?? ""
         self.poster = movieDetailsApi.posterPath ?? ""
         self.backDrop = movieDetailsApi.backdropPath ?? ""
-        self.description = movieDetailsApi.overview ?? "No avaible"
+        self.description = emptyDescription(movieDetailsApi.overview ?? "")
         self.genrers = movieDetailsApi.genres ?? []
         self.releaseDate = movieDetailsApi.releaseDate ?? ""
         self.voteAverage = movieDetailsApi.voteAverage ?? 0
+    }
+    
+    private func emptyDescription(_ description: String) -> String {
+        return description.isEmpty ? "emptyDescription".localized(withComment: "emptyDescriptionComment".localized()) : description
     }
 }

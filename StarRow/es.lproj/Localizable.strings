@@ -1,1 +1,79 @@
+appTittle = "Campo de estrellas";
+appTittleComment = "Titulo de la App";
+
+MoviesTab = "Peliculas";
+MoviesTabComment = "Titulo de la pestana de peliculas";
+FavoritesTab = "Favoritas";
+FavoritesTabComment = "Titulo de la pestana de favoritas";
+
+MovieDetailsTittle = "Detalle de la pelicula";
+MovieDetailsTittleComment = "Titulo de la vista de detalles";
+
+emailPlaceHolder = "Correo Electronico";
+emailPlaceHolderComment = "Marcador del correo electronico";
+emailCorrectFormat = "Formato Correcto: AAAAAA@AAAAA.AA";
+emailCorrectFormatComment = "Formato correcto del email";
+invalidEmail = "Correo electronico invalido";
+invalidEmailComment = "Mesaje de error del correo electronico";
+
+namePlaceHolder = "Nombre";
+namePlaceHolderComment = "Marcador del nombre";
+nameCorrectFormat = "El nombre no puede contener letras";
+nameCorrectFormatComment = "Formato correcto del nombre";
+invalidName = "Nombre Invalido";
+invalidNameComment = "Mensaje de error del nombre";
+
+phonePlaceHolder = "Telefono";
+phonePlaceHolderComment = "Marcador del telefono";
+phoneCorrectFormat = "Solo numeros - Entre 7 a 10 numeros";
+phoneCorrectFormatComment = "Formato correcto del telefono";
+invalidPhone = "Numero de telefono invalido";
+invalidPhoneComment = "Mensaje de error del telefono";
+
+loginTextTittle = "Acceso";
+loginTextTittleComment = "Titlo para la section de acceso";
+loginText = "Acceder";
+loginTextComment = "Titlo del boton de acceso";
+loginAs = "Acceder como:";
+loginAsComment = "Titulo de la seccion de acceso rapido";
+
+createAccountText = "Crear Cuenta";
+createAccountTextComment = "Titulo del boton para crear cuenta";
+useAnotherAccount = "Usar otra cuenta";
+useAnotherAccountComment = "Titulo del boton para usar otra cuenta";
+
+rememberMe = "Recordarme?";
+rememberMeComment = "Titulo para la section de 'Recuerdame'";
+
+emptyDescription = "Descripcion no disponible";
+emptyDescriptionComment = "Mensaje para la descricion que no este disponible";
+
+BackButtonText = "Atras";
+BackButtonTextComment = "Titulo para el boton de volver atras de la navegacion principal";
+
+
+signUpText = "Registro";
+signUpTextComment = "Titulo de la seccion de registro";
+signUpTextButton = "Registrarse";
+signUpTextButtonComment = "Titulo para el boton de registro";
+signOutText = "Cerrar Sesion";
+signOutTextComment = "Titulo del boton cerrar sesion";
 logOut = "Cerrar sesion";
+
+ReleaseDateText = "Fecha de lanzamiento";
+ReleaseDateTextComment = "Texto de fecha de lanzamiento";
+
+SearchBarPlaceHolder = "Buscar....";
+SearchBarPlaceHolderComment = "Marcador de posicion de la barra de busqueda";
+
+elementsNoFoundText = "Elemento/s no encontrados";
+elementsNoFoundTextComment = "Texto para los elementos no encontrados";
+
+EmptyText = "Vacio";
+EmptyTextComment = "Texto para una lista vacia";
+
+GenrerText = "Generos";
+GenrerTextComment = "Titulo de los generos";
+
+DescriptionText = "Description";
+DescriptionTextComment = "Titulo de la description";

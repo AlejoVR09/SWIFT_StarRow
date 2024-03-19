@@ -11,12 +11,12 @@ class FullLoginView: UIView, LoginViewProtocol {
     private var delegate: LoginViewDelegate
     
     init(delegate: LoginViewDelegate){
-        bottomConstraint = buttonForLoging.topAnchor.constraint(equalTo: userNameTextField.bottomAnchor, constant: 20)
+        bottomConstraint = buttonForLoging.topAnchor.constraint(equalTo: userEmailTextField.bottomAnchor, constant: 20)
         self.delegate = delegate
         super.init(frame: .zero)
         tapGesture = UITapGestureRecognizer(target: self, action: #selector(handleTap(_ :)))
         addGestureRecognizer(tapGesture)
-        backgroundColor = UIColor(named: "Main")
+        backgroundColor = UIColor(named: AppConstant.Color.mainColor)
         setConstraints()
     }
     
@@ -25,7 +25,7 @@ class FullLoginView: UIView, LoginViewProtocol {
     }
     
     private let upperImage: UIImageView = {
-        let image = UIImageView(image: UIImage(named: "UpperImage"))
+        let image = UIImageView(image: UIImage(named: AppConstant.ImageNames.loginUpperImage))
         image.contentMode = .scaleAspectFill
         image.translatesAutoresizingMaskIntoConstraints = false
         return image
@@ -47,9 +47,9 @@ class FullLoginView: UIView, LoginViewProtocol {
     private let appNameLabel: UILabel = {
         let label = UILabel()
         label.textColor = .black
-        label.font = UIFont(name: "Marker Felt", size: 30)
+        label.font = UIFont(name: AppConstant.CustomFont.appTitleFont, size: 30)
         label.textAlignment = .center
-        label.text = "StarRow"
+        label.text = "appTittle".localized(withComment: "appTittleComment".localized())
         label.translatesAutoresizingMaskIntoConstraints = false
         return label
     }()
@@ -57,33 +57,33 @@ class FullLoginView: UIView, LoginViewProtocol {
     private let contentView: UIView = {
         let view = UIView()
         view.translatesAutoresizingMaskIntoConstraints = false
-        view.backgroundColor = UIColor(named: "MainOpacityInverse")
+        view.backgroundColor = UIColor(named: AppConstant.Color.opacityInverseColor)
         view.layer.cornerRadius = 15
         return view
     }()
     
     private let loginLabel: UILabel = {
         let label = UILabel()
-        label.textColor = UIColor(named: "MainInverse")
+        label.textColor = UIColor(named: AppConstant.Color.inverseColor)
         label.font = UIFont.boldSystemFont(ofSize: 36)
         label.textAlignment = .center
-        label.text = "Login"
+        label.text = "loginTextTittle".localized(withComment: "loginTextTittleComment".localized())
         label.translatesAutoresizingMaskIntoConstraints = false
         return label
     }()
     
-    private let userNameTextField: UITextField = MainTextField(withText: "Email")
+    private let userEmailTextField: MainTextField = MainTextField(withText: "emailPlaceHolder".localized(withComment: "emailPlaceHolderComment".localized()), errorText: "emailCorrectFormat".localized(withComment: "emailCorrectFormatComment".localized()), validationMethod: UserDataValidation.validateEmail(email:), newKeyBoardType: .emailAddress)
     
     private let buttonForLoging: UIButton = {
         let button = UIButton(type: .system)
         button.frame = .zero
-        button.layer.borderColor = UIColor(named: "MainText")?.cgColor
+        button.layer.borderColor = UIColor(named: AppConstant.Color.mainText)?.cgColor
         button.layer.borderWidth = 1
         button.backgroundColor = .clear
-        button.titleLabel?.tintColor = UIColor(named: "MainInverse")
+        button.titleLabel?.tintColor = UIColor(named: AppConstant.Color.inverseColor)
         button.titleLabel?.font = UIFont.boldSystemFont(ofSize: 20)
         button.layer.cornerRadius = 15
-        button.setTitle("Login", for: .normal)
+        button.setTitle("loginText".localized(withComment: "loginTextComment".localized()), for: .normal)
         button.translatesAutoresizingMaskIntoConstraints = false
         button.addTarget(nil, action: #selector(goToMoviesView), for: .touchUpInside)
         return button
@@ -96,11 +96,11 @@ class FullLoginView: UIView, LoginViewProtocol {
     private let buttonForRegister: UIButton = {
         let button = UIButton(type: .system)
         button.frame = .zero
-        button.setTitle("Create Account", for: .normal)
-        button.titleLabel?.tintColor = UIColor(named: "MainInverse")
+        button.setTitle("createAccountText".localized(withComment: "createAccountTextComment".localized()), for: .normal)
+        button.titleLabel?.tintColor = UIColor(named: AppConstant.Color.inverseColor)
         button.titleLabel?.font = UIFont.boldSystemFont(ofSize: 16)
         button.translatesAutoresizingMaskIntoConstraints = false
-        button.layer.borderColor = UIColor(named: "MainText")?.cgColor
+        button.layer.borderColor = UIColor(named: AppConstant.Color.mainText)?.cgColor
         button.layer.borderWidth = 1
         button.layer.cornerRadius = 15
         button.addTarget(nil, action: #selector(goToRegisterView), for: .touchUpInside)
@@ -110,8 +110,8 @@ class FullLoginView: UIView, LoginViewProtocol {
     private let switcher: UISwitch = {
         let switcher = UISwitch()
         switcher.frame = .zero
-        switcher.tintColor = UIColor(named: "Main")
-        switcher.onTintColor = UIColor(named: "MainText")
+        switcher.tintColor = UIColor(named: AppConstant.Color.mainColor)
+        switcher.onTintColor = UIColor(named: AppConstant.Color.mainText)
         switcher.translatesAutoresizingMaskIntoConstraints = false
         switcher.addTarget(nil, action: #selector(yes), for: .touchUpInside)
         return switcher
@@ -119,10 +119,10 @@ class FullLoginView: UIView, LoginViewProtocol {
     
     private let rememberMeLabel: UILabel = {
         let label = UILabel()
-        label.textColor = UIColor(named: "MainInverse")
+        label.textColor = UIColor(named: AppConstant.Color.inverseColor)
         label.font = UIFont.systemFont(ofSize: 16)
         label.textAlignment = .center
-        label.text = "Remember Me?"
+        label.text = "rememberMe".localized(withComment: "rememberMeComment".localized())
         label.translatesAutoresizingMaskIntoConstraints = false
         return label
     }()
@@ -132,13 +132,17 @@ class FullLoginView: UIView, LoginViewProtocol {
     private var tapGesture: UITapGestureRecognizer!
     
     private var bottomConstraint: NSLayoutConstraint
+    
+    func setEmailErrorText(text: String){
+        self.userEmailTextField.setErrorMessage(text: text)
+    }
 }
 
 extension FullLoginView {
     func keyboardAppear(_ info: NotificationManager.Info){
-        if info.frame.origin.y < self.userNameTextField.frame.maxY {
+        if info.frame.origin.y < self.userEmailTextField.frame.maxY {
             UIView.animate(withDuration: info.animation) {
-                self.bottomConstraint.constant = self.userNameTextField.frame.maxY - info.frame.origin.y + self.bottomConstraint.constant + 20
+                self.bottomConstraint.constant = self.userEmailTextField.frame.maxY - info.frame.origin.y + self.bottomConstraint.constant + 20
                 self.layoutIfNeeded()
             }
         }
@@ -162,7 +166,7 @@ extension FullLoginView {
     }
     
     @objc private func goToMoviesView(){
-        self.delegate.loginView(self, withEmail: self.userNameTextField.text ?? "")
+        self.delegate.loginView(self, withValidEmail: userEmailTextField.getCurrentState())
     }
      
     @objc private func yes(){
@@ -218,11 +222,11 @@ extension FullLoginView {
             separatorToLabel.topAnchor.constraint(equalTo: loginLabel.bottomAnchor, constant: 1)
         ])
         
-        addSubview(userNameTextField)
+        addSubview(userEmailTextField)
         NSLayoutConstraint.activate([
-            userNameTextField.heightAnchor.constraint(equalToConstant: 60),
-            userNameTextField.trailingAnchor.constraint(equalTo: safeAreaLayoutGuide.trailingAnchor, constant: -50),
-            userNameTextField.leadingAnchor.constraint(equalTo: safeAreaLayoutGuide.leadingAnchor, constant: 50)
+            userEmailTextField.heightAnchor.constraint(equalToConstant: 60),
+            userEmailTextField.trailingAnchor.constraint(equalTo: safeAreaLayoutGuide.trailingAnchor, constant: -50),
+            userEmailTextField.leadingAnchor.constraint(equalTo: safeAreaLayoutGuide.leadingAnchor, constant: 50)
         ])
         
         contentView.addSubview(buttonForLoging)

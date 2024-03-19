@@ -10,7 +10,7 @@ import UIKit
 
 class LocalAdapterStrategy: AdapterStrategyProtocol {
     func registerCell(_ collectionView: UICollectionView) {
-        collectionView.register(UINib(nibName: "FavoriteCollectionViewCell", bundle: nil), forCellWithReuseIdentifier: "FavoriteCell")
+        collectionView.register(UINib(nibName: AppConstant.CellsInfo.favoritesCellClass, bundle: nil), forCellWithReuseIdentifier: AppConstant.CellsInfo.favoritesCellId)
     }
     
     func createLayout() -> UICollectionViewCompositionalLayout {

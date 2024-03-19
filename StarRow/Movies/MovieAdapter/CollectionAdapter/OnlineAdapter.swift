@@ -10,7 +10,7 @@ import UIKit
 
 class OnlineAdapterStrategy: AdapterStrategyProtocol {
     func registerCell(_ collectionView: UICollectionView) {
-        collectionView.register(CustomCollectionViewCell.self, forCellWithReuseIdentifier: "CustomMovieCell")
+        collectionView.register(CustomCollectionViewCell.self, forCellWithReuseIdentifier: AppConstant.CellsInfo.customCellId)
     }
     
     func createLayout() -> UICollectionViewCompositionalLayout {

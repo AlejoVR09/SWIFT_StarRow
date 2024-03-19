@@ -19,7 +19,7 @@ class SeparatorView: UIView {
     }
     
     private func setUpView(){
-        backgroundColor = UIColor(named: "MainInverse")
+        backgroundColor = UIColor(named: AppConstant.Color.inverseColor)
         translatesAutoresizingMaskIntoConstraints = false
     }
     

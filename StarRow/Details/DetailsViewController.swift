@@ -30,7 +30,8 @@ class DetailsViewController: UIViewController {
         super.viewDidLoad()
         self.view = detailsView
         self.detailsView.addLoadingView()
-        self.navigationItem.title = "Movie Details"
+        self.navigationItem.title = "MovieDetailsTittle".localized(withComment: "MovieDetailsTittleComment".localized())
+        self.navigationItem.leftBarButtonItem = UIBarButtonItem(title: "BackButtonText".localized(withComment: "BackButtonTextComment".localized()), style: .plain, target: self, action: #selector(getBack))
     }
     
     override func viewDidAppear(_ animated: Bool) {
@@ -54,12 +55,11 @@ class DetailsViewController: UIViewController {
         movie.originalTitle = self.movieSelected.name
         movie.posterPath = self.movieSelected.poster
         movie.releaseDate = self.movieSelected.releaseDate
-        
         do {
             try self.context.save()
         }
         catch{
-            print("error saving")
+            print(error)
         }
     }
     
@@ -76,8 +76,12 @@ class DetailsViewController: UIViewController {
             try self.context.save()
         }
         catch{
-            print("error deleting")
+            print(error)
         }
+    }
+    
+    @objc func getBack(){
+        self.navigationController?.popViewController(animated: true)
     }
 
     private func verifyMovieInCoreData() -> UIBarButtonItem {
@@ -91,7 +95,6 @@ class DetailsViewController: UIViewController {
             return movies
         }
         catch {
-            print("There is no favorite movies avaible!")
             return []
         }
     }

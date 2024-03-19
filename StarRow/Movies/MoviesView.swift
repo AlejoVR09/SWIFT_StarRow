@@ -26,7 +26,7 @@ class MoviesView: UIView{
         self.tapGesture = UITapGestureRecognizer(target: self, action: #selector(handleTap(_ :)))
         addGestureRecognizer(tapGesture)
         self.tapGesture.isEnabled = false
-        self.backgroundColor = UIColor(named: "Main")
+        self.backgroundColor = UIColor(named: AppConstant.Color.mainColor)
         setConstraints()
     }
     
@@ -37,15 +37,15 @@ class MoviesView: UIView{
     private var loadingView: UIView = {
         let view = UIView()
         view.translatesAutoresizingMaskIntoConstraints = false
-        view.backgroundColor = UIColor(named: "Main")
+        view.backgroundColor = UIColor(named: AppConstant.Color.mainColor)
         return view
     }()
     
     private var activityIndicator: UIActivityIndicatorView = {
         let activity = UIActivityIndicatorView(style: .large)
         activity.translatesAutoresizingMaskIntoConstraints = false
-        activity.color = UIColor(named: "MainInverse")
-        activity.tintColor = UIColor(named: "MainInverse")
+        activity.color = UIColor(named: AppConstant.Color.inverseColor)
+        activity.tintColor = UIColor(named: AppConstant.Color.inverseColor)
         activity.startAnimating()
         return activity
     }()
@@ -63,27 +63,11 @@ class MoviesView: UIView{
         let searchBar = UISearchBar(frame: .zero)
         searchBar.translatesAutoresizingMaskIntoConstraints = false
         searchBar.searchBarStyle = UISearchBar.Style.default
-        searchBar.placeholder = " Search..."
+        searchBar.placeholder = "SearchBarPlaceHolder".localized(withComment: "SearchBarPlaceHolderComment".localized())
         searchBar.sizeToFit()
         return searchBar
     }()
-    
-    private var viewForSearch: UIView = {
-        let view = UIView()
-        view.translatesAutoresizingMaskIntoConstraints = false
-        view.backgroundColor = UIColor(named: "Main")
-        view.isHidden = true
-        return view
-    }()
-    
-    private var labelForSearch = {
-        let label = UILabel()
-        label.translatesAutoresizingMaskIntoConstraints = false
-        label.text = "Cannot find searched element/s"
-        label.textColor = UIColor(named: "MainInverse")
-        return label
-    }()
-    
+
     private var tapGesture: UITapGestureRecognizer!
     
     private lazy var pullToRefresh: UIRefreshControl = {
@@ -108,18 +92,6 @@ extension MoviesView {
 }
 // MARK: Constraints and Methods
 extension MoviesView {
-    func setSeachView(){
-        self.viewForSearch.isHidden = false
-        self.movieCollectionView.isHidden = true
-        self.tapGesture.isEnabled = true
-    }
-    
-    func removeSearchView(){
-        self.viewForSearch.isHidden = true
-        self.movieCollectionView.isHidden = false
-        self.tapGesture.isEnabled = false
-    }
-    
     func setUpAdapters(){
         self.adapter.setUpCollectionView(self.movieCollectionView)
         self.searchBarAdapter.setUpSearchBar(self.searchBar)
@@ -129,12 +101,12 @@ extension MoviesView {
             self.delegate?.moviesView(self, didSelectMovie: movie)
         }
         
-        self.searchBarAdapter.didFilterHandler { movies in
-            self.reloadCollectionViewData(movies)
+        self.searchBarAdapter.didFilterHandler { result in
+            self.reloadCollectionViewData(result)
         }
     }
     
-    private func reloadCollectionViewData(_ newArrayMovies: [MoviesEntity]){
+    private func reloadCollectionViewData(_ newArrayMovies: [Any]){
         self.adapter.data = newArrayMovies
         DispatchQueue.main.async {
             self.movieCollectionView.reloadData()
@@ -167,7 +139,6 @@ extension MoviesView {
 
 extension MoviesView {
     private func setConstraints(){
-        
         addSubview(searchBar)
         NSLayoutConstraint.activate([
             searchBar.topAnchor.constraint(equalTo: safeAreaLayoutGuide.topAnchor),
@@ -182,20 +153,6 @@ extension MoviesView {
             movieCollectionView.bottomAnchor.constraint(equalTo: bottomAnchor),
             movieCollectionView.trailingAnchor.constraint(equalTo: safeAreaLayoutGuide.trailingAnchor),
             movieCollectionView.leadingAnchor.constraint(equalTo: safeAreaLayoutGuide.leadingAnchor)
-        ])
-        
-        addSubview(viewForSearch)
-        NSLayoutConstraint.activate([
-            viewForSearch.topAnchor.constraint(equalTo: self.searchBar.bottomAnchor),
-            viewForSearch.bottomAnchor.constraint(equalTo: bottomAnchor),
-            viewForSearch.trailingAnchor.constraint(equalTo: safeAreaLayoutGuide.trailingAnchor),
-            viewForSearch.leadingAnchor.constraint(equalTo: safeAreaLayoutGuide.leadingAnchor)
-        ])
-        
-        self.viewForSearch.addSubview(labelForSearch)
-        NSLayoutConstraint.activate([
-            labelForSearch.centerYAnchor.constraint(equalTo: viewForSearch.centerYAnchor, constant: 0),
-            labelForSearch.centerXAnchor.constraint(equalTo: viewForSearch.centerXAnchor, constant: 0)
         ])
     }
 }
