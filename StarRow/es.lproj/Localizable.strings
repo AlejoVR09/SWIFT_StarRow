@@ -79,5 +79,5 @@ EmptyTextComment = "Texto para una lista vacia";
 GenrerText = "Generos";
 GenrerTextComment = "Titulo de los generos";
 
-DescriptionText = "Description";
+DescriptionText = "Descripcion";
 DescriptionTextComment = "Titulo de la description";

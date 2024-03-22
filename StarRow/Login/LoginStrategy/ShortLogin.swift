@@ -55,20 +55,18 @@ class ShortLoginView: UIView, LoginViewProtocol {
         label.textColor = UIColor(named: AppConstant.Color.inverseColor)
         label.font = UIFont.boldSystemFont(ofSize: 36)
         label.textAlignment = .center
-        label.text = "loginAs".localized(withComment: "loginAsComment".localized())
+        label.text = AppConstant.Translations.loginAs	
         label.translatesAutoresizingMaskIntoConstraints = false
         return label
     }()
     
     private let buttonForLoging: UIButton = {
-        let button = UIButton(type: .system)
-        button.backgroundColor = .clear
-        button.clipsToBounds = true
-        button.layer.borderWidth = 1
+        let button = UIButton(type: .custom)
+        button.frame = .zero
+        button.backgroundColor = UIColor(named: AppConstant.Color.mainText)
         button.titleLabel?.numberOfLines = 0
         button.titleLabel?.lineBreakMode = .byTruncatingTail
         button.titleLabel?.textAlignment = .center
-        button.layer.borderColor = UIColor(named: AppConstant.Color.mainText)?.cgColor
         button.titleLabel?.tintColor = UIColor(named: AppConstant.Color.inverseColor)
         button.titleLabel?.font = UIFont.systemFont(ofSize: 20)
         button.translatesAutoresizingMaskIntoConstraints = false
@@ -76,22 +74,14 @@ class ShortLoginView: UIView, LoginViewProtocol {
         return button
     }()
     
-    private let stackView: UIStackView = {
-        let stack = UIStackView()
-        stack.axis = .vertical
-        stack.spacing = 10
-        stack.distribution = .fillEqually
-        stack.translatesAutoresizingMaskIntoConstraints = false
-        return stack
-    }()
+    private let stackView: StackViewType = StackViewType(orientation: .vertical, innerSpacing: 10)
     
     private let buttonForSingUp: UIButton = {
-        let button = UIButton(type: .system)
+        let button = UIButton(type: .custom)
         button.frame = .zero
-        button.layer.borderColor = UIColor(named: AppConstant.Color.mainText)?.cgColor
-        button.layer.borderWidth = 1
+        button.backgroundColor = UIColor(named: AppConstant.Color.mainText)
         button.layer.cornerRadius = 15
-        button.setTitle("createAccountText".localized(withComment: "createAccountTextComment".localized()), for: .normal)
+        button.setTitle(AppConstant.Translations.createAccountText, for: .normal)
         button.titleLabel?.tintColor = UIColor(named: AppConstant.Color.inverseColor)
         button.titleLabel?.font = UIFont.boldSystemFont(ofSize: 18)
         button.translatesAutoresizingMaskIntoConstraints = false
@@ -100,12 +90,11 @@ class ShortLoginView: UIView, LoginViewProtocol {
     }()
     
     private let buttonForLargeLogin: UIButton = {
-        let button = UIButton(type: .system)
+        let button = UIButton(type: .custom)
         button.frame = .zero
-        button.layer.borderColor = UIColor(named: AppConstant.Color.mainText)?.cgColor
-        button.layer.borderWidth = 1
+        button.backgroundColor = UIColor(named: AppConstant.Color.mainText)
         button.layer.cornerRadius = 15
-        button.setTitle("useAnotherAccount".localized(withComment: "useAnotherAccountComment".localized()), for: .normal)
+        button.setTitle(AppConstant.Translations.useAnotherAccount, for: .normal)
         button.titleLabel?.tintColor = UIColor(named: AppConstant.Color.inverseColor)
         button.titleLabel?.font = UIFont.boldSystemFont(ofSize: 18)
         button.translatesAutoresizingMaskIntoConstraints = false

@@ -7,8 +7,8 @@
 
 import UIKit
 
+// MARK: Class declaration
 class MoviesViewController: UIViewController {
-
     private var strategy: MoviesListViewStrategy
     private let moviesView: MoviesView
     
@@ -31,13 +31,13 @@ class MoviesViewController: UIViewController {
         self.strategy.fetch()
     }
     
-    
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
         self.strategy.reloadView?()
     }
 }
 
+// MARK: View Delegate
 extension MoviesViewController: MoviesViewDelegate{
     func moviesView(_ moviesView: MoviesView, didSelectMovie movie: MoviesEntity) {
         self.moviesView.closeKeyboard()

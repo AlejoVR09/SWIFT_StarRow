@@ -49,7 +49,7 @@ class FullLoginView: UIView {
         label.textColor = .black
         label.font = UIFont(name: AppConstant.CustomFont.appTitleFont, size: 30)
         label.textAlignment = .center
-        label.text = "appTittle".localized(withComment: "appTittleComment".localized())
+        label.text = AppConstant.Translations.appTittle
         label.translatesAutoresizingMaskIntoConstraints = false
         return label
     }()
@@ -67,23 +67,21 @@ class FullLoginView: UIView {
         label.textColor = UIColor(named: AppConstant.Color.inverseColor)
         label.font = UIFont.boldSystemFont(ofSize: 36)
         label.textAlignment = .center
-        label.text = "loginTextTittle".localized(withComment: "loginTextTittleComment".localized())
+        label.text = AppConstant.Translations.loginTextTittle
         label.translatesAutoresizingMaskIntoConstraints = false
         return label
     }()
     
-    private let userEmailTextField: MainTextField = MainTextField(withText: "emailPlaceHolder".localized(withComment: "emailPlaceHolderComment".localized()), errorText: "emailCorrectFormat".localized(withComment: "emailCorrectFormatComment".localized()), validationMethod: UserDataValidation.validateEmail(email:), newKeyBoardType: .emailAddress)
+    private let userEmailTextField: MainTextField = MainTextField(withText: AppConstant.Translations.emailPlaceHolder, errorText: AppConstant.Translations.emailCorrectFormat, validationMethod: UserDataValidation.validateEmail(email:), newKeyBoardType: .emailAddress)
     
     private let buttonForLoging: UIButton = {
-        let button = UIButton(type: .system)
+        let button = UIButton(type: .custom)
         button.frame = .zero
-        button.layer.borderColor = UIColor(named: AppConstant.Color.mainText)?.cgColor
-        button.layer.borderWidth = 1
-        button.backgroundColor = .clear
+        button.backgroundColor = UIColor(named: AppConstant.Color.mainText)
         button.titleLabel?.tintColor = UIColor(named: AppConstant.Color.inverseColor)
         button.titleLabel?.font = UIFont.boldSystemFont(ofSize: 20)
         button.layer.cornerRadius = 15
-        button.setTitle("loginText".localized(withComment: "loginTextComment".localized()), for: .normal)
+        button.setTitle(AppConstant.Translations.loginText, for: .normal)
         button.translatesAutoresizingMaskIntoConstraints = false
         button.addTarget(nil, action: #selector(goToMoviesView), for: .touchUpInside)
         return button
@@ -94,14 +92,13 @@ class FullLoginView: UIView {
     private let innerStack: UIStackView = StackViewType(orientation: .horizontal, innerSpacing: 10)
     
     private let buttonForRegister: UIButton = {
-        let button = UIButton(type: .system)
+        let button = UIButton(type: .custom)
         button.frame = .zero
-        button.setTitle("createAccountText".localized(withComment: "createAccountTextComment".localized()), for: .normal)
+        button.backgroundColor = UIColor(named: AppConstant.Color.mainText)
+        button.setTitle(AppConstant.Translations.createAccountText, for: .normal)
         button.titleLabel?.tintColor = UIColor(named: AppConstant.Color.inverseColor)
         button.titleLabel?.font = UIFont.boldSystemFont(ofSize: 16)
         button.translatesAutoresizingMaskIntoConstraints = false
-        button.layer.borderColor = UIColor(named: AppConstant.Color.mainText)?.cgColor
-        button.layer.borderWidth = 1
         button.layer.cornerRadius = 15
         button.addTarget(nil, action: #selector(goToRegisterView), for: .touchUpInside)
         return button
@@ -121,7 +118,7 @@ class FullLoginView: UIView {
         label.textColor = UIColor(named: AppConstant.Color.inverseColor)
         label.font = UIFont.systemFont(ofSize: 16)
         label.textAlignment = .center
-        label.text = "rememberMe".localized(withComment: "rememberMeComment".localized())
+        label.text = AppConstant.Translations.rememberMe
         label.translatesAutoresizingMaskIntoConstraints = false
         return label
     }()

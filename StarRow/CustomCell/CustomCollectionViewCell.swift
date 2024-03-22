@@ -8,6 +8,8 @@
 import UIKit
 
 class CustomCollectionViewCell: UICollectionViewCell {
+    private var movie: MoviesEntity?
+    
     private var imageView: UIImageView = {
         let image = UIImageView()
         image.translatesAutoresizingMaskIntoConstraints = false
@@ -104,36 +106,15 @@ class CustomCollectionViewCell: UICollectionViewCell {
         self.layer.shadowRadius = 2.5
     }
     
-    private func updatePlaceHolderImage(){
-        DispatchQueue.main.async {
-            self.imageView.contentMode = .scaleAspectFit
-            self.imageView.image = UIImage(systemName: "person.circle")
-        }
-    }
-    
     func updateData(movie: MoviesEntity){
+        self.movie = movie
         self.nameLabel.text = movie.name
         self.dateLabel.text = "\("ReleaseDateText".localized(withComment: "ReleaseDateTextComment".localized())): \n" + LocalDateFormatter.formatDate(movie.releaseDate)
         self.starView.setProgress(num: Float(movie.voteAverage))
-        guard let url = URL(string: AppConstant.APIUrl.imageBaseUrl + movie.poster) else { return }
-        URLSession.shared.dataTask(with: url) { (data, response, error) in
-            guard error == nil else {
-                self.updatePlaceHolderImage()
-                return
-            }
-            
-            guard let httpResponse = response as? HTTPURLResponse else { return }
-            switch httpResponse.statusCode {
-            case 400...500:
-                self.updatePlaceHolderImage()
-            default:
-                guard let imageData = data else { return }
-                DispatchQueue.main.async {
-                    self.imageView.image = UIImage(data: imageData as Data)
-                }
-            }
-        }.resume()
-        
+        self.imageView.downloadImage(AppConstant.APIUrl.imageBaseUrl + movie.poster){image, urlImage in
+            guard let image = image else { return }
+            self.imageView.animateAndSetImage(image)
+        }
     }
 }
 

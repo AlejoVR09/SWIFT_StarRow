@@ -7,11 +7,13 @@
 
 import Foundation
 
+// MARK: Class declaration
 struct LocalDateFormatter {
+    // MARK: Normal Date Format
     static func formatDate(_ dateString: String) -> String {
         let dateFormatter = DateFormatter()
         dateFormatter.locale = Locale.autoupdatingCurrent
-        dateFormatter.dateFormat = "yyyy-MM-dd"
+        dateFormatter.dateFormat = AppConstant.DateFormats.dateFormat
         
         guard let date = dateFormatter.date(from: dateString) else {
             return ""
@@ -31,10 +33,11 @@ struct LocalDateFormatter {
         
     }
     
+    // MARK: Short Date Format
     static func formatShortDate(_ dateString: String) -> String {
         let dateFormatter = DateFormatter()
         dateFormatter.locale = Locale.autoupdatingCurrent
-        dateFormatter.dateFormat = "yyyy-MM-dd"
+        dateFormatter.dateFormat = AppConstant.DateFormats.dateFormat
         
         guard let date = dateFormatter.date(from: dateString) else {
             return ""

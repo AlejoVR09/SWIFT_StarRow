@@ -15,7 +15,7 @@ class ProfileViewController: UIViewController {
     
     let profileView: ProfileView
     let delegate: ProfileViewControllerDelegate
-    let context = (UIApplication.shared.delegate as! AppDelegate).persistentContainer.viewContext
+    let userProvider = AppUserCoreDataProvider()
     
     init(profileView: ProfileView, delegate: ProfileViewControllerDelegate) {
         self.profileView = profileView
@@ -24,33 +24,14 @@ class ProfileViewController: UIViewController {
     }
     
     required init?(coder: NSCoder) {
-        fatalError("init(coder:) has not been implemented")
+        fatalError()
     }
     
     override func viewDidLoad() {
         super.viewDidLoad()
         self.view = profileView
         self.profileView.delegate = self
-        self.profileView.setUserData(user: retrieveUser(email: UserSession.getCurrentSessionProfile()))
-    }
-}
-
-extension ProfileViewController {
-    func retrieveUser(email: String) -> AppUser? {
-        let moviesSaved = self.retrieveData()
-        let result = moviesSaved.first { $0.email == email }
-        guard let result = result else { return nil }
-        return result
-    }
-    
-    private func retrieveData() -> [AppUser]{
-        do{
-            let movies = try self.context.fetch(AppUser.fetchRequest())
-            return movies
-        }
-        catch {
-            return []
-        }
+        self.profileView.setUserData(user: userProvider.retrieveUser(email: UserSession.getCurrentSessionProfile()))
     }
 }
 

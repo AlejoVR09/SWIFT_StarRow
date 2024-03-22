@@ -40,6 +40,6 @@ struct DetailsMovieEntity {
     }
     
     private func emptyDescription(_ description: String) -> String {
-        return description.isEmpty ? "emptyDescription".localized(withComment: "emptyDescriptionComment".localized()) : description
+        return description.isEmpty ? AppConstant.Translations.emptyDescription : description
     }
 }

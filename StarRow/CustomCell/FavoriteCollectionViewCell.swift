@@ -8,6 +8,7 @@
 import UIKit
 
 class FavoriteCollectionViewCell: UICollectionViewCell {
+    private var movieSelected: MoviesEntity?
     
     @IBOutlet weak var imageView: UIImageView!
     @IBOutlet weak var title: UILabel!
@@ -29,29 +30,14 @@ class FavoriteCollectionViewCell: UICollectionViewCell {
         self.layer.cornerRadius = CGFloat(integerLiteral: 10)
     }
     
-    private func updateImage(){
-        DispatchQueue.main.async {
-            self.imageView.contentMode = .scaleAspectFit
-            self.imageView.image = UIImage(systemName: "person.circle")
-        }
-    }
-    
     func updateData(movie: MoviesEntity){
-        
+        self.movieSelected = movie
         self.title.text = movie.name
         self.releaseDate.text = LocalDateFormatter.formatShortDate(movie.releaseDate)
-        guard let url = URL(string: AppConstant.APIUrl.imageBaseUrl + movie.poster) else { return }
-        URLSession.shared.dataTask(with: url) { (data, response, error) in
-            guard error == nil else {
-                self.updateImage()
-                return
-            }
-            guard let imageData = data else { return }
-            let imagen = UIImage(data: imageData)
-            DispatchQueue.main.async {
-                self.imageView.image = imagen ?? UIImage(systemName: "person.circle")
-            }
-        }.resume()
+        self.imageView.downloadImage(AppConstant.APIUrl.imageBaseUrl + movie.poster){image, urlImage in
+            guard let image = image else { return }
+            self.imageView.animateAndSetImage(image)
+        }
     }
 }
 

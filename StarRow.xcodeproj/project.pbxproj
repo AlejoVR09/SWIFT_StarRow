@@ -37,10 +37,13 @@
 		553770BC2B60665A00C69D03 /* StarRowUITestsLaunchTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 553770BB2B60665A00C69D03 /* StarRowUITestsLaunchTests.swift */; };
 		553770CC2B606BFD00C69D03 /* MoviesViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 553770CB2B606BFD00C69D03 /* MoviesViewController.swift */; };
 		553770CE2B606C0F00C69D03 /* MoviesView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 553770CD2B606C0F00C69D03 /* MoviesView.swift */; };
+		553BB2D62BAC525B00AA99E6 /* AppUserProvider.swift in Sources */ = {isa = PBXBuildFile; fileRef = 553BB2D52BAC525B00AA99E6 /* AppUserProvider.swift */; };
+		553BB2D82BAC978A00AA99E6 /* MoviesProvider.swift in Sources */ = {isa = PBXBuildFile; fileRef = 553BB2D72BAC978A00AA99E6 /* MoviesProvider.swift */; };
 		554634AC2BA30F7D002AD474 /* UserDataExceptions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 554634AB2BA30F7D002AD474 /* UserDataExceptions.swift */; };
 		554634AF2BA34558002AD474 /* ErrorCellCollectionViewCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 554634AE2BA34558002AD474 /* ErrorCellCollectionViewCell.xib */; };
 		554634B02BA34558002AD474 /* ErrorCellCollectionViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 554634AD2BA34558002AD474 /* ErrorCellCollectionViewCell.swift */; };
 		554FA69B2BA0D09000FB1F35 /* SeparatorView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 554FA69A2BA0D09000FB1F35 /* SeparatorView.swift */; };
+		555E150B2BAE097A00A31893 /* DownloadImage.swift in Sources */ = {isa = PBXBuildFile; fileRef = 555E150A2BAE097A00A31893 /* DownloadImage.swift */; };
 		5560CA912B84C46B007834D1 /* MoviesEntity.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5560CA902B84C46B007834D1 /* MoviesEntity.swift */; };
 		5565B1282BA2636200975E76 /* StarRow.xcdatamodeld in Sources */ = {isa = PBXBuildFile; fileRef = 5565B1262BA2636200975E76 /* StarRow.xcdatamodeld */; };
 		5566A9BF2B8E67CD0054AEA3 /* StarView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5566A9BE2B8E67CD0054AEA3 /* StarView.swift */; };
@@ -118,10 +121,13 @@
 		553770BB2B60665A00C69D03 /* StarRowUITestsLaunchTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StarRowUITestsLaunchTests.swift; sourceTree = "<group>"; };
 		553770CB2B606BFD00C69D03 /* MoviesViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MoviesViewController.swift; sourceTree = "<group>"; };
 		553770CD2B606C0F00C69D03 /* MoviesView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MoviesView.swift; sourceTree = "<group>"; };
+		553BB2D52BAC525B00AA99E6 /* AppUserProvider.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppUserProvider.swift; sourceTree = "<group>"; };
+		553BB2D72BAC978A00AA99E6 /* MoviesProvider.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MoviesProvider.swift; sourceTree = "<group>"; };
 		554634AB2BA30F7D002AD474 /* UserDataExceptions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserDataExceptions.swift; sourceTree = "<group>"; };
 		554634AD2BA34558002AD474 /* ErrorCellCollectionViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ErrorCellCollectionViewCell.swift; sourceTree = "<group>"; };
 		554634AE2BA34558002AD474 /* ErrorCellCollectionViewCell.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = ErrorCellCollectionViewCell.xib; sourceTree = "<group>"; };
 		554FA69A2BA0D09000FB1F35 /* SeparatorView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; name = SeparatorView.swift; path = StarRow/Utility/UIElements/SeparatorView.swift; sourceTree = SOURCE_ROOT; };
+		555E150A2BAE097A00A31893 /* DownloadImage.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DownloadImage.swift; sourceTree = "<group>"; };
 		5560CA902B84C46B007834D1 /* MoviesEntity.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MoviesEntity.swift; sourceTree = "<group>"; };
 		5565B1272BA2636200975E76 /* StarRow.xcdatamodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcdatamodel; path = StarRow.xcdatamodel; sourceTree = "<group>"; };
 		5566A9BE2B8E67CD0054AEA3 /* StarView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StarView.swift; sourceTree = "<group>"; };
@@ -176,8 +182,8 @@
 		5500DE502B9661DC008858E9 /* CollectionAdapter */ = {
 			isa = PBXGroup;
 			children = (
-				55F1BCC22B6B008200B6BC79 /* MovieAdapter.swift */,
 				5500DE522B9662EC008858E9 /* AdapterStrategy.swift */,
+				55F1BCC22B6B008200B6BC79 /* MovieAdapter.swift */,
 				5500DE542B966302008858E9 /* OnlineAdapter.swift */,
 				5500DE562B96630C008858E9 /* LocalAdapter.swift */,
 			);
@@ -268,13 +274,13 @@
 		553770942B60665700C69D03 /* StarRow */ = {
 			isa = PBXGroup;
 			children = (
-				5501DB342B9FCE3C001908DB /* Profile */,
 				559E47FD2B7C009E00B8A84F /* Login */,
 				559E47FC2B7C007200B8A84F /* Register */,
-				559E47FE2B7C00B300B8A84F /* Movies */,
-				559E47FF2B7C00D100B8A84F /* Details */,
 				553770CA2B606BD100C69D03 /* NavigationController */,
+				559E47FE2B7C00B300B8A84F /* Movies */,
 				551FB7B72B69AA7B0054C482 /* CustomCell */,
+				5501DB342B9FCE3C001908DB /* Profile */,
+				559E47FF2B7C00D100B8A84F /* Details */,
 				553770C82B606BBA00C69D03 /* Model */,
 				55DEB55A2B7A78DD00363F83 /* Utility */,
 				553770952B60665700C69D03 /* AppDelegate.swift */,
@@ -323,12 +329,37 @@
 			path = NavigationController;
 			sourceTree = "<group>";
 		};
+		553BB2D42BAC522C00AA99E6 /* UtilCoreData */ = {
+			isa = PBXGroup;
+			children = (
+				553BB2D52BAC525B00AA99E6 /* AppUserProvider.swift */,
+				553BB2D72BAC978A00AA99E6 /* MoviesProvider.swift */,
+			);
+			path = UtilCoreData;
+			sourceTree = "<group>";
+		};
 		554634AA2BA30F25002AD474 /* Exceptions */ = {
 			isa = PBXGroup;
 			children = (
 				554634AB2BA30F7D002AD474 /* UserDataExceptions.swift */,
 			);
 			path = Exceptions;
+			sourceTree = "<group>";
+		};
+		555E15082BAE094700A31893 /* Constants */ = {
+			isa = PBXGroup;
+			children = (
+				559E4E402BA87D5B00EBDB52 /* Constants.swift */,
+			);
+			path = Constants;
+			sourceTree = "<group>";
+		};
+		555E15092BAE095100A31893 /* ImageUtility */ = {
+			isa = PBXGroup;
+			children = (
+				555E150A2BAE097A00A31893 /* DownloadImage.swift */,
+			);
+			path = ImageUtility;
 			sourceTree = "<group>";
 		};
 		559C86342B976DCA00F41D90 /* Coordinator */ = {
@@ -388,7 +419,6 @@
 		559E4E422BA89EBB00EBDB52 /* TextUtility */ = {
 			isa = PBXGroup;
 			children = (
-				559E4E402BA87D5B00EBDB52 /* Constants.swift */,
 				559E4E432BA89EE300EBDB52 /* StringLocalizable.swift */,
 				559E4E452BA8BE1F00EBDB52 /* LocalDateFormatter.swift */,
 			);
@@ -408,7 +438,9 @@
 		55DEB55A2B7A78DD00363F83 /* Utility */ = {
 			isa = PBXGroup;
 			children = (
+				555E15082BAE094700A31893 /* Constants */,
 				559E4E422BA89EBB00EBDB52 /* TextUtility */,
+				555E15092BAE095100A31893 /* ImageUtility */,
 				554634AA2BA30F25002AD474 /* Exceptions */,
 				5501DB2D2B9F80D1001908DB /* UIElements */,
 				55DEB55B2B7A78F400363F83 /* NotificationCenter.swift */,
@@ -420,8 +452,8 @@
 		55E343802B72ED11009C6C92 /* ApiResponse */ = {
 			isa = PBXGroup;
 			children = (
-				55823D7A2B60A6A800F6AD15 /* ResponseMovie.swift */,
 				55823D7C2B60A6B100F6AD15 /* MoviesWS.swift */,
+				55823D7A2B60A6A800F6AD15 /* ResponseMovie.swift */,
 				552A7CA62B74231800D84BEB /* DetailsWS.swift */,
 				552A7CA82B74252400D84BEB /* ResponseDetail.swift */,
 			);
@@ -431,6 +463,7 @@
 		55E343812B72ED20009C6C92 /* CoreData */ = {
 			isa = PBXGroup;
 			children = (
+				553BB2D42BAC522C00AA99E6 /* UtilCoreData */,
 				559E08612BA9B57000672D9A /* AppUser+CoreDataClass.swift */,
 				559E08622BA9B57000672D9A /* AppUser+CoreDataProperties.swift */,
 				559E08532BA9A23500672D9A /* MovieCoreData+CoreDataClass.swift */,
@@ -587,6 +620,7 @@
 				552A7CA92B74252400D84BEB /* ResponseDetail.swift in Sources */,
 				554634AC2BA30F7D002AD474 /* UserDataExceptions.swift in Sources */,
 				559E4E442BA89EE300EBDB52 /* StringLocalizable.swift in Sources */,
+				553BB2D62BAC525B00AA99E6 /* AppUserProvider.swift in Sources */,
 				5560CA912B84C46B007834D1 /* MoviesEntity.swift in Sources */,
 				55D1B44F2B7EC07000830997 /* MoviesListViewStrategy.swift in Sources */,
 				553770CE2B606C0F00C69D03 /* MoviesView.swift in Sources */,
@@ -603,6 +637,7 @@
 				55D1B4512B7EC0A100830997 /* MoviesListLocalStrategy.swift in Sources */,
 				5501DB332B9F92A2001908DB /* MainLabel.swift in Sources */,
 				5500DE552B966302008858E9 /* OnlineAdapter.swift in Sources */,
+				555E150B2BAE097A00A31893 /* DownloadImage.swift in Sources */,
 				5501DB382B9FCE65001908DB /* ProfileViewController.swift in Sources */,
 				553480052B614F4D001B38B0 /* RegisterViewController.swift in Sources */,
 				551F2C802B8013710052C309 /* MovieSearchAdapter.swift in Sources */,
@@ -627,6 +662,7 @@
 				553770982B60665700C69D03 /* SceneDelegate.swift in Sources */,
 				5565B1282BA2636200975E76 /* StarRow.xcdatamodeld in Sources */,
 				554634B02BA34558002AD474 /* ErrorCellCollectionViewCell.swift in Sources */,
+				553BB2D82BAC978A00AA99E6 /* MoviesProvider.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -818,7 +854,7 @@
 				INFOPLIST_KEY_UILaunchStoryboardName = LaunchScreen;
 				INFOPLIST_KEY_UISupportedInterfaceOrientations = UIInterfaceOrientationPortrait;
 				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPad = "UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight UIInterfaceOrientationPortrait UIInterfaceOrientationPortraitUpsideDown";
-				IPHONEOS_DEPLOYMENT_TARGET = 16.2;
+				IPHONEOS_DEPLOYMENT_TARGET = 16.0;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",
@@ -846,7 +882,7 @@
 				INFOPLIST_KEY_UILaunchStoryboardName = LaunchScreen;
 				INFOPLIST_KEY_UISupportedInterfaceOrientations = UIInterfaceOrientationPortrait;
 				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPad = "UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight UIInterfaceOrientationPortrait UIInterfaceOrientationPortraitUpsideDown";
-				IPHONEOS_DEPLOYMENT_TARGET = 16.2;
+				IPHONEOS_DEPLOYMENT_TARGET = 16.0;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",

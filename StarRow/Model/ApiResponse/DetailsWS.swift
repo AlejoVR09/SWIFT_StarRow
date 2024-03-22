@@ -10,7 +10,7 @@ import Foundation
 struct DetailsWS {
     
     func execute(id: Int, completionHandle: @escaping (_ arrayMovies: DetailsWS.MovieDTO) -> Void){
-        let url: String = AppConstant.APIUrl.detailsEndPoint(id: id) + "\(Locale.current.language.languageCode ?? "")"
+        let url: String = AppConstant.APIUrl.detailsEndPoint(id: id)
         
         guard let url = URL(string: url) else { return }
             

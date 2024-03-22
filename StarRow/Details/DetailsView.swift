@@ -23,7 +23,7 @@ class DetailsView: UIView {
     }
     
     required init?(coder: NSCoder) {
-        fatalError("init(coder:) has not been implemented")
+        fatalError()
     }
     
     private var loadingView: UIView = {
@@ -156,43 +156,28 @@ extension DetailsView{
     private func updateImage(image: UIImageView){
         DispatchQueue.main.async {
             image.contentMode = .scaleAspectFit
-            image.image = UIImage(systemName: "person.circle")
+            image.image = UIImage(systemName: AppConstant.SystemImageNames.personCircle)
         }
     }
     
-    private func downloadImage(data: String, element: UIImageView){
-        let url = AppConstant.APIUrl.imageBaseUrl + data
-        guard let url = URL(string: url) else { return }
-        URLSession.shared.dataTask(with: url) { (data, response, error) in
-            guard error == nil else {
-                self.updateImage(image: element)
-                return
-            }
-            guard let imageData = data else { return }
-            guard let httpResponse = response as? HTTPURLResponse else { return }
-            switch httpResponse.statusCode {
-            case 400...500:
-                self.updateImage(image: element)
-            default:
-                DispatchQueue.main.async {
-                    element.image = UIImage(data: imageData as Data)
-                }
-            }
-        }.resume()
-    }
-    
     func setUpView(data: DetailsMovieEntity){
-        self.downloadImage(data: data.poster, element: self.poster)
-        self.downloadImage(data: data.backDrop, element: self.backDrop)
+        self.poster.downloadImage(AppConstant.APIUrl.imageBaseUrl + data.poster){image, urlImage in
+            guard let image = image else { return }
+            self.poster.animateAndSetImage(image)
+        }
+        self.backDrop.downloadImage(AppConstant.APIUrl.imageBaseUrl + data.backDrop){image, urlImage in
+            guard let image = image else { return }
+            self.backDrop.animateAndSetImage(image)
+        }
         var array = data.genrers
         self.titleLabel.text = data.name
-        self.releaseDateLabel.text = "\("ReleaseDateText".localized(withComment: "ReleaseDateTextComment".localized())) \n" + LocalDateFormatter.formatDate(data.releaseDate)
+        self.releaseDateLabel.text = "\(AppConstant.Translations.releaseDateText) \n" + LocalDateFormatter.formatDate(data.releaseDate)
         self.starView.setProgress(num: Float(data.voteAverage))
-        self.genreLabel.text = "GenrerText".localized(withComment: "GenrerTextComment".localized())
+        self.genreLabel.text = AppConstant.Translations.genrerText
         var genersConcact = "" + (array.remove(at: 0).name ?? "")
         for i in array { genersConcact += " º " + (i.name ?? "") }
         self.genrers.text = genersConcact
-        self.descriptionLabel.text = "DescriptionText".localized(withComment: "DescriptionTextComment".localized())
+        self.descriptionLabel.text = AppConstant.Translations.descriptionText
         self.descriptionData.text = data.description
     }
 }

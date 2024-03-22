@@ -2,7 +2,7 @@ import Foundation
 
 struct MoviesWS {
     
-    private let url: String = AppConstant.APIUrl.moviesUrl + "\(Locale.current.language.languageCode ?? "")"
+    private let url: String = AppConstant.APIUrl.moviesUrl
     
     func execute(completionHandle: @escaping (_ arrayMovies: [Response.MovieDTO]) -> Void){
         

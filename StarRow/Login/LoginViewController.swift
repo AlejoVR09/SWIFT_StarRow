@@ -7,24 +7,22 @@
 
 import UIKit
 
-
+// MARK: Class declaration
 class LoginViewController: UIViewController {
     private lazy var notificationCenter = NotificationManager(notificationManagerDelegate: self)
     private var loginView: LoginViewProtocol?
-    let context = (UIApplication.shared.delegate as! AppDelegate).persistentContainer.viewContext
+    private let userProvider = AppUserCoreDataProvider()
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        self.modalTransitionStyle = .flipHorizontal
     }
     
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
         self.loginView = UserSession.getRememberedSession() ? ShortLoginView(delegate: self) : FullLoginView(delegate: self)
-        self.loginView?.setLogingButtonText?(message: retrieveUser(email: UserSession.getCurrentSessionProfile())?.email ?? "")
+        self.loginView?.setLogingButtonText?(message: userProvider.retrieveUser(email: UserSession.getCurrentSessionProfile())?.email ?? "")
         self.view = self.loginView as? UIView
         self.notificationCenter.registerObserver()
-        //removeUser()
     }
     
     override func viewDidDisappear(_ animated: Bool) {
@@ -33,14 +31,15 @@ class LoginViewController: UIViewController {
     }
 }
 
+// MARK: View Delegates
 extension LoginViewController: LoginViewDelegate {
     func loginView(_ loginView: LoginViewProtocol, withEmail: String, validEmail: Bool, remember: Bool) {
         guard validEmail else {
-            loginView.setEmailErrorText?(text: "invalidEmail".localized(withComment: "invalidEmailComment"))
+            loginView.setEmailErrorText?(text: AppConstant.Translations.invalidEmailText)
             return
         }
-        guard !verifyExistingUser(email: withEmail) else {
-            loginView.setEmailErrorText?(text: "notExistingEmail".localized(withComment: "notExistingEmailComment".localized()))
+        guard !userProvider.verifyExistingUser(email: withEmail) else {
+            loginView.setEmailErrorText?(text: AppConstant.Translations.notExistingEmailText)
             return
         }
         UserSession.currentSessionProfile(currentUserEmail: withEmail)
@@ -59,10 +58,10 @@ extension LoginViewController: LoginViewDelegate {
     
     func loginViewWithSwitcher(isOn: Bool) {
         UserSession.rememberCurrentProfile(remember: isOn)
-        print(isOn)
     }
 }
 
+// MARK: Notification Manager Delegate
 extension LoginViewController: NotificationManagerDelegate {
     func NotificationManagerDelegate(_ notificationManager: NotificationManager, keyboardWillShow info: NotificationManager.Info) {
         self.loginView?.keyboardAppear?(info)
@@ -73,45 +72,7 @@ extension LoginViewController: NotificationManagerDelegate {
     }
 }
 
-extension LoginViewController {
-    func removeUser(){
-        let moviesSaved = self.retrieveData()
-        let result = moviesSaved.first { $0.name == "Alejo" }
-        guard let result = result else { return }
-        self.context.delete(result)
-        do {
-            try self.context.save()
-        }
-        catch{
-            print(error)
-        }
-    }
-    
-    func retrieveUser(email: String) -> AppUser? {
-        let moviesSaved = self.retrieveData()
-        let result = moviesSaved.first { $0.email == email }
-        guard let result = result else { return nil }
-        return result
-    }
-    
-    private func retrieveData() -> [AppUser]{
-        do{
-            let movies = try self.context.fetch(AppUser.fetchRequest())
-            return movies
-        }
-        catch {
-            return []
-        }
-    }
-    
-    func verifyExistingUser(email: String) -> Bool {
-        let usersInApp = self.retrieveData()
-        let result = usersInApp.first { $0.email == email }
-        guard result != nil else { return true }
-        return false
-    }
-}
-
+// MARK: LoginViewController Builder
 extension LoginViewController {
     class func buildLogin() -> LoginViewController {
         let controller = LoginViewController()

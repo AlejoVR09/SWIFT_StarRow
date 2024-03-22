@@ -56,6 +56,7 @@ class MoviesView: UIView{
         collectionView.alwaysBounceVertical = false
         collectionView.bounces = false
         collectionView.showsVerticalScrollIndicator = false
+        collectionView.keyboardDismissMode = .onDrag
         return collectionView
     }()
     
@@ -122,10 +123,6 @@ extension MoviesView {
         self.movieCollectionView.alwaysBounceVertical = true
         self.movieCollectionView.bounces = true
         self.movieCollectionView.refreshControl = pullToRefresh
-    }
-    
-    func scrollToTop(){
-        self.movieCollectionView.setContentOffset(CGPoint.zero, animated: true)
     }
     
     func closeKeyboard(){

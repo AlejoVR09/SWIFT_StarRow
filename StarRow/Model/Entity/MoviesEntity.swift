@@ -1,6 +1,6 @@
 import Foundation
 
-struct MoviesEntity: Equatable {
+struct MoviesEntity: Equatable, Hashable {
     var id: Int = 0
     var name: String = ""
     var poster: String = ""
@@ -43,6 +43,8 @@ extension Array where Element == MovieCoreData {
     }
 }
 
-
-
-
+extension Set where Element == MovieCoreData {
+    var toMovieEntityFromCoreData: [MoviesEntity] {
+        self.map({ MoviesEntity(moviesCoreData: $0) })
+    }
+}

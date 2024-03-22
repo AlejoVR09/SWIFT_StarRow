@@ -9,12 +9,13 @@ import UIKit
 
 class DetailsViewController: UIViewController {
     
-    var id: Int
-    var detailsView: DetailsView
-    var movieSelected: DetailsMovieEntity!
-    
+    private var id: Int
+    private var detailsView: DetailsView
+    private var movieSelected: DetailsMovieEntity!
+    private var currentUser: AppUser?
+    private let userProvider = AppUserCoreDataProvider()
+    private let moviesProvider = MoviesProvider()
     lazy var detailWS = DetailsWS()
-    let context = (UIApplication.shared.delegate as! AppDelegate).persistentContainer.viewContext
     
     init(detailsView: DetailsView, id: Int) {
         self.detailsView = detailsView
@@ -30,8 +31,9 @@ class DetailsViewController: UIViewController {
         super.viewDidLoad()
         self.view = detailsView
         self.detailsView.addLoadingView()
-        self.navigationItem.title = "MovieDetailsTittle".localized(withComment: "MovieDetailsTittleComment".localized())
-        self.navigationItem.leftBarButtonItem = UIBarButtonItem(title: "BackButtonText".localized(withComment: "BackButtonTextComment".localized()), style: .plain, target: self, action: #selector(getBack))
+        self.navigationItem.title = AppConstant.Translations.movieDetailsTittle
+        self.navigationItem.leftBarButtonItem = UIBarButtonItem(image: UIImage(systemName: AppConstant.SystemImageNames.chevronBackward), style: .plain, target: self, action: #selector(getBack))
+        self.currentUser = userProvider.retrieveUser(email: UserSession.getCurrentSessionProfile())
     }
     
     override func viewDidAppear(_ animated: Bool) {
@@ -47,55 +49,24 @@ class DetailsViewController: UIViewController {
     }
     
     @objc private func didButtonPressedToAddFavorite(){
-        self.navigationItem.rightBarButtonItem?.image = UIImage(systemName: "star.fill")
+        self.navigationItem.rightBarButtonItem?.image = UIImage(systemName: AppConstant.SystemImageNames.starFill)
         self.navigationItem.rightBarButtonItem?.action = #selector(didButtonPressedToDeleteFromFavorites)
-        
-        let movie = MovieCoreData(context: self.context)
-        movie.idMovie = Double(self.movieSelected.id)
-        movie.originalTitle = self.movieSelected.name
-        movie.posterPath = self.movieSelected.poster
-        movie.releaseDate = self.movieSelected.releaseDate
-        do {
-            try self.context.save()
-        }
-        catch{
-            print(error)
-        }
+        let movie = moviesProvider.createMovie(id: movieSelected.id, name: movieSelected.name, poster: movieSelected.poster, releaseDate: movieSelected.releaseDate)
+        userProvider.saveMovieInUser(currentUser: currentUser, movie: movie)
     }
     
     @objc private func didButtonPressedToDeleteFromFavorites(){
-        self.navigationItem.rightBarButtonItem?.image = UIImage(systemName: "star")
+        self.navigationItem.rightBarButtonItem?.image = UIImage(systemName: AppConstant.SystemImageNames.star)
         self.navigationItem.rightBarButtonItem?.action = #selector(didButtonPressedToAddFavorite)
-        
-        let moviesSaved = self.retrieveData()
-        let result = moviesSaved.first { $0.originalTitle == self.movieSelected.name }
-        guard let result = result else { return }
-        
-        self.context.delete(result)
-        do {
-            try self.context.save()
-        }
-        catch{
-            print(error)
-        }
+        moviesProvider.deleteMovie(currentUser: currentUser, movieSelected: movieSelected)
     }
     
     @objc func getBack(){
         self.navigationController?.popViewController(animated: true)
     }
-
-    private func verifyMovieInCoreData() -> UIBarButtonItem {
-        let result = self.retrieveData().first{ $0.originalTitle == self.movieSelected?.name }
-        return result != nil ? UIBarButtonItem(image: UIImage(systemName: "star.fill"), style: .plain, target: self, action: #selector(didButtonPressedToDeleteFromFavorites)) : UIBarButtonItem(image: UIImage(systemName: "star"), style: .plain, target: self, action: #selector(didButtonPressedToAddFavorite))
-    }
     
-    private func retrieveData() -> [MovieCoreData]{
-        do{
-            let movies = try self.context.fetch(MovieCoreData.fetchRequest())
-            return movies
-        }
-        catch {
-            return []
-        }
+    private func verifyMovieInCoreData() -> UIBarButtonItem {
+        let result = moviesProvider.retrieveData(currentUser: self.currentUser).first{ $0.originalTitle == self.movieSelected?.name }
+        return result != nil ? UIBarButtonItem(image: UIImage(systemName: AppConstant.SystemImageNames.starFill), style: .plain, target: self, action: #selector(didButtonPressedToDeleteFromFavorites)) : UIBarButtonItem(image: UIImage(systemName: AppConstant.SystemImageNames.star), style: .plain, target: self, action: #selector(didButtonPressedToAddFavorite))
     }
 }

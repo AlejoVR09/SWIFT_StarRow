@@ -59,12 +59,10 @@ class ProfileView: UIView {
     private var separatorToInfo: SeparatorView = SeparatorView()
     
     private var signOutButton: UIButton = {
-        let button = UIButton(type: .system)
+        let button = UIButton(type: .custom)
         button.translatesAutoresizingMaskIntoConstraints = false
         button.setTitle("signOutText".localized(withComment: "signOutTextComment".localized()), for: .normal)
-        button.backgroundColor = .clear
-        button.layer.borderColor = UIColor(named: AppConstant.Color.mainText)?.cgColor
-        button.layer.borderWidth = 1
+        button.backgroundColor = UIColor(named: AppConstant.Color.mainText)
         button.layer.cornerRadius = 15
         button.titleLabel?.font = UIFont.boldSystemFont(ofSize: 20)
         button.titleLabel?.tintColor = UIColor(named: AppConstant.Color.inverseColor)

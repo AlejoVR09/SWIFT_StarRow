@@ -4,9 +4,9 @@ class TabBarController: UITabBarController {
 
     override func viewDidLoad() {
         super.viewDidLoad()
-        self.navigationItem.title = "appTittle".localized(withComment: "appTittleComment".localized())
+        self.navigationItem.title = AppConstant.Translations.appTittle
         self.navigationItem.rightBarButtonItem = UIBarButtonItem(
-            image: UIImage(systemName: "person.circle"),
+            image: UIImage(systemName: AppConstant.SystemImageNames.personCircle),
             style: .plain,
             target: self,
             action: #selector(didButtonPressedLogOut)
@@ -27,9 +27,9 @@ extension TabBarController {
         let strategy = MoviesListOnlineStrategy(moviesView: moviesView)
         let controller = MoviesViewController(moviesView: moviesView, strategy: strategy)
 
-        controller.tabBarItem.image = UIImage(systemName: "square.split.2x2")
-        controller.tabBarItem.selectedImage = UIImage(systemName: "square.split.2x2.fill")
-        controller.tabBarItem.title = "MoviesTab".localized(withComment: "MoviesTabComment".localized())
+        controller.tabBarItem.image = UIImage(systemName: AppConstant.SystemImageNames.squareSplit)
+        controller.tabBarItem.selectedImage = UIImage(systemName: AppConstant.SystemImageNames.squareSplitFill)
+        controller.tabBarItem.title = AppConstant.Translations.moviesTab
         return controller
     }
     
@@ -38,9 +38,9 @@ extension TabBarController {
         let strategy = MoviesListLocalStrategy(moviesView: moviesView)
         let controller = MoviesViewController(moviesView: moviesView, strategy: strategy)
         
-        controller.tabBarItem.image = UIImage(systemName: "star")
-        controller.tabBarItem.selectedImage = UIImage(systemName: "star.fill")
-        controller.tabBarItem.title = "FavoritesTab".localized(withComment: "FavoritesTabComment".localized())
+        controller.tabBarItem.image = UIImage(systemName: AppConstant.SystemImageNames.star)
+        controller.tabBarItem.selectedImage = UIImage(systemName: AppConstant.SystemImageNames.starFill)
+        controller.tabBarItem.title = AppConstant.Translations.FavoritesTab
         return controller
     }
 }
