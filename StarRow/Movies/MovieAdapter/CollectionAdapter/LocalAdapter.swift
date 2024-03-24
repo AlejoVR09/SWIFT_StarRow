@@ -8,6 +8,7 @@
 import Foundation
 import UIKit
 
+// MARK: Class declaration
 class LocalAdapterStrategy: AdapterStrategyProtocol {
     func registerCell(_ collectionView: UICollectionView) {
         collectionView.register(UINib(nibName: AppConstant.CellsInfo.favoritesCellClass, bundle: nil), forCellWithReuseIdentifier: AppConstant.CellsInfo.favoritesCellId)

@@ -7,6 +7,7 @@
 
 import Foundation
 
+// MARK: Entity
 struct DetailsMovieEntity {
     var id: Int = 0
     var name: String = ""

@@ -8,12 +8,14 @@
 import Foundation
 import UIKit
 
+// MARK: Protocol
 protocol MoviesSearchAdapterProtocol: AnyObject {
     var movies: [MoviesEntity] { get set }
     func setUpSearchBar(_ searchBar: UISearchBar)
     func didFilterHandler(_ handler: @escaping (_ result: [Any]) -> Void)
 }
 
+// MARK: Class declaration
 class MovieSearchAdapter: NSObject, MoviesSearchAdapterProtocol {
     var movies: [MoviesEntity] = []
     private var didFilter: ((_ movie: [Any]) -> Void)?
@@ -29,6 +31,7 @@ class MovieSearchAdapter: NSObject, MoviesSearchAdapterProtocol {
     }
 }
 
+// MARK: Delegate
 extension MovieSearchAdapter: UISearchBarDelegate {
     func searchBar(_ searchBar: UISearchBar, textDidChange searchText: String) {
         let loweredText = searchText.lowercased()
@@ -39,7 +42,7 @@ extension MovieSearchAdapter: UISearchBarDelegate {
         else{
             arrayResult = self.movies.filter({ $0.name.lowercased().contains(loweredText) })
             arrayResult = !arrayResult.isEmpty ? arrayResult : ["""
-            \("elementsNoFoundText".localized(withComment: "elementsNoFoundTextComment".localized()))
+            \(AppConstant.Translations.elementsNotFound)
             \(searchText)
             """]
         }

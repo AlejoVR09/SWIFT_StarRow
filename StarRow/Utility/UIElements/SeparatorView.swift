@@ -7,6 +7,7 @@
 
 import UIKit
 
+// MARK: Delegate protocol
 class SeparatorView: UIView {
 
     init() {
@@ -15,7 +16,7 @@ class SeparatorView: UIView {
     }
     
     required init?(coder: NSCoder) {
-        fatalError("init(coder:) has not been implemented")
+        fatalError()
     }
     
     private func setUpView(){

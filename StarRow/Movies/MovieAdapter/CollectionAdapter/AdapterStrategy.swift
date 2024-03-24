@@ -8,6 +8,7 @@
 import Foundation
 import UIKit
 
+// MARK: Strategy protocol
 protocol AdapterStrategyProtocol {
     func registerCell(_ collectionView: UICollectionView)
     func createLayout() -> UICollectionViewCompositionalLayout

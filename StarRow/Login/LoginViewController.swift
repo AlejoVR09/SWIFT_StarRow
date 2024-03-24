@@ -10,17 +10,13 @@ import UIKit
 // MARK: Class declaration
 class LoginViewController: UIViewController {
     private lazy var notificationCenter = NotificationManager(notificationManagerDelegate: self)
+    private lazy var userRepository = AppUserRepository()
     private var loginView: LoginViewProtocol?
-    private let userProvider = AppUserCoreDataProvider()
-    
-    override func viewDidLoad() {
-        super.viewDidLoad()
-    }
-    
+ 
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
         self.loginView = UserSession.getRememberedSession() ? ShortLoginView(delegate: self) : FullLoginView(delegate: self)
-        self.loginView?.setLogingButtonText?(message: userProvider.retrieveUser(email: UserSession.getCurrentSessionProfile())?.email ?? "")
+        self.loginView?.setLogingButtonText?(message: userRepository.retrieveUser(email: UserSession.getCurrentSessionProfile())?.email ?? "")
         self.view = self.loginView as? UIView
         self.notificationCenter.registerObserver()
     }
@@ -38,26 +34,22 @@ extension LoginViewController: LoginViewDelegate {
             loginView.setEmailErrorText?(text: AppConstant.Translations.invalidEmailText)
             return
         }
-        guard !userProvider.verifyExistingUser(email: withEmail) else {
+        guard userRepository.retrieveUser(email: withEmail) != nil else {
             loginView.setEmailErrorText?(text: AppConstant.Translations.notExistingEmailText)
             return
         }
         UserSession.currentSessionProfile(currentUserEmail: withEmail)
         UserSession.rememberCurrentProfile(remember: remember)
-        self.navigationController?.show(TabBarController(), sender: nil)
+        self.navigationController?.show(TabBarController.buildTabBarController(), sender: nil)
     }
     
     func loginViewDidButtonPressedToSignUp(loginView: LoginViewProtocol) {
-        self.navigationController?.show(RegisterViewController(registerView: RegisterView()), sender: nil)
+        self.navigationController?.show(RegisterViewController.buildRegisterViewController(), sender: nil)
     }
     
     func loginViewGoToLargeLogin() {
         self.loginView = FullLoginView(delegate: self)
         self.view = self.loginView as? UIView
-    }
-    
-    func loginViewWithSwitcher(isOn: Bool) {
-        UserSession.rememberCurrentProfile(remember: isOn)
     }
 }
 

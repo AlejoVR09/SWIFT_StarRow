@@ -8,11 +8,13 @@
 import UIKit
 import Kingfisher
 
+// MARK: Delegate protocol
 protocol MoviesViewDelegate: AnyObject{
     func moviesViewPullToRefreshApiData(_ moviesView: MoviesView)
     func moviesView(_ moviesView: MoviesView, didSelectMovie movie: MoviesEntity)
 }
-// MARK: UI Elements
+
+// MARK: Class declaration
 class MoviesView: UIView{
     weak var delegate: MoviesViewDelegate?
     var adapter: MoviesAdapterProtocol
@@ -64,7 +66,7 @@ class MoviesView: UIView{
         let searchBar = UISearchBar(frame: .zero)
         searchBar.translatesAutoresizingMaskIntoConstraints = false
         searchBar.searchBarStyle = UISearchBar.Style.default
-        searchBar.placeholder = "SearchBarPlaceHolder".localized(withComment: "SearchBarPlaceHolderComment".localized())
+        searchBar.placeholder = AppConstant.Translations.searchBarPlaceHolder
         searchBar.sizeToFit()
         return searchBar
     }()
@@ -77,7 +79,8 @@ class MoviesView: UIView{
         return refresher
     }()
 }
-// MARK: obcj methods
+
+// MARK: Selectors
 extension MoviesView {
     @objc func pullToRefreshAction(_ sender: UIRefreshControl){
         DispatchQueue.main.asyncAfter(deadline: .now() + 0.2) {
@@ -91,7 +94,8 @@ extension MoviesView {
         self.endEditing(true)
     }
 }
-// MARK: Constraints and Methods
+
+// MARK: Methods
 extension MoviesView {
     func setUpAdapters(){
         self.adapter.setUpCollectionView(self.movieCollectionView)
@@ -134,6 +138,7 @@ extension MoviesView {
     }
 }
 
+// MARK: Constraints
 extension MoviesView {
     private func setConstraints(){
         addSubview(searchBar)

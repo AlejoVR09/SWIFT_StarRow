@@ -1,5 +1,6 @@
 import Foundation
 
+// MARK: Struct extension for DTO declaration
 extension MoviesWS {
     struct Response: Decodable {
         let results: [MovieDTO]?

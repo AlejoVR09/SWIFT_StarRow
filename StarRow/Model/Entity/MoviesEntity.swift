@@ -1,5 +1,6 @@
 import Foundation
 
+// MARK: Entity
 struct MoviesEntity: Equatable, Hashable {
     var id: Int = 0
     var name: String = ""
@@ -31,6 +32,7 @@ struct MoviesEntity: Equatable, Hashable {
     }
 }
 
+// MARK: Array extension for mapping entities
 extension Array where Element == MoviesWS.Response.MovieDTO {
     var toMovieEntityFromApi: [MoviesEntity] {
         self.map({ MoviesEntity(movieApi: $0) })
@@ -38,12 +40,6 @@ extension Array where Element == MoviesWS.Response.MovieDTO {
 }
 
 extension Array where Element == MovieCoreData {
-    var toMovieEntityFromCoreData: [MoviesEntity] {
-        self.map({ MoviesEntity(moviesCoreData: $0) })
-    }
-}
-
-extension Set where Element == MovieCoreData {
     var toMovieEntityFromCoreData: [MoviesEntity] {
         self.map({ MoviesEntity(moviesCoreData: $0) })
     }

@@ -9,7 +9,7 @@ import Foundation
 import UIKit
 import CoreData
 
-
+// MARK: Protocol
 protocol MoviesAdapterProtocol: AnyObject {
     var data: [Any] { get set }
     var strategy: AdapterStrategyProtocol { get set }
@@ -18,6 +18,7 @@ protocol MoviesAdapterProtocol: AnyObject {
     func didSelectHandler(_ handler: @escaping (_ movie: MoviesEntity) -> Void)
 }
 
+// MARK: Class declaration
 class CollectionViewAdapter: NSObject, MoviesAdapterProtocol{
     private unowned var adapted: UICollectionView?
     var data: [Any] = [] {
@@ -61,10 +62,11 @@ class CollectionViewAdapter: NSObject, MoviesAdapterProtocol{
     }
 }
 
+// MARK: Datasource
 extension CollectionViewAdapter: UICollectionViewDataSource {
     func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
         if data.isEmpty {
-            data.append("EmptyText".localized(withComment: "EmptyTextComment".localized()))
+            data.append(AppConstant.Translations.emptyText)
             return 1
         }
         return data.count
@@ -86,6 +88,7 @@ extension CollectionViewAdapter: UICollectionViewDataSource {
     }
 }
 
+// MARK: Delegate
 extension CollectionViewAdapter: UICollectionViewDelegate {
     func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
         guard let movie = data[indexPath.item] as? MoviesEntity else { return }

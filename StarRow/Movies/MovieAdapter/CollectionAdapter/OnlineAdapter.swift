@@ -8,6 +8,7 @@
 import Foundation
 import UIKit
 
+// MARK: Class declaration
 class OnlineAdapterStrategy: AdapterStrategyProtocol {
     func registerCell(_ collectionView: UICollectionView) {
         collectionView.register(CustomCollectionViewCell.self, forCellWithReuseIdentifier: AppConstant.CellsInfo.customCellId)

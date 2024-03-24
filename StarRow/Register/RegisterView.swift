@@ -7,10 +7,12 @@
 
 import UIKit
 
+// MARK: Delegate protocol
 protocol RegisterViewDelegate {
     func buttonPressedToSign(_ registerView: RegisterView, withName: String, validName: Bool, withEmail: String, validEmail: Bool, withPhone: String, validPhone: Bool)
 }
 
+// MARK: Class Declaration
 class RegisterView: UIView {
     var delegate: RegisterViewDelegate?
     
@@ -55,7 +57,7 @@ class RegisterView: UIView {
         label.textColor = UIColor(named: AppConstant.Color.inverseColor)
         label.font = UIFont.boldSystemFont(ofSize: 36)
         label.textAlignment = .center
-        label.text = "signUpText".localized(withComment: "signUpTexComment".localized())
+        label.text = AppConstant.Translations.signUpText
         label.translatesAutoresizingMaskIntoConstraints = false
         return label
     }()
@@ -66,17 +68,17 @@ class RegisterView: UIView {
     
     private let phoneStack: UIStackView = StackViewType(orientation: .vertical, innerSpacing: 0)
     
-    private let userNameLabel: UILabel = MainLabel(withText: "namePlaceHolder".localized(withComment: "namePlaceHolderComment".localized()), color: AppConstant.Color.inverseColor, alignment: .left, size: 16)
+    private let userNameLabel: UILabel = MainLabel(withText: AppConstant.Translations.namePlaceHolder, color: AppConstant.Color.inverseColor, alignment: .left, size: 16)
     
-    private let userEmailLabel: UILabel = MainLabel(withText: "emailPlaceHolder".localized(withComment: "emailPlaceHolderComment".localized()), color: AppConstant.Color.inverseColor, alignment: .left, size: 16)
+    private let userEmailLabel: UILabel = MainLabel(withText: AppConstant.Translations.emailPlaceHolder, color: AppConstant.Color.inverseColor, alignment: .left, size: 16)
     
-    private let userPhoneLabel: UILabel = MainLabel(withText: "phonePlaceHolder".localized(withComment: "phonePlaceHolderComment".localized()), color: AppConstant.Color.inverseColor, alignment: .left, size: 16)
+    private let userPhoneLabel: UILabel = MainLabel(withText: AppConstant.Translations.phonePlaceHolder, color: AppConstant.Color.inverseColor, alignment: .left, size: 16)
 
-    private let userNameTextField: MainTextField = MainTextField(withText: "namePlaceHolder".localized(withComment: "namePlaceHolderComment".localized()), errorText: "nameCorrectFormat".localized(withComment: "nameCorrectFormatComment".localized()), validationMethod: UserDataValidation.validateName(name:), newKeyBoardType: .default)
+    private let userNameTextField: MainTextField = MainTextField(withText: AppConstant.Translations.namePlaceHolder, errorText: AppConstant.Translations.nameCorrectFormat, validationMethod: UserDataValidation.validateName(name:), newKeyBoardType: .default)
     
-    private let userEmailTextField: MainTextField = MainTextField(withText: "emailPlaceHolder".localized(withComment: "emailPlaceHolderComment".localized()), errorText: "emailCorrectFormat".localized(withComment: "emailCorrectFormatComment".localized()), validationMethod: UserDataValidation.validateEmail(email:), newKeyBoardType: .emailAddress)
+    private let userEmailTextField: MainTextField = MainTextField(withText: AppConstant.Translations.emailPlaceHolder, errorText: AppConstant.Translations.emailCorrectFormat, validationMethod: UserDataValidation.validateEmail(email:), newKeyBoardType: .emailAddress)
     
-    private let userPhoneTextField: MainTextField = MainTextField(withText: "phonePlaceHolder".localized(withComment: "phonePlaceHolderComment".localized()), errorText: "phoneCorrectFormat".localized(withComment: "phoneCorrectFormatComment".localized()), validationMethod: UserDataValidation.validatePhone(phone:), newKeyBoardType: .phonePad)
+    private let userPhoneTextField: MainTextField = MainTextField(withText: AppConstant.Translations.phonePlaceHolder, errorText: AppConstant.Translations.phoneCorrectFormat, validationMethod: UserDataValidation.validatePhone(phone:), newKeyBoardType: .phonePad)
     
     private let signUpButton: UIButton = {
         let button = UIButton(type: .system)
@@ -87,7 +89,7 @@ class RegisterView: UIView {
         button.titleLabel?.tintColor = UIColor(named: AppConstant.Color.inverseColor)
         button.titleLabel?.font = UIFont.boldSystemFont(ofSize: 20)
         button.layer.cornerRadius = 15
-        button.setTitle("signUpTextButton".localized(withComment: "signUpTextButtonComment".localized()), for: .normal)
+        button.setTitle(AppConstant.Translations.signUpText, for: .normal)
         button.translatesAutoresizingMaskIntoConstraints = false
         button.addTarget(nil, action: #selector(goToMoviesView), for: .touchUpInside)
         return button
@@ -112,6 +114,7 @@ class RegisterView: UIView {
     }
 }
 
+// MARK: Selectors
 extension RegisterView {
     @objc func handleTap(_ sender: UITapGestureRecognizer) {
         self.endEditing(true)
@@ -122,6 +125,7 @@ extension RegisterView {
     }
 }
 
+// MARK: Constraints
 extension RegisterView {
     private func setConstraintsForRegister(){
         addSubview(backGroundImage)

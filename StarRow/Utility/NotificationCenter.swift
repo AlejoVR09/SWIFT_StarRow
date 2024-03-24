@@ -8,13 +8,14 @@
 import Foundation
 import UIKit
 
+// MARK: Delegate protocol
 protocol NotificationManagerDelegate: AnyObject {
     func NotificationManagerDelegate(_ notificationManager: NotificationManager, keyboardWillShow info: NotificationManager.Info)
     func NotificationManagerDelegate(_ notificationManager: NotificationManager, keyboardWillHide info: NotificationManager.Info)
 }
 
+// MARK: Class declaration
 class NotificationManager: NSObject {
-    
     unowned let notificationManagerDelegate: NotificationManagerDelegate
     
     init(notificationManagerDelegate: NotificationManagerDelegate) {
@@ -42,6 +43,7 @@ class NotificationManager: NSObject {
     }
 }
 
+// MARK: Info's struct
 extension NotificationManager {
     struct Info {
         let frame: CGRect

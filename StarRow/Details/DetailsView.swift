@@ -7,6 +7,7 @@
 
 import UIKit
 
+// MARK: Class declaration
 class DetailsView: UIView {
     init() {
         bottomConstraint = NSLayoutConstraint(
@@ -141,6 +142,7 @@ class DetailsView: UIView {
     private var bottomConstraint: NSLayoutConstraint
 }
 
+// MARK: Extra UI methods
 extension DetailsView{
     func addLoadingView(){
         self.scrollView.isHidden = true
@@ -182,6 +184,7 @@ extension DetailsView{
     }
 }
 
+// MARK: Constraints
 extension DetailsView {
     private func setConstraints(){
         addSubview(loadingView)

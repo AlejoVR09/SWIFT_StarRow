@@ -7,8 +7,8 @@
 
 import Foundation
 
+// MARK: Class declaration
 class UserSession {
-    
     static private(set) var singleton = UserSession()
     
     static var shared: UserSession {
@@ -18,20 +18,20 @@ class UserSession {
     private init() { }
     
     static func rememberCurrentProfile(remember: Bool){
-        UserDefaults.standard.setValue(remember, forKey: "isLoggedIn")
+        UserDefaults.standard.setValue(remember, forKey: AppConstant.UserDefaultsKeys.isLoggedIn)
         UserDefaults.standard.synchronize()
     }
     
     static func getRememberedSession() -> Bool {
-        return UserDefaults.standard.bool(forKey: "isLoggedIn")
+        return UserDefaults.standard.bool(forKey: AppConstant.UserDefaultsKeys.isLoggedIn)
     }
     
     static func currentSessionProfile(currentUserEmail: String){
-        UserDefaults.standard.setValue(currentUserEmail, forKey: "emailLogged")
+        UserDefaults.standard.setValue(currentUserEmail, forKey: AppConstant.UserDefaultsKeys.emailLogged)
         UserDefaults.standard.synchronize()
     }
     
     static func getCurrentSessionProfile() -> String {
-        return UserDefaults.standard.string(forKey: "emailLogged") ?? ""
+        return UserDefaults.standard.string(forKey: AppConstant.UserDefaultsKeys.emailLogged) ?? ""
     }
 }

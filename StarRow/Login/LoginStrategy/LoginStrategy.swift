@@ -7,6 +7,7 @@
 
 import Foundation
 
+// MARK: Strategy Protocol
 @objc protocol LoginViewProtocol {
     @objc optional func keyboardAppear(_ info: Any)
     @objc optional func keyboardDisappear(_ info: Any)
@@ -15,6 +16,7 @@ import Foundation
 
 }
 
+// MARK: Strategy Delegate
 @objc protocol LoginViewDelegate {
     @objc optional func loginView(_ loginView: LoginViewProtocol, withEmail: String, validEmail: Bool, remember: Bool)
     func loginViewDidButtonPressedToSignUp(loginView: LoginViewProtocol)

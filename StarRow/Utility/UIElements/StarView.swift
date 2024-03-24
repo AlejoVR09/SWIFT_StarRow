@@ -7,6 +7,7 @@
 
 import UIKit
 
+// MARK: Delegate protocol
 class StarMaskView: UIView {
     let size: Int
     

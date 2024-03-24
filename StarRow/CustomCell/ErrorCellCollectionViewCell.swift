@@ -7,8 +7,8 @@
 
 import UIKit
 
+// MARK: Class declaration
 class ErrorCellCollectionViewCell: UICollectionViewCell {
-
     @IBOutlet weak var warningLabel: UILabel!
     override func awakeFromNib() {
         super.awakeFromNib()
@@ -28,6 +28,7 @@ class ErrorCellCollectionViewCell: UICollectionViewCell {
     }
 }
 
+// MARK: Builders
 extension ErrorCellCollectionViewCell {
     class func buildMovieCellError(_ collectionView: UICollectionView, in indexPath: IndexPath, with text: String) -> Self {
         let customCell = collectionView.dequeueReusableCell(withReuseIdentifier: AppConstant.CellsInfo.errorCellId, for: indexPath) as? Self

@@ -7,6 +7,7 @@
 
 import UIKit
 
+// MARK: Class declaration
 class FavoriteCollectionViewCell: UICollectionViewCell {
     private var movieSelected: MoviesEntity?
     
@@ -41,6 +42,7 @@ class FavoriteCollectionViewCell: UICollectionViewCell {
     }
 }
 
+// MARK: Builders
 extension FavoriteCollectionViewCell {
     class func buildMovieCellLocal(_ collectionView: UICollectionView, in indexPath: IndexPath, with movie: MoviesEntity) -> FavoriteCollectionViewCell{
         let customCell = collectionView.dequeueReusableCell(withReuseIdentifier: AppConstant.CellsInfo.favoritesCellId, for: indexPath) as? Self

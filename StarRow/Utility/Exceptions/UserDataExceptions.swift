@@ -7,6 +7,7 @@
 
 import Foundation
 
+// MARK: Class declaration
 class UserDataValidation {
     class func validateName(name: String) -> Bool {
         let regex = try! NSRegularExpression(pattern: AppConstant.RegexValidation.nameValidation)

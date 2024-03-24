@@ -8,41 +8,23 @@
 import Foundation
 import UIKit
 
+// MARK: Class declaration
 class MoviesListLocalStrategy: MoviesListViewStrategy {
-    
-    let moviesView: MoviesView
-    
-    let context = (UIApplication.shared.delegate as! AppDelegate).persistentContainer.viewContext
+    private let moviesView: MoviesView
+    private let userRepository = AppUserRepository()
+    private let movieRepository = MoviesRepository()
     
     init(moviesView: MoviesView) {
         self.moviesView = moviesView
     }
     
     func fetch(){
-        let user = retrieveUser(email: UserSession.getCurrentSessionProfile())
-        guard let movies = user?.favorites as? Set<MovieCoreData> else { return }
-        self.moviesView.updateCollectionView((Array(movies).toMovieEntityFromCoreData).sorted() { $0.name < $1.name })
+        let user = userRepository.retrieveUser(email: UserSession.getCurrentSessionProfile())
+        self.moviesView.updateCollectionView(movieRepository.retrieveData(currentUser: user).toMovieEntityFromCoreData.sorted() { $0.name < $1.name })
     }
     
     func reloadView() {
         self.fetch()
         self.moviesView.cleanSearchBar()
-    }
-    
-    func retrieveUser(email: String) -> AppUser? {
-        let moviesSaved = self.retrieveUserData()
-        let result = moviesSaved.first { $0.email == email }
-        guard let result = result else { return nil }
-        return result
-    }
-    
-    private func retrieveUserData() -> [AppUser]{
-        do{
-            let movies = try self.context.fetch(AppUser.fetchRequest())
-            return movies
-        }
-        catch {
-            return []
-        }
     }
 }

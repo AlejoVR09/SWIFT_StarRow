@@ -7,11 +7,12 @@
 
 import UIKit
 
+// MARK: Class Declaration
 class RegisterViewController: UIViewController {
 
     private let userDataValidation = UserDataValidation()
     private var registerView: RegisterView
-    let userProvider = AppUserCoreDataProvider()
+    let userRepository = AppUserRepository()
     
     init(registerView: RegisterView) {
         self.registerView = registerView
@@ -30,22 +31,25 @@ class RegisterViewController: UIViewController {
     }
 }
 
+// MARK: Selectors
 extension RegisterViewController {
     @objc func backToLogin(){
         self.navigationController?.popViewController(animated: true)
     }
 }
 
+// MARK: View Delegate
 extension RegisterViewController: RegisterViewDelegate {
     func buttonPressedToSign(_ registerView: RegisterView, withName: String, validName: Bool, withEmail: String, validEmail: Bool, withPhone: String, validPhone: Bool) {
         if validName && validEmail && validPhone {
-            guard userProvider.verifyExistingUser(email: withEmail) else {
+            guard userRepository.retrieveUser(email: withEmail) == nil else {
                 registerView.setEmailErrorText(text: AppConstant.Translations.existingEmail)
                 return
             }
-            if userProvider.saveUser(withEmail: withEmail, withName: withName, withPhone: withPhone) {
-                self.navigationController?.show(TabBarController(), sender: nil)
-            }
+            UserSession.currentSessionProfile(currentUserEmail: withEmail)
+            userRepository.saveUser(withEmail: withEmail, withName: withName, withPhone: withPhone)
+            self.navigationController?.show(TabBarController.buildTabBarController(), sender: nil)
+            
         }
         else {
             if !validName {
@@ -58,5 +62,14 @@ extension RegisterViewController: RegisterViewDelegate {
                 registerView.setPhoneErrorText(text: AppConstant.Translations.invalidPhone)
             }
         }
+    }
+}
+
+// MARK: Builders
+extension RegisterViewController {
+    class func buildRegisterViewController() -> RegisterViewController {
+        let view = RegisterView()
+        let controller = RegisterViewController(registerView: view)
+        return controller
     }
 }

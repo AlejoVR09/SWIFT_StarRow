@@ -7,10 +7,12 @@
 
 import UIKit
 
+// MARK: Delegate protocol
 protocol ProfileViewDelegate {
     func didTapToSingOut(_ profileView: ProfileView)
 }
 
+// MARK: Class declaration
 class ProfileView: UIView {
     var delegate: ProfileViewDelegate?
     
@@ -34,7 +36,7 @@ class ProfileView: UIView {
     private var imageProfile: UIImageView = {
         let image = UIImageView()
         image.translatesAutoresizingMaskIntoConstraints = false
-        image.image = UIImage(systemName: "person.circle")
+        image.image = UIImage(systemName: AppConstant.SystemImageNames.personCircle)
         return image
     }()
     
@@ -42,26 +44,26 @@ class ProfileView: UIView {
     
     private var stackInfo: StackViewType = StackViewType(orientation: .vertical, innerSpacing: 40)
     
-    private let userNameLabel: UILabel = MainLabel(withText: "namePlaceHolder".localized(withComment: "namePlaceHolderComment".localized()), color: AppConstant.Color.inverseColor, alignment: .center, size: 20)
+    private let userNameLabel: UILabel = MainLabel(withText: AppConstant.Translations.namePlaceHolder, color: AppConstant.Color.inverseColor, alignment: .center, size: 20)
     
     private let emailStack: UIStackView = StackViewType(orientation: .vertical, innerSpacing: 10)
     
     private let phoneStack: UIStackView = StackViewType(orientation: .vertical, innerSpacing: 10)
     
-    private let userEmailLabel: UILabel = MainLabel(withText: "emailPlaceHolder".localized(withComment: "emailPlaceHolderComment".localized()), color: AppConstant.Color.inverseColor, alignment: .center, size: 20)
+    private let userEmailLabel: UILabel = MainLabel(withText: AppConstant.Translations.emailPlaceHolder, color: AppConstant.Color.inverseColor, alignment: .center, size: 20)
     
-    private let userPhoneLabel: UILabel = MainLabel(withText: "phonePlaceHolder".localized(withComment: "phonePlaceHolderComment".localized()), color: AppConstant.Color.inverseColor, alignment: .center, size: 20)
+    private let userPhoneLabel: UILabel = MainLabel(withText: AppConstant.Translations.phonePlaceHolder, color: AppConstant.Color.inverseColor, alignment: .center, size: 20)
     
-    private let userEmailData: UILabel = MainLabel(withText: "Name@domain.com", color: AppConstant.Color.inverseColor, alignment: .center, size: 16)
+    private let userEmailData: UILabel = MainLabel(withText: "", color: AppConstant.Color.inverseColor, alignment: .center, size: 16)
     
-    private let userPhoneData: UILabel = MainLabel(withText: "+00 11111111111", color: AppConstant.Color.inverseColor, alignment: .center, size: 16)
+    private let userPhoneData: UILabel = MainLabel(withText: "", color: AppConstant.Color.inverseColor, alignment: .center, size: 16)
     
     private var separatorToInfo: SeparatorView = SeparatorView()
     
     private var signOutButton: UIButton = {
         let button = UIButton(type: .custom)
         button.translatesAutoresizingMaskIntoConstraints = false
-        button.setTitle("signOutText".localized(withComment: "signOutTextComment".localized()), for: .normal)
+        button.setTitle(AppConstant.Translations.signOutText, for: .normal)
         button.backgroundColor = UIColor(named: AppConstant.Color.mainText)
         button.layer.cornerRadius = 15
         button.titleLabel?.font = UIFont.boldSystemFont(ofSize: 20)
@@ -88,12 +90,14 @@ class ProfileView: UIView {
     }
 }
 
+// MARK: Selectors
 extension ProfileView {
     @objc func signOut(){
         self.delegate?.didTapToSingOut(self)
     }
 }
 
+// MARK: Constraints
 extension ProfileView {
     private func setContraint(){
         addSubview(imageProfile)

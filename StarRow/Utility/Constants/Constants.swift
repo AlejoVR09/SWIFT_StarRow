@@ -72,6 +72,12 @@ struct AppConstant {
         static let invalidEmailText = "invalidEmail".localized(withComment: "invalidEmailComment".localized())
         static let notExistingEmailText = "notExistingEmail".localized(withComment: "notExistingEmailComment".localized())
         
+        static let namePlaceHolder = "namePlaceHolder".localized(withComment: "namePlaceHolderComment".localized())
+        static let nameCorrectFormat = "nameCorrectFormat".localized(withComment: "nameCorrectFormatComment".localized())
+        static let phonePlaceHolder = "phonePlaceHolder".localized(withComment: "phonePlaceHolderComment".localized())
+        static let phoneCorrectFormat = "phoneCorrectFormat".localized(withComment: "phoneCorrectFormatComment".localized())
+        static let signUpText = "signUpTextButton".localized(withComment: "signUpTextButtonComment".localized())
+        static let signOutText = "signOutText".localized(withComment: "signOutTextComment".localized())
         
         static let invalidName = "invalidName".localized(withComment: "invalidNameComment".localized())
         static let invalidPhone = "invalidPhone".localized(withComment: "invalidPhoneComment".localized())
@@ -85,11 +91,25 @@ struct AppConstant {
         static let moviesTab = "MoviesTab".localized(withComment: "MoviesTabComment".localized())
         static let FavoritesTab = "FavoritesTab".localized(withComment: "FavoritesTabComment".localized())
         
+        static let searchBarPlaceHolder = "SearchBarPlaceHolder".localized(withComment: "SearchBarPlaceHolderComment".localized())
+        
+        static let elementsNotFound = "elementsNoFoundText".localized(withComment: "elementsNoFoundTextComment".localized())
+        static let emptyText = "EmptyText".localized(withComment: "EmptyTextComment".localized())
+        
         static let releaseDateText = "ReleaseDateText".localized(withComment: "ReleaseDateTextComment".localized())
         static let emptyDescription = "emptyDescription".localized(withComment: "emptyDescriptionComment".localized())
         static let backButtonText = "BackButtonText".localized(withComment: "BackButtonTextComment".localized())
         static let movieDetailsTittle = "MovieDetailsTittle".localized(withComment: "MovieDetailsTittleComment".localized())
         static let genrerText = "GenrerText".localized(withComment: "GenrerTextComment".localized())
         static let descriptionText = "DescriptionText".localized(withComment: "DescriptionTextComment".localized())
+    }
+    
+    struct LangugeCode {
+        static let spanishCode = "es"
+    }
+    
+    struct UserDefaultsKeys {
+        static let isLoggedIn = "isLoggedIn"
+        static let emailLogged = "emailLogged"
     }
 }

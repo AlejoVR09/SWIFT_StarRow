@@ -7,6 +7,7 @@
 
 import UIKit
 
+// MARK: Class Declaration
 class FullLoginView: UIView {
     private var delegate: LoginViewDelegate
     
@@ -134,6 +135,7 @@ class FullLoginView: UIView {
     }
 }
 
+// MARK: Protocol methods
 extension FullLoginView: LoginViewProtocol {
     func keyboardAppear(_ info: Any){
         guard let info = info as? NotificationManager.Info else { return }
@@ -154,6 +156,7 @@ extension FullLoginView: LoginViewProtocol {
     }
 }
 
+// MARK: Selectors
 extension FullLoginView {
     @objc func handleTap(_ sender: UITapGestureRecognizer) {
         self.endEditing(true)
@@ -168,6 +171,7 @@ extension FullLoginView {
     }
 }
 
+// MARK: Constraints
 extension FullLoginView {
     private func setConstraints(){
         addSubview(upperImage)

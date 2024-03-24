@@ -7,6 +7,7 @@
 
 import Foundation
 
+// MARK: Extension for localizable strings
 extension String {
     func localized(withComment comment: String? = nil) -> String {
         return NSLocalizedString(self, comment: comment ?? "")

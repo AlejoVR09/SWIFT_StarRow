@@ -41,10 +41,36 @@ class MoviesViewController: UIViewController {
 extension MoviesViewController: MoviesViewDelegate{
     func moviesView(_ moviesView: MoviesView, didSelectMovie movie: MoviesEntity) {
         self.moviesView.closeKeyboard()
-        self.navigationController?.show(DetailsViewController(detailsView: DetailsView(), id: movie.id), sender: nil)
+        self.navigationController?.show(DetailsViewController.buildDetailsViewController(movieId: movie.id), sender: nil)
     }
     
     func moviesViewPullToRefreshApiData(_ moviesView: MoviesView) {
         self.strategy.fetch()
     }
+}
+
+// MARK: Builders
+extension MoviesViewController {
+    static func buildOnline() -> MoviesViewController {
+        let moviesView = MoviesView(adapter: CollectionViewAdapter(strategy: OnlineAdapterStrategy()), searchBarAdapter: MovieSearchAdapter())
+        let strategy = MoviesListOnlineStrategy(moviesView: moviesView)
+        let controller = MoviesViewController(moviesView: moviesView, strategy: strategy)
+
+        controller.tabBarItem.image = UIImage(systemName: AppConstant.SystemImageNames.squareSplit)
+        controller.tabBarItem.selectedImage = UIImage(systemName: AppConstant.SystemImageNames.squareSplitFill)
+        controller.tabBarItem.title = AppConstant.Translations.moviesTab
+        return controller
+    }
+    
+    static func buildLocal() -> MoviesViewController {
+        let moviesView = MoviesView(adapter: CollectionViewAdapter(strategy: LocalAdapterStrategy()), searchBarAdapter: MovieSearchAdapter())
+        let strategy = MoviesListLocalStrategy(moviesView: moviesView)
+        let controller = MoviesViewController(moviesView: moviesView, strategy: strategy)
+        
+        controller.tabBarItem.image = UIImage(systemName: AppConstant.SystemImageNames.star)
+        controller.tabBarItem.selectedImage = UIImage(systemName: AppConstant.SystemImageNames.starFill)
+        controller.tabBarItem.title = AppConstant.Translations.FavoritesTab
+        return controller
+    }
+
 }

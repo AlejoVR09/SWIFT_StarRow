@@ -8,6 +8,7 @@
 import Foundation
 import UIKit
 
+// MARK: Extesion for download images from internet
 extension UIImageView {
     typealias CompletionHandler = (_ image: UIImage?, _ urlImage: String) -> Void
 

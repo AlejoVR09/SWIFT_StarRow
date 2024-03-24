@@ -7,15 +7,17 @@
 
 import UIKit
 
+// MARK: Protocol
 protocol ProfileViewControllerDelegate {
     func closeViewController(_ profileViewController: ProfileViewController)
 }
 
+// MARK: Class declaration
 class ProfileViewController: UIViewController {
     
     let profileView: ProfileView
     let delegate: ProfileViewControllerDelegate
-    let userProvider = AppUserCoreDataProvider()
+    let userProvider = AppUserRepository()
     
     init(profileView: ProfileView, delegate: ProfileViewControllerDelegate) {
         self.profileView = profileView
@@ -35,9 +37,19 @@ class ProfileViewController: UIViewController {
     }
 }
 
+// MARK: View Delegate
 extension ProfileViewController: ProfileViewDelegate {
     func didTapToSingOut(_ profileView: ProfileView) {
         dismiss(animated: true)
         self.delegate.closeViewController(self)
+    }
+}
+
+// MARK: Builders
+extension ProfileViewController {
+    class func buildProfileViewController(delegate: ProfileViewControllerDelegate) -> ProfileViewController {
+        let view = ProfileView()
+        let controller = ProfileViewController(profileView: view, delegate: delegate)
+        return controller
     }
 }

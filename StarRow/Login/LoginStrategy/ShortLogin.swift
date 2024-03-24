@@ -8,6 +8,7 @@
 import UIKit
 import SwiftUI
 
+// MARK: Class Declaration
 class ShortLoginView: UIView, LoginViewProtocol {
     var delegate: LoginViewDelegate
     
@@ -115,6 +116,7 @@ class ShortLoginView: UIView, LoginViewProtocol {
     }
 }
 
+// MARK: Selectors
 extension ShortLoginView {
     @objc private func goToRegisterView(){
         self.delegate.loginViewDidButtonPressedToSignUp(loginView: self)
@@ -129,6 +131,7 @@ extension ShortLoginView {
     }
 }
 
+// MARK: Constraints
 extension ShortLoginView {
     func setConstraints(){
         addSubview(backGroundImage)

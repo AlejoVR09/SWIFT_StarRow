@@ -7,6 +7,7 @@
 
 import Foundation
 
+// MARK: Struct extension for DTO declaration
 extension DetailsWS {
     struct MovieDTO: Decodable {
         let adult: Bool?

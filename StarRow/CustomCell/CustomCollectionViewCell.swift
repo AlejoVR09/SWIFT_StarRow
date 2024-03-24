@@ -7,6 +7,7 @@
 
 import UIKit
 
+// MARK: Class declaration
 class CustomCollectionViewCell: UICollectionViewCell {
     private var movie: MoviesEntity?
     
@@ -65,7 +66,30 @@ class CustomCollectionViewCell: UICollectionViewCell {
         setShadow()
         setConstraint()
     }
+    
+    private func setShadow(){
+        self.layer.masksToBounds = false
+        self.layer.cornerRadius = CGFloat(integerLiteral: 10)
+        self.layer.shadowOffset = CGSize(width: 0, height: 0)
+        self.layer.shadowColor = CGColor(red: 0.2, green: 0.2, blue: 0.2, alpha: 1)
+        self.layer.shadowOpacity = 0.9
+        self.layer.shadowRadius = 2.5
+    }
+    
+    func updateData(movie: MoviesEntity){
+        self.movie = movie
+        self.nameLabel.text = movie.name
+        self.dateLabel.text = "\(AppConstant.Translations.releaseDateText): \n" + LocalDateFormatter.formatDate(movie.releaseDate)
+        self.starView.setProgress(num: Float(movie.voteAverage))
+        self.imageView.downloadImage(AppConstant.APIUrl.imageBaseUrl + movie.poster){image, urlImage in
+            guard let image = image else { return }
+            self.imageView.animateAndSetImage(image)
+        }
+    }
+}
 
+// MARK: Constraints
+extension CustomCollectionViewCell {
     private func setConstraint(){
         addSubview(stack)
         NSLayoutConstraint.activate([
@@ -96,28 +120,9 @@ class CustomCollectionViewCell: UICollectionViewCell {
            starView.topAnchor.constraint(equalTo: stack.bottomAnchor, constant: 20),
        ])
     }
-    
-    private func setShadow(){
-        self.layer.masksToBounds = false
-        self.layer.cornerRadius = CGFloat(integerLiteral: 10)
-        self.layer.shadowOffset = CGSize(width: 0, height: 0)
-        self.layer.shadowColor = CGColor(red: 0.2, green: 0.2, blue: 0.2, alpha: 1)
-        self.layer.shadowOpacity = 0.9
-        self.layer.shadowRadius = 2.5
-    }
-    
-    func updateData(movie: MoviesEntity){
-        self.movie = movie
-        self.nameLabel.text = movie.name
-        self.dateLabel.text = "\("ReleaseDateText".localized(withComment: "ReleaseDateTextComment".localized())): \n" + LocalDateFormatter.formatDate(movie.releaseDate)
-        self.starView.setProgress(num: Float(movie.voteAverage))
-        self.imageView.downloadImage(AppConstant.APIUrl.imageBaseUrl + movie.poster){image, urlImage in
-            guard let image = image else { return }
-            self.imageView.animateAndSetImage(image)
-        }
-    }
 }
 
+// MARK: Builder
 extension CustomCollectionViewCell {
     class func buildMovieCellOnline(_ collectionView: UICollectionView, in indexPath: IndexPath, with movie: MoviesEntity) -> Self{
         let customCell = collectionView.dequeueReusableCell(withReuseIdentifier: AppConstant.CellsInfo.customCellId, for: indexPath) as? Self

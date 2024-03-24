@@ -7,8 +7,8 @@
 
 import Foundation
 
+// MARK: Struct Declaration
 struct DetailsWS {
-    
     func execute(id: Int, completionHandle: @escaping (_ arrayMovies: DetailsWS.MovieDTO) -> Void){
         let url: String = AppConstant.APIUrl.detailsEndPoint(id: id)
         

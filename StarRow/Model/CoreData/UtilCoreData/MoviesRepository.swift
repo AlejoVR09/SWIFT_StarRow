@@ -8,11 +8,10 @@
 import Foundation
 import UIKit
 
-struct MoviesProvider {
-    private let context = (UIApplication.shared.delegate as! AppDelegate).persistentContainer.viewContext
-    
+// MARK: Class Declaration
+struct MoviesRepository {
     func createMovie(id: Int, name: String, poster: String, releaseDate: String) -> MovieCoreData {
-        let movie = MovieCoreData(context: self.context)
+        let movie: MovieCoreData = CoreDataManager.shared.createEntity()
         movie.idMovie = Double(id)
         movie.originalTitle = name
         movie.posterPath = poster
@@ -30,11 +29,6 @@ struct MoviesProvider {
         let result = moviesSaved.first { $0.originalTitle == movieSelected.name }
         guard let result = result else { return }
         currentUser?.removeFromFavorites(result)
-        do {
-            try self.context.save()
-        }
-        catch{
-            print(error)
-        }
+        CoreDataManager.shared.saveContext()
     }
 }

@@ -7,6 +7,7 @@
 
 import UIKit
 
+// MARK: Delegate protocol
 class MainTextField: UITextField {
     private var withText: String
     private var errorText: String

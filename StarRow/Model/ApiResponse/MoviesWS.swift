@@ -1,7 +1,7 @@
 import Foundation
 
+// MARK: Struct Declaration
 struct MoviesWS {
-    
     private let url: String = AppConstant.APIUrl.moviesUrl
     
     func execute(completionHandle: @escaping (_ arrayMovies: [Response.MovieDTO]) -> Void){

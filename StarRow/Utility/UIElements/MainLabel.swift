@@ -7,8 +7,8 @@
 
 import UIKit
 
+// MARK: Delegate protocol
 class MainLabel: UILabel {
-
     let withText: String
     let alignment: NSTextAlignment
     let color: String
@@ -24,7 +24,7 @@ class MainLabel: UILabel {
     }
     
     required init(coder: NSCoder) {
-        fatalError("init(coder:) has not been implemented")
+        fatalError()
     }
     
     private func setUpLabel(){
