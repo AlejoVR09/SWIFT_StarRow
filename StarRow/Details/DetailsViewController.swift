@@ -16,6 +16,8 @@ class DetailsViewController: UIViewController {
     private let userRepository = AppUserRepository()
     private let movieRepository = MoviesRepository()
     lazy var detailWS = DetailsWS()
+    lazy var videoWS = VideoWS()
+    private var videoKey = ""
     
     init(detailsView: DetailsView, id: Int) {
         self.detailsView = detailsView
@@ -34,6 +36,10 @@ class DetailsViewController: UIViewController {
         self.navigationItem.title = AppConstant.Translations.movieDetailsTittle
         self.navigationItem.leftBarButtonItem = UIBarButtonItem(image: UIImage(systemName: AppConstant.SystemImageNames.chevronBackward), style: .plain, target: self, action: #selector(getBack))
         self.currentUser = userRepository.getByEmail(email: UserSession.getCurrentSessionProfile())
+        videoWS.execute(id: self.id) { videos in
+            guard let video = videos.last else { return }
+            self.videoKey = video.key ?? ""
+        }
     }
     
     override func viewDidAppear(_ animated: Bool) {
@@ -47,7 +53,10 @@ class DetailsViewController: UIViewController {
                 self.movieSelected = DetailsMovieEntity(movieDetailsApi: movie)
                 self.detailsView.setUpView(data: self.movieSelected)
                 self.detailsView.removeLoadingView()
-                self.navigationItem.rightBarButtonItem = self.verifyMovieInCoreData()
+                self.navigationItem.rightBarButtonItems = [
+                    self.verifyMovieInCoreData(),
+                    UIBarButtonItem(image: UIImage(systemName: AppConstant.SystemImageNames.playCircleFill), style: .plain, target: self, action: #selector(self.watchVideo))
+                ]
             }
         }
     }
@@ -77,6 +86,16 @@ extension DetailsViewController {
     
     @objc func getBack(){
         self.navigationController?.popViewController(animated: true)
+    }
+    
+    @objc func watchVideo() {
+        guard !self.videoKey.isEmpty else {
+            print("No")
+            return
+        }
+        
+        let youtubeURL = URL(string: "https://www.youtube.com/watch?v=\(self.videoKey)")!
+        UIApplication.shared.open(youtubeURL, options: [:], completionHandler: nil)
     }
 }
 

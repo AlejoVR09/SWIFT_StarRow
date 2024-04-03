@@ -27,11 +27,11 @@ struct DetailsWS {
                     completionHandle(nil)
                     break
             default:
-                guard let imageData = data else {
+                guard let data = data else {
                     completionHandle(nil)
                     return
                 }
-                let movie = self.parseJSON(movieData: imageData)
+                let movie = self.parseJSON(movieData: data)
                 completionHandle(movie)
             }
         }

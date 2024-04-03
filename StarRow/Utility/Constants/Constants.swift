@@ -30,6 +30,7 @@ struct AppConstant {
         static let squareSplitFill = "square.split.2x2.fill"
         static let chevronBackward = "chevron.backward"
         static let exclamationmarkTriangle = "exclamationmark.triangle"
+        static let playCircleFill = "play.circle.fill"
     }
     
     struct CustomFont {
@@ -56,6 +57,10 @@ struct AppConstant {
         static let detailsUrl = "?api_key=752cd23fdb3336557bf3d8724e115570&language=" + "\(Locale.current.language.languageCode ?? "")"
         static func detailsEndPoint(id: Int) -> String {
             return baseUrl + String(id) + detailsUrl
+        }
+        static let videoUrl = "/videos?api_key=176de15e8c8523a92ff640f432966c9c&language="
+        static func videoEndPoint(id: Int) -> String {
+            return baseUrl + String(id) + videoUrl
         }
         static let imageBaseUrl = "https://image.tmdb.org/t/p/w500/"
     }
