@@ -8,8 +8,12 @@
 import Foundation
 import UIKit
 
-// MARK: Class declaration
+// MARK: Class declaratio
 class LocalAdapterStrategy: AdapterStrategyProtocol {
+    func countDataSource() -> String {
+        AppConstant.Translations.emptyText
+    }
+    
     func registerCell(_ collectionView: UICollectionView) {
         collectionView.register(UINib(nibName: AppConstant.CellsInfo.favoritesCellClass, bundle: nil), forCellWithReuseIdentifier: AppConstant.CellsInfo.favoritesCellId)
     }

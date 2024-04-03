@@ -81,11 +81,9 @@ class RegisterView: UIView {
     private let userPhoneTextField: MainTextField = MainTextField(withText: AppConstant.Translations.phonePlaceHolder, errorText: AppConstant.Translations.phoneCorrectFormat, validationMethod: UserDataValidation.validatePhone(phone:), newKeyBoardType: .phonePad)
     
     private let signUpButton: UIButton = {
-        let button = UIButton(type: .system)
+        let button = UIButton(type: .custom)
         button.frame = .zero
-        button.layer.borderColor = UIColor(named: AppConstant.Color.mainText)?.cgColor
-        button.layer.borderWidth = 1
-        button.backgroundColor = .clear
+        button.backgroundColor = UIColor(named: AppConstant.Color.mainText)
         button.titleLabel?.tintColor = UIColor(named: AppConstant.Color.inverseColor)
         button.titleLabel?.font = UIFont.boldSystemFont(ofSize: 20)
         button.layer.cornerRadius = 15

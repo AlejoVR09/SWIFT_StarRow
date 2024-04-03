@@ -42,12 +42,12 @@ extension RegisterViewController {
 extension RegisterViewController: RegisterViewDelegate {
     func buttonPressedToSign(_ registerView: RegisterView, withName: String, validName: Bool, withEmail: String, validEmail: Bool, withPhone: String, validPhone: Bool) {
         if validName && validEmail && validPhone {
-            guard userRepository.retrieveUser(email: withEmail) == nil else {
+            guard userRepository.getByEmail(email: withEmail) == nil else {
                 registerView.setEmailErrorText(text: AppConstant.Translations.existingEmail)
                 return
             }
             UserSession.currentSessionProfile(currentUserEmail: withEmail)
-            userRepository.saveUser(withEmail: withEmail, withName: withName, withPhone: withPhone)
+            userRepository.save(withEmail: withEmail, withName: withName, withPhone: withPhone)
             self.navigationController?.show(TabBarController.buildTabBarController(), sender: nil)
             
         }

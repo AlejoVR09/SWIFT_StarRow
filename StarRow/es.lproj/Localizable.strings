@@ -73,7 +73,7 @@ SearchBarPlaceHolderComment = "Marcador de posicion de la barra de busqueda";
 elementsNoFoundText = "Elemento/s no encontrados";
 elementsNoFoundTextComment = "Texto para los elementos no encontrados";
 
-EmptyText = "Vacio";
+EmptyText = "Lista vacia";
 EmptyTextComment = "Texto para una lista vacia";
 
 GenrerText = "Generos";
@@ -81,3 +81,6 @@ GenrerTextComment = "Titulo de los generos";
 
 DescriptionText = "Descripcion";
 DescriptionTextComment = "Titulo de la description";
+
+noServiceAvaible = "Servicio no disponible";
+noServiceAvaibleComment = "Mensaje que se meustra cuando el servicio no esta disponible";

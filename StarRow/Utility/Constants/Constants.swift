@@ -29,6 +29,7 @@ struct AppConstant {
         static let squareSplit = "square.split.2x2"
         static let squareSplitFill = "square.split.2x2.fill"
         static let chevronBackward = "chevron.backward"
+        static let exclamationmarkTriangle = "exclamationmark.triangle"
     }
     
     struct CustomFont {
@@ -102,6 +103,8 @@ struct AppConstant {
         static let movieDetailsTittle = "MovieDetailsTittle".localized(withComment: "MovieDetailsTittleComment".localized())
         static let genrerText = "GenrerText".localized(withComment: "GenrerTextComment".localized())
         static let descriptionText = "DescriptionText".localized(withComment: "DescriptionTextComment".localized())
+        
+        static let noServiceAvaible = "noServiceAvaible".localized(withComment: "noServiceAvaibleComment".localized())
     }
     
     struct LangugeCode {

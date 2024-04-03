@@ -10,6 +10,11 @@ import UIKit
 
 // MARK: Class Declaration
 struct MoviesRepository {
+    func getAll(currentUser: AppUser?) -> [MovieCoreData]{
+        guard let movies = currentUser?.favorites as? Set<MovieCoreData> else { return [] }
+        return Array(movies)
+    }
+    
     func createMovie(id: Int, name: String, poster: String, releaseDate: String) -> MovieCoreData {
         let movie: MovieCoreData = CoreDataManager.shared.createEntity()
         movie.idMovie = Double(id)
@@ -19,16 +24,16 @@ struct MoviesRepository {
         return movie
     }
     
-    func retrieveData(currentUser: AppUser?) -> [MovieCoreData]{
-        guard let movies = currentUser?.favorites as? Set<MovieCoreData> else { return [] }
-        return Array(movies)
+    func saveMovie(currentUser: AppUser, movie: MovieCoreData){
+        currentUser.addToFavorites(movie)
+        CoreDataManager.shared.saveContext()
     }
     
-    func deleteMovie(currentUser: AppUser?, movieSelected: DetailsMovieEntity){
-        let moviesSaved = retrieveData(currentUser: currentUser)
+    func deleteMovie(currentUser: AppUser, movieSelected: DetailsMovieEntity){
+        let moviesSaved = getAll(currentUser: currentUser)
         let result = moviesSaved.first { $0.originalTitle == movieSelected.name }
         guard let result = result else { return }
-        currentUser?.removeFromFavorites(result)
+        currentUser.removeFromFavorites(result)
         CoreDataManager.shared.saveContext()
     }
 }

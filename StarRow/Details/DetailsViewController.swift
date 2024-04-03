@@ -33,23 +33,27 @@ class DetailsViewController: UIViewController {
         self.detailsView.addLoadingView()
         self.navigationItem.title = AppConstant.Translations.movieDetailsTittle
         self.navigationItem.leftBarButtonItem = UIBarButtonItem(image: UIImage(systemName: AppConstant.SystemImageNames.chevronBackward), style: .plain, target: self, action: #selector(getBack))
-        self.currentUser = userRepository.retrieveUser(email: UserSession.getCurrentSessionProfile())
+        self.currentUser = userRepository.getByEmail(email: UserSession.getCurrentSessionProfile())
     }
     
     override func viewDidAppear(_ animated: Bool) {
         super.viewDidAppear(animated)
         self.detailWS.execute(id: self.id){ movie in
             DispatchQueue.main.async {
+                guard let movie = movie else {
+                    self.detailsView.addNoServiceMessage()
+                    return
+                }                
                 self.movieSelected = DetailsMovieEntity(movieDetailsApi: movie)
                 self.detailsView.setUpView(data: self.movieSelected)
-                self.navigationItem.rightBarButtonItem = self.verifyMovieInCoreData()
                 self.detailsView.removeLoadingView()
+                self.navigationItem.rightBarButtonItem = self.verifyMovieInCoreData()
             }
         }
     }
     
     private func verifyMovieInCoreData() -> UIBarButtonItem {
-        let result = movieRepository.retrieveData(currentUser: self.currentUser).first{ $0.originalTitle == self.movieSelected?.name }
+        let result = movieRepository.getAll(currentUser: self.currentUser).first{ $0.originalTitle == self.movieSelected?.name }
         return result != nil ? UIBarButtonItem(image: UIImage(systemName: AppConstant.SystemImageNames.starFill), style: .plain, target: self, action: #selector(didButtonPressedToDeleteFromFavorites)) : UIBarButtonItem(image: UIImage(systemName: AppConstant.SystemImageNames.star), style: .plain, target: self, action: #selector(didButtonPressedToAddFavorite))
     }
 }
@@ -60,12 +64,14 @@ extension DetailsViewController {
         self.navigationItem.rightBarButtonItem?.image = UIImage(systemName: AppConstant.SystemImageNames.starFill)
         self.navigationItem.rightBarButtonItem?.action = #selector(didButtonPressedToDeleteFromFavorites)
         let movie = movieRepository.createMovie(id: movieSelected.id, name: movieSelected.name, poster: movieSelected.poster, releaseDate: movieSelected.releaseDate)
-        userRepository.saveMovieInUser(currentUser: currentUser, movie: movie)
+        guard let currentUser = currentUser else { return }
+        movieRepository.saveMovie(currentUser: currentUser, movie: movie)
     }
     
     @objc private func didButtonPressedToDeleteFromFavorites(){
         self.navigationItem.rightBarButtonItem?.image = UIImage(systemName: AppConstant.SystemImageNames.star)
         self.navigationItem.rightBarButtonItem?.action = #selector(didButtonPressedToAddFavorite)
+        guard let currentUser = currentUser else { return }
         movieRepository.deleteMovie(currentUser: currentUser, movieSelected: movieSelected)
     }
     

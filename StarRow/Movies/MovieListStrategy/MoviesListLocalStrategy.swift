@@ -19,8 +19,9 @@ class MoviesListLocalStrategy: MoviesListViewStrategy {
     }
     
     func fetch(){
-        let user = userRepository.retrieveUser(email: UserSession.getCurrentSessionProfile())
-        self.moviesView.updateCollectionView(movieRepository.retrieveData(currentUser: user).toMovieEntityFromCoreData.sorted() { $0.name < $1.name })
+        let user = userRepository.getByEmail(email: UserSession.getCurrentSessionProfile())
+        guard let user = user else { return }
+        self.moviesView.updateCollectionView(movieRepository.getAll(currentUser: user).toMovieEntityFromCoreData.sorted() { $0.name < $1.name })
     }
     
     func reloadView() {

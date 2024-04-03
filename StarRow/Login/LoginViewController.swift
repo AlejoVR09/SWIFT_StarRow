@@ -16,7 +16,7 @@ class LoginViewController: UIViewController {
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
         self.loginView = UserSession.getRememberedSession() ? ShortLoginView(delegate: self) : FullLoginView(delegate: self)
-        self.loginView?.setLogingButtonText?(message: userRepository.retrieveUser(email: UserSession.getCurrentSessionProfile())?.email ?? "")
+        self.loginView?.setLogingButtonText?(message: userRepository.getByEmail(email: UserSession.getCurrentSessionProfile())?.email ?? "")
         self.view = self.loginView as? UIView
         self.notificationCenter.registerObserver()
     }
@@ -34,13 +34,13 @@ extension LoginViewController: LoginViewDelegate {
             loginView.setEmailErrorText?(text: AppConstant.Translations.invalidEmailText)
             return
         }
-        guard userRepository.retrieveUser(email: withEmail) != nil else {
+        guard userRepository.getByEmail(email: withEmail) != nil else {
             loginView.setEmailErrorText?(text: AppConstant.Translations.notExistingEmailText)
             return
         }
         UserSession.currentSessionProfile(currentUserEmail: withEmail)
         UserSession.rememberCurrentProfile(remember: remember)
-        self.navigationController?.show(TabBarController.buildTabBarController(), sender: nil)
+        self.navigationController?.pushViewController(TabBarController.buildTabBarController(), animated: true)
     }
     
     func loginViewDidButtonPressedToSignUp(loginView: LoginViewProtocol) {

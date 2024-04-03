@@ -72,5 +72,4 @@ extension MoviesViewController {
         controller.tabBarItem.title = AppConstant.Translations.FavoritesTab
         return controller
     }
-
 }

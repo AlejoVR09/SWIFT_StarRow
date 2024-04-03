@@ -10,6 +10,10 @@ import UIKit
 
 // MARK: Class declaration
 class OnlineAdapterStrategy: AdapterStrategyProtocol {
+    func countDataSource() -> String {
+        AppConstant.Translations.noServiceAvaible
+    }
+    
     func registerCell(_ collectionView: UICollectionView) {
         collectionView.register(CustomCollectionViewCell.self, forCellWithReuseIdentifier: AppConstant.CellsInfo.customCellId)
     }

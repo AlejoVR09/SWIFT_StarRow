@@ -33,7 +33,7 @@ class ProfileViewController: UIViewController {
         super.viewDidLoad()
         self.view = profileView
         self.profileView.delegate = self
-        self.profileView.setUserData(user: userProvider.retrieveUser(email: UserSession.getCurrentSessionProfile()))
+        self.profileView.setUserData(user: userProvider.getByEmail(email: UserSession.getCurrentSessionProfile()))
     }
 }
 

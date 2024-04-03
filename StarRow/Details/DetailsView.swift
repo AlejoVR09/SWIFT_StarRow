@@ -27,6 +27,34 @@ class DetailsView: UIView {
         fatalError()
     }
     
+    private var containerNoService: UIView = {
+        let view = UIView()
+        view.backgroundColor = UIColor(named: AppConstant.Color.mainColor)
+        view.isHidden = true
+        view.translatesAutoresizingMaskIntoConstraints = false
+        return view
+    }()
+    
+    private var stackViewError: StackViewType = StackViewType(orientation: .vertical, innerSpacing: 10)
+    
+    private var errorImage: UIImageView = {
+        let image = UIImageView()
+        image.image = UIImage(systemName: AppConstant.SystemImageNames.exclamationmarkTriangle)
+        image.contentMode = .scaleAspectFit
+        image.translatesAutoresizingMaskIntoConstraints = false
+        return image
+    }()
+    
+    private var errorLabel: UILabel = {
+        let label = UILabel()
+        label.textColor = UIColor(named: AppConstant.Color.inverseColor)
+        label.font = UIFont.systemFont(ofSize: 16)
+        label.textAlignment = .center
+        label.text = AppConstant.Translations.noServiceAvaible
+        label.translatesAutoresizingMaskIntoConstraints = false
+        return label
+    }()
+    
     private var loadingView: UIView = {
         let view = UIView()
         view.translatesAutoresizingMaskIntoConstraints = false
@@ -79,7 +107,8 @@ class DetailsView: UIView {
     private var poster: UIImageView = {
         let image = UIImageView()
         image.translatesAutoresizingMaskIntoConstraints = false
-        image.contentMode = .scaleAspectFit
+        image.contentMode = .scaleToFill
+        image.clipsToBounds = false
         return image
     }()
     
@@ -144,6 +173,10 @@ class DetailsView: UIView {
 
 // MARK: Extra UI methods
 extension DetailsView{
+    func showAlert(){
+        
+    }
+    
     func addLoadingView(){
         self.scrollView.isHidden = true
         self.loadingView.isHidden = false
@@ -153,6 +186,12 @@ extension DetailsView{
         self.scrollView.isHidden = false
         self.loadingView.isHidden = true
         self.activityIndicator.stopAnimating()
+    }
+    
+    func addNoServiceMessage(){
+        self.scrollView.isHidden = true
+        self.loadingView.isHidden = true
+        self.containerNoService.isHidden = false
     }
     
     private func updateImage(image: UIImageView){
@@ -176,17 +215,40 @@ extension DetailsView{
         self.releaseDateLabel.text = "\(AppConstant.Translations.releaseDateText) \n" + LocalDateFormatter.formatDate(data.releaseDate)
         self.starView.setProgress(num: Float(data.voteAverage))
         self.genreLabel.text = AppConstant.Translations.genrerText
+        guard !array.isEmpty else { return }
         var genersConcact = "" + (array.remove(at: 0).name ?? "")
-        for i in array { genersConcact += " º " + (i.name ?? "") }
-        self.genrers.text = genersConcact
         self.descriptionLabel.text = AppConstant.Translations.descriptionText
         self.descriptionData.text = data.description
+        for i in array { genersConcact += " • " + (i.name ?? "") }
+        self.genrers.text = genersConcact
     }
 }
 
 // MARK: Constraints
 extension DetailsView {
     private func setConstraints(){
+        addSubview(containerNoService)
+        NSLayoutConstraint.activate([
+            containerNoService.trailingAnchor.constraint(equalTo: safeAreaLayoutGuide.trailingAnchor),
+            containerNoService.bottomAnchor.constraint(equalTo: safeAreaLayoutGuide.bottomAnchor),
+            containerNoService.topAnchor.constraint(equalTo: safeAreaLayoutGuide.topAnchor),
+            containerNoService.leadingAnchor.constraint(equalTo: safeAreaLayoutGuide.leadingAnchor)
+        ])
+        
+        containerNoService.addSubview(stackViewError)
+        NSLayoutConstraint.activate([
+            stackViewError.trailingAnchor.constraint(equalTo: containerNoService.trailingAnchor),
+            stackViewError.leadingAnchor.constraint(equalTo: containerNoService.leadingAnchor),
+            stackViewError.centerYAnchor.constraint(equalTo: containerNoService.centerYAnchor)
+        ])
+        
+        stackViewError.addArrangedSubview(errorImage)
+        NSLayoutConstraint.activate([
+            errorImage.heightAnchor.constraint(equalToConstant: 40),
+            errorImage.widthAnchor.constraint(equalToConstant: 40)
+        ])
+        stackViewError.addArrangedSubview(errorLabel)
+        
         addSubview(loadingView)
         NSLayoutConstraint.activate([
             loadingView.trailingAnchor.constraint(equalTo: safeAreaLayoutGuide.trailingAnchor),

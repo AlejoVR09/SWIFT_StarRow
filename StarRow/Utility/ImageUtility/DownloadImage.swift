@@ -16,7 +16,7 @@ extension UIImageView {
         if withAnimation {
             showAnimationPlaceholder()
         }
-        
+        self.image = nil
         guard let url = URL(string: urlString) else { return }
         URLSession.shared.dataTask(with: url) { (data, response, error) in
             guard error == nil else {
@@ -27,7 +27,7 @@ extension UIImageView {
             }
             guard let httpResponse = response as? HTTPURLResponse else { return }
             switch httpResponse.statusCode {
-                case 400...500:
+                case 400...699:
                     if let completion = completion {
                         completion(UIImage(systemName: AppConstant.SystemImageNames.personCircle), urlString)
                     }

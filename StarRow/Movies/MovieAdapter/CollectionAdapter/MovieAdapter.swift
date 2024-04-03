@@ -66,10 +66,11 @@ class CollectionViewAdapter: NSObject, MoviesAdapterProtocol{
 extension CollectionViewAdapter: UICollectionViewDataSource {
     func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
         if data.isEmpty {
-            data.append(AppConstant.Translations.emptyText)
+            data.append(self.strategy.countDataSource())
             return 1
         }
         return data.count
+        
     }
     
     func numberOfSections(in collectionView: UICollectionView) -> Int {

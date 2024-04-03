@@ -84,6 +84,8 @@ class CustomCollectionViewCell: UICollectionViewCell {
         self.imageView.downloadImage(AppConstant.APIUrl.imageBaseUrl + movie.poster){image, urlImage in
             guard let image = image else { return }
             self.imageView.animateAndSetImage(image)
+            
+            
         }
     }
 }

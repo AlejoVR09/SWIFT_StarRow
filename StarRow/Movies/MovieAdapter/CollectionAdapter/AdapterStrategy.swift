@@ -10,6 +10,7 @@ import UIKit
 
 // MARK: Strategy protocol
 protocol AdapterStrategyProtocol {
+    func countDataSource() -> String
     func registerCell(_ collectionView: UICollectionView)
     func createLayout() -> UICollectionViewCompositionalLayout
     func reusableCell(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath, data: MoviesEntity) -> UICollectionViewCell
